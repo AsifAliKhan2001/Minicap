@@ -10,8 +10,9 @@ Here's a breakdown of the technology stack:
 
 **Core Technologies:**
 
-* **Framework:** React Native
-* **Package Manager:** npm@
+* **Technology:** React Native
+* **Package Manager:** npm lts (long term support)
+* **Framework** Expo [Docs here](https://docs.expo.dev)
 
 **Development Environment:**
 
@@ -27,7 +28,7 @@ Here's a breakdown of the technology stack:
   * **Integrations:**
     * SonarQube
     * Codecov
-* **Styling & UI Library:** NativeBase
+* **Styling & UI Library:** NativeBase (uncertain)
 * **Testing Frameworks:**
   * **Unit Testing:** Jest
   * **End-to-End (E2E) Testing:** Detox
