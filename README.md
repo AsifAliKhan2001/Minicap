@@ -32,3 +32,5 @@ Here's a breakdown of the technology stack:
 * **Testing Frameworks:**
   * **Unit Testing:** Jest
   * **End-to-End (E2E) Testing:** Detox
+
+[![codecov](https://codecov.io/gh/AsifAliKhan2001/Minicap/graph/badge.svg?token=FJ0CSSVRQY)](https://codecov.io/gh/AsifAliKhan2001/Minicap)
