@@ -1,0 +1,151 @@
+@startuml
+
+class User {
+  - id: String
+  - name: String
+  - currentLocation: Location
+  - calendar: Calendar
+  + getCalendar(): Calendar
+  + getCurrentLocation(): Location
+  + findNextClass(): Event
+  + toggleCampus(campusName: String): void
+}
+
+class Campus {
+  - name: String
+  - buildings: List<Building>
+  + getBuildingInfo(buildingName: String): Building
+  + toggleCampus(): void
+  + fetchNearbyPOIs(type: String): List<POI>
+}
+
+class Building {
+  - name: String
+  - rooms: List<Room>
+  - pointsOfInterest: List<POI>
+  - accessibilityInfo: AccessibilityInfo
+  + getRoomInfo(roomNumber: String): Room
+  + getAccessibilityInfo(): AccessibilityInfo
+  + getPOIs(type: String): List<POI>
+}
+
+class Room {
+  - number: String
+  - type: TaskType (e.g., CLASSROOM, LAB)
+  - floor: Floor
+  - accessibilityInfo: AccessibilityInfo
+  + getAccessibilityInfo(): AccessibilityInfo
+  + getFloor(): Floor
+}
+
+class POI {
+  - type: String (e.g., washroom, elevator, coffee shop)
+  - location: Location
+  + getLocation(): Location
+}
+
+class Route {
+  - start: Location
+  - end: Location
+  - type: String (e.g., indoor, outdoor)
+  - isAccessible: Boolean
+  - PreviousPaths: Map
+  + calculateShortestPath(mode: TransportationMode): Route
+  + calculateInternalCampusRoute(startCampus: Campus, endCampus: Campus, mode: TransportationMode): Route
+  + getPreviousPath(start: Location, end: Location): Route
+}
+
+class Calendar {
+  - events: List<Event>
+  + getNextEvent(): Event
+  + fetchEventsFromGoogleCalendar(): void
+}
+
+class Event {
+  - name: String
+  - location: Room
+  - startTime: DateTime
+  - endTime: DateTime
+  + getLocation(): Room
+  + getDuration(): Long
+}
+
+class Task {
+  - description: String
+  - location: POI or Room
+  - timeConstraint: Boolean
+  + getDirections(start: Location, end: Location, mode: TransportationMode): Route
+  + showNearestPOI(type: String): List<POI>
+}
+
+class Planner {
+  - tasks: List<Task>
+  + optimizePlan(): List<Task>
+  + planDay(tasks: List<Task>): List<Task>
+}
+
+class Location {
+  - latitude: Double
+  - longitude: Double
+  + getCoordinates(): String
+}
+
+class Floor {
+  - floorNumber: Int
+  - indoorMap: Map
+  + fetchIndoorMap(): Map
+}
+
+class TransportationMode {
+  <<enumeration>>
+  Walk
+  Shuttle
+  Car
+  Public Transport
+}
+
+class TaskType {
+  <<enumeration>>
+  Classroom
+  Lab
+  Library
+  Coffee shop
+  Meeting
+}
+
+class AccessibilityInfo {
+  - isWheelchairAccessible: Boolean
+  - hasElevatorAccess: Boolean
+  - hasRampAccess: Boolean
+}
+
+class MapAPI {
+  + fetchOutdoorMap(): Map
+  + fetchIndoorMap(building: Building, floor: Floor): Map
+}
+
+User --> Calendar
+User --> "1" Location
+User --> Planner
+User --> Campus
+Campus --> "*" Building
+Campus --> POI
+Building --> "*" Room
+Building --> "*" POI
+Building --> AccessibilityInfo
+Floor --> AccessibilityInfo
+POI --> Location
+Route --> Location
+Route --> Campus
+Task --> POI
+Task --> Room
+Task --> Route
+Task --> TransportationMode
+Planner --> Task
+Calendar --> "*" Event
+Event --> Room
+TransportationMode --> Route
+MapAPI --> Route
+MapAPI --> Building
+MapAPI --> Floor
+@enduml
