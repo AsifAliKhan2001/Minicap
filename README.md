@@ -7,6 +7,6 @@ Mini capstone project repository
 
 [US 1.3 Prototype](https://www.figma.com/design/mAfTskVz9VAoQb2z1WBW6o/User-Story-1.3---Interactive-Mockups?node-id=0-1&t=JXxiJDXwfPNOfXiV-1)
 
-[US 1.4 Prototype]()
+[US 1.4 Prototype](https://www.figma.com/design/nKHHIhpmiP16ad5k7vowtF/User-Story-1.4---Interactive-Mockups?m=auto&t=4b4VS3OEkrFltPEQ-6)
 
 [US 1.5 Prototype](https://www.figma.com/design/pEGcBKFWEEcTGCN9WXVzsJ/User-Story-1.5?node-id=0-1&t=fJLiKe4mLj2eFNJN-1)
