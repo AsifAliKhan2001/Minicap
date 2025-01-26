@@ -1,4 +1,4 @@
-name: Codecov Coverage Upload
+name: Codecov Coverage
 
 on: [push, pull_request]
 
