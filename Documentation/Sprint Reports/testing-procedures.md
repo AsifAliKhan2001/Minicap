@@ -51,7 +51,7 @@ This approach ensures that components and business logic are tested independentl
 
 ---
 
-## System Testing
+## 6.4 System Testing
 
 For system testing, we will use **Appium**, a widely-used, open-source automation framework specifically designed for testing mobile applications.
 
