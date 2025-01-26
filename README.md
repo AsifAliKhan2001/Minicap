@@ -1,8 +1,9 @@
 # Minicapping
 
-Mini capstone project repository
+## Links
 
-[Mini Cap Bidding Document ](https://docs.google.com/document/d/1tNvGLAktIP1F0Tjw_gifdj-o-byUHX0d9zlu8HiHUS0/edit?usp=sharing)
+* [Bidding Document ](https://docs.google.com/document/d/1tNvGLAktIP1F0Tjw_gifdj-o-byUHX0d9zlu8HiHUS0/edit?usp=sharing)
+* [Wireframes](https://www.figma.com/files/team/1294921182537259910/project/329619643/soen-390?fuid=1294921176252679540)
 
 ## Technology Stack
 
