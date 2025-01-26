@@ -78,6 +78,8 @@ We utilize the following tools within GitHub Actions for Continuous Integration 
   * [https://github.com/apps/codecov](https://github.com/apps/codecov)
   * [https://docs.codecov.com/docs/quick-start](https://docs.codecov.com/docs/quick-start)
   * [https://docs.codecov.com/docs/github-tutorial](https://docs.codecov.com/docs/github-tutorial)
+ 
+* **SonarQube:** [https://www.sonarsource.com/products/sonarqube/](https://www.sonarsource.com/products/sonarqube/)
 
 ---
 
