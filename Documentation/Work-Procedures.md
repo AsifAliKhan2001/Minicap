@@ -46,22 +46,13 @@ Roles are assigned per release. Discuss role changes with Scrum Masters.
 
 ## General Procedures
 
-![Relevant Zenhub Pipelines For Non SCRUM Master](image/Work-Procedures/1737907587354.png)
+![Relevant Zenhub Pipelines For General Devs](image/1737907587354.png)
+Pipelines relevant for general devs
 
-* **Bi-weekly Meetings (Panel Review & PR Management):**
-  * **Purpose:** Team Leads present tasks ready for Pull Requests (PRs) to the *Panel of Peers* (Team Leads and Scrum Masters) for collaborative review and merging.
-  * **Agenda:**
-    * Team Leads present completed tasks and associated PRs.
-    * Panel discusses each task/PR, focusing on code quality and alignment with sprint goals.
-    * Panel members conduct code reviews *during the meeting* to ensure consistent standards and share knowledge.
-    * Panel merges approved PRs or provides feedback and keeps PR open for revisions.
-  * **Panel Definition:** The *Panel of Peers* consists of Team Leads and Scrum Masters, fostering shared responsibility for code quality.
-  * **Attendance:** Open to all team members, but Team Leads *must* attend to present their team's tasks and participate in the peer review Panel. Anyone needing to present a task to the Panel should also attend.
-  * **Outcome:** Progress review, PR merging, issue resolution, and sprint alignment. Approximates sprint burndown management.
-* **PR Closing:** PRs are typically merged or closed by the Panel during bi-weekly meetings.  *Only PRs reviewed and approved by the Panel will be closed.*
-* **Sprint Backlog (Zenhub):**
-  * Scrum Masters populate `Sprint Backlog`.
-  * Assign task to yourself, move to `In Progress`, create GitHub branch.
+### **Working with Sprint Backlog (Zenhub):**
+
+* Scrum Masters populate `Sprint Backlog`.
+* Assign task to yourself, move to `In Progress`, create GitHub branch.
 * **Pull Requests & Code Reviews:**
   * Anyone can open a Pull Request (PR) for completed tasks.
   * Move task to `Ready for Review/QA` in Zenhub when PR is opened.
@@ -69,12 +60,25 @@ Roles are assigned per release. Discuss role changes with Scrum Masters.
 * **Scrum Master - Project Manager Meetings:** Weekly updates and feedback.
 * **Subteam Meetings:**  Team Lead scheduled as needed. Tasks sized for ~3 days for sprint momentum.
 
-## Design Phase Procedures (Sprint 1 - Week 1)
+### **Bi-weekly Meetings (Panel Review & PR Management):**
+
+* **Purpose:** Team Leads present tasks ready for Pull Requests (PRs) to the *Panel of Peers* (Team Leads and Scrum Masters) for collaborative review and merging.
+* **Agenda:**
+  * Team Leads present completed tasks and associated PRs.
+  * Panel discusses each task/PR, focusing on code quality and alignment with sprint goals.
+  * Panel members conduct code reviews *during the meeting* to ensure consistent standards and share knowledge.
+  * Panel merges approved PRs or provides feedback and keeps PR open for revisions.
+* **Panel Definition:** The *Panel of Peers* consists of Team Leads and Scrum Masters, fostering shared responsibility for code quality.
+* **Attendance:** Open to all team members, but Team Leads *must* attend to present their team's tasks and participate in the peer review Panel. Anyone needing to present a task to the Panel should also attend.
+* **Outcome:** Progress review, PR merging, issue resolution, and sprint alignment. Approximates sprint burndown management.
+* **PR Closing:** PRs can only be merged and closed during these sessions by panelists.
+
+## Design Phase Procedures
 
 * **User Stories & Tasks (Scrum Masters):** Write user stories, break into tasks, planning poker, dependency trees, sprint backlog population. Goal: Design tasks done in first 3 days of Sprint 1.
 * **Design Outputs (System/UI/UX Designers):** Diagrams, operation contracts, ERDs, wireframes. Inputs for development; must be fast-tracked in Sprint 1.
 
-## Development Phase Procedures (Sprint 1 - Week 2 & Sprint 2)
+## Development Phase Procedures
 
 * **Task Assignment & Dependencies (Scrum Masters):** Ensure independent tasks in backlog for parallel development across Sprints 1 & 2 (based on design phase dependencies).
 * **Pair Programming (Recommended):** Tasks sized for pairs (ideally with a Team Lead or Scrum Master in each pair). Team leads must present at the biweekly, so if there's no team lead in the sub unit, you must come to the biweekly.
@@ -93,17 +97,12 @@ Got it.  Here's the updated section with the changes you requested:
 
 To ensure clarity and consistency across all tasks, use the following naming conventions incorporating your task types and numbering system `{featureNumber}.{userStory}.{taskNumber}`:
 
-*   **User Story (US):** `[US] {featureNumber}.{userStory} - {Concise User Story Title or Description}`
-*   **Testing (Test):** `[Test] {featureNumber}.{userStory}.{taskNumber} - {Specific Test Type} - {Task Name}`
-*   **Concrete Programming Task (Task):** `[Task] {featureNumber}.{userStory}.{taskNumber} - {Action Verb} - {Component or Feature}`
-*   **Bug (Bug):** `[Bug] {BugNumber} - {Concise Bug Description}`
-*   **Documentation (Doc):** `[Doc] - {Documentation Type} - {What is being documented}`
+* **User Story (US):** `[US] {featureNumber}.{userStory} - {Concise User Story Title or Description}`
+* **Testing (Test):** `[Test] {featureNumber}.{userStory}.{taskNumber} - {Specific Test Type} - {Task Name}`
+* **Concrete Programming Task (Task):** `[Task] {featureNumber}.{userStory}.{taskNumber} - {Action Verb} - {Component or Feature}`
+* **Bug (Bug):** `[Bug] {BugNumber} - {Concise Bug Description}`
+* **Documentation (Doc):** `[Doc] - {Documentation Type} - {What is being documented}`
 
+## Changelog
 
-## Rationale for Updates
-
-* **2025-01-25 Initial Doc:** After Sprint 1 review. Issues: Task dependencies, slow progress tracking, weekly meetings insufficient. **Changes:** Tasks sized for 1-2 people, 3-day target; bi-weekly PR closing for better sprint visibility.
-
----
-
-**END OF TEAM WORK PROCEDURES DOCUMENT**
+* **2025-01-25 Initial Doc:** After Sprint 1 review. Issues: Tasks were too big, weekly meetings insufficient to catch mistakes early. **Changes:** Tasks sized for 1-2 people, 3-day target; bi-weekly PR closing for better sprint visibility.
