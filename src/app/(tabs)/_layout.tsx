@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
 import Loader from "../../components/Loader";
@@ -92,18 +92,30 @@ const TabLayout = () => {
                 minWidth: 150, //  Makes dropdown wider
               }}
             >
-              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+              <Link
+                href="/ClassSchedule"
+                style={{ paddingVertical: 8, fontSize: 16, color: "#000" }}
+              >
                 Class Schedule
-              </Text>
-              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+              </Link>
+              <Link
+                href="/pages/Loyola"
+                style={{ paddingVertical: 8, fontSize: 16, color: "#000" }}
+              >
                 Loyola Campus
-              </Text>
-              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+              </Link>
+              <Link
+                href="/pages/SGW"
+                style={{ paddingVertical: 8, fontSize: 16, color: "#000" }}
+              >
                 SGW Campus
-              </Text>
-              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+              </Link>
+              <Link
+                href="/pages/Login"
+                style={{ paddingVertical: 8, fontSize: 16, color: "#000" }}
+              >
                 Log In (optional)
-              </Text>
+              </Link>
             </View>
           )}
         </View>
@@ -139,7 +151,7 @@ const TabLayout = () => {
                 <TabIcon
                   icon={icons.home}
                   color={color}
-                  name="Home"
+                  name=""
                   focused={focused}
                 />
               ),
@@ -154,7 +166,7 @@ const TabLayout = () => {
                 <TabIcon
                   icon={icons.Campus}
                   color={color}
-                  name="Campus"
+                  name=""
                   focused={focused}
                 />
               ),
@@ -169,7 +181,7 @@ const TabLayout = () => {
                 <TabIcon
                   icon={icons.Calendar}
                   color={color}
-                  name="Schedule"
+                  name=""
                   focused={focused}
                 />
               ),
@@ -184,7 +196,7 @@ const TabLayout = () => {
                 <TabIcon
                   icon={icons.searchBuilding}
                   color={color}
-                  name="Find"
+                  name=""
                   focused={focused}
                 />
               ),
