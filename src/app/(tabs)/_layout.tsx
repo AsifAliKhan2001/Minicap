@@ -1,45 +1,201 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import Loader from "../../components/Loader";
+import { icons, images } from "../../constants";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Define TypeScript types for props
+type TabIconProps = {
+  icon: any;
+  color: string;
+  name: string;
+  focused: boolean;
+};
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const TabIcon: React.FC<TabIconProps> = ({ icon, color, name, focused }) => {
+  return (
+    <SafeAreaView style={{ alignItems: "center", justifyContent: "center" }}>
+      <Image
+        source={icon}
+        resizeMode="contain"
+        style={{ width: 24, height: 35, tintColor: color }}
+      />
+      <Text
+        style={{
+          fontFamily: focused ? "Poppins-SemiBold" : "Poppins-Regular",
+          fontSize: 10,
+          color: color,
+        }}
+      >
+        {name}
+      </Text>
+    </SafeAreaView>
+  );
+};
+
+const TabLayout = () => {
+  const [loading, setLoading] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false); // Toggle settings menu
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+      {/* Top Navigation Bar */}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: 10,
+          backgroundColor: "#fff",
+          zIndex: 10, // Ensure it stays above other content
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        {/* Concordia Logo */}
+        <Image
+          source={images.ConcordiaLOGO}
+          resizeMode="contain"
+          style={{ width: 250, height: 60 }}
+        />
+
+        {/* Menu Container */}
+        <View>
+          {/* Settings Button (Hamburger Menu) */}
+          <TouchableOpacity
+            onPress={() => setMenuVisible(!menuVisible)}
+            style={{ padding: 10 }}
+          >
+            <Image
+              source={icons.Hamburger}
+              resizeMode="contain"
+              style={{ width: 30, height: 30 }}
+            />
+          </TouchableOpacity>
+
+          {/* Dropdown Menu for Settings */}
+          {menuVisible && (
+            <View
+              style={{
+                position: "absolute",
+                top: 40, //  Moves dropdown below the icon
+                right: 0, //  Aligns dropdown to right
+                backgroundColor: "#FFFFFF",
+                paddingVertical: 10,
+                paddingHorizontal: 20, //  Adds horizontal spacing
+                borderRadius: 5,
+                elevation: 5, //  Android shadow
+                shadowColor: "#000", //  iOS shadow
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                minWidth: 150, //  Makes dropdown wider
+              }}
+            >
+              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+                Class Schedule
+              </Text>
+              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+                Loyola Campus
+              </Text>
+              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+                SGW Campus
+              </Text>
+              <Text style={{ paddingVertical: 5, fontSize: 16 }}>
+                Log In (optional)
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+
+      {/* Main Content (Ensure Tabs are Not Cut Off) */}
+      <View style={{ flex: 1 }}>
+        <Tabs
+          initialRouteName="Home"
+          screenOptions={{
+            tabBarActiveTintColor: "#FFA001",
+            tabBarInactiveTintColor: "#CDCDE0",
+            tabBarShowLabel: true,
+            tabBarStyle: {
+              borderTopWidth: 1,
+              borderTopColor: "#232533",
+              height: 80,
+              paddingHorizontal: 10,
+              paddingBottom: 10,
+            },
+            tabBarItemStyle: {
+              paddingVertical: 5,
+              flex: 1,
+            },
+          }}
+        >
+          <Tabs.Screen
+            name="Home"
+            options={{
+              title: "Home",
+              headerShown: false,
+              tabBarIcon: ({ color, focused }) => (
+                <TabIcon
+                  icon={icons.home}
+                  color={color}
+                  name="Home"
+                  focused={focused}
+                />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="CampusMap"
+            options={{
+              title: "Campus Map",
+              headerShown: false,
+              tabBarIcon: ({ color, focused }) => (
+                <TabIcon
+                  icon={icons.Campus}
+                  color={color}
+                  name="Campus"
+                  focused={focused}
+                />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="ClassSchedule"
+            options={{
+              title: "Class Schedule",
+              headerShown: false,
+              tabBarIcon: ({ color, focused }) => (
+                <TabIcon
+                  icon={icons.Calendar}
+                  color={color}
+                  name="Schedule"
+                  focused={focused}
+                />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="FindBuilding"
+            options={{
+              title: "Find Building",
+              headerShown: false,
+              tabBarIcon: ({ color, focused }) => (
+                <TabIcon
+                  icon={icons.searchBuilding}
+                  color={color}
+                  name="Find"
+                  focused={focused}
+                />
+              ),
+            }}
+          />
+        </Tabs>
+      </View>
+
+      {loading && <Loader isLoading={loading} />}
+    </SafeAreaView>
   );
-}
+};
+
+export default TabLayout;
