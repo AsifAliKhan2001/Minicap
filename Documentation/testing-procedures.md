@@ -63,12 +63,38 @@ We utilize the following tools within GitHub Actions for Continuous Integration 
 
 ## 6.2 System Testing (Appium)
 
-* **Framework:** Appium - open-source automation framework for mobile app testing.
-* **Purpose:** End-to-End (E2E) system testing of the application.
-* **Capabilities:**
-  * Cross-platform testing (iOS and Android).
-  * Direct interaction with native components of React Native applications.
-  * Automated execution on the `main` branch.  *Ideally, system tests should also be integrated as pre-commit hooks on feature branches for future releases to prevent regressions and enforce "don't break what's already there" principles.*
+* **Framework**: For system testing, we will use Appium, an open-source automation framework for testing mobile applications. Appium is particularly suited for React Native apps because it directly interacts with native components and supports both iOS and Android platforms. Additionally, it provides robust tools for automating end-to-end workflows.
+
+* **Purpose**: The goal of system testing is to validate the full functionality of individual features (user stories) by simulating user interactions with the application. This ensures that the app behaves as intended and meets user requirements.
+
+* **Testing Workflow**:
+For each system test, we will follow these steps:
+  * Define the User Story:
+    Identify the functionality being tested (e.g., user login, map navigation, etc.).
+    
+  * Develop Test Steps
+    Create a series of steps that simulate user behavior:
+     * Example: "User opens the app → logs in → searches for a location → navigates to the destination."
+   
+  * Write Automated Test Scripts
+    Use Appium to automate these steps. The scripts will:
+     * Launch the app on a simulator/emulator.
+     * Interact with UI elements like buttons, text fields, and maps.
+     * Validate expected outcomes (e.g., successful login, correct navigation path).
+       
+  * Execute the Tests
+    Tests will run automatically on both iOS and Android platforms.
+    Record the test execution as a video or GIF for documentation.
+    
+  * Analyze Results
+    Verify whether the expected outcomes match the actual results.
+    Address any errors or regressions by filing bug reports.
+    
+  * Integrate with CI/CD
+    System tests will be triggered on the main branch during the CI/CD pipeline.
+    Future updates will include implementing pre-commit hooks to run system tests on feature branches.
+
+
 
 ## Resources
 
@@ -78,6 +104,8 @@ We utilize the following tools within GitHub Actions for Continuous Integration 
   * [https://github.com/apps/codecov](https://github.com/apps/codecov)
   * [https://docs.codecov.com/docs/quick-start](https://docs.codecov.com/docs/quick-start)
   * [https://docs.codecov.com/docs/github-tutorial](https://docs.codecov.com/docs/github-tutorial)
+ 
+* **SonarQube:** [https://www.sonarsource.com/products/sonarqube/](https://www.sonarsource.com/products/sonarqube/)
 
 ---
 
