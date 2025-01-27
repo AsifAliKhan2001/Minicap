@@ -29,7 +29,7 @@ Here's a breakdown of the technology stack:
   * **Integrations:**
     * SonarQube
     * Codecov
-* **Styling & UI Library:** NativeBase (uncertain)
+* **Styling & UI Library:** [Gluestack](https://gluestack.io/ui/docs/home/overview/quick-start) Customizeable UI Components, similar to Shadcn
 * **Testing Frameworks:**
   * **Unit Testing:** Jest
   * **End-to-End (E2E) Testing:** Detox
