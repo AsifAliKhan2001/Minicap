@@ -1,96 +1,165 @@
 @startuml
 
-entity User {
-    id: INT
+title ER diagram (updated 2025-01-27)
+
+' --- Entities ---
+entity "User" as User {
+    id: UUID <<key>>
     name: VARCHAR
-    current_location: INT
-    calendar: INT
+    current_outdoor_location_id: UUID <<FK>>
+    planner_id: UUID <<FK>>
 }
 
-entity Calendar {
-    id: INT
+entity "Calendar" as Calendar {
+    id: UUID <<key>>
+    ' ... Calendar specific attributes if needed
 }
 
-entity Event {
-    id: INT
+
+entity "Event" as Event {
+    id: UUID <<key>>
     name: VARCHAR
-    location: INT
+    location_id: UUID <<FK>>
     start_time: TIMESTAMP
     end_time: TIMESTAMP
     duration: INTERVAL
+    recurrence: ? 
 }
 
-entity Task {
-    id: INT
+entity "Course" as Course { 
+    course_code: VARCHAR
+}
+
+entity "Task" as Task {
+    id: UUID <<key>>
     description: TEXT
-    location: INT
-    priority: BOOLEAN
+    outdoor_location_id: UUID <<FK>>
+    floorplan_location_id: UUID <<FK>>
     indoor_task: BOOLEAN
     emergency_task: BOOLEAN
     needs_display: BOOLEAN
+    planner_id: UUID <<FK>>
 }
 
-entity Location {
-    id: INT
+entity "Planner" as Planner {
+    id: UUID <<key>>
+    user_id: UUID <<FK>>
+    ' ... other planner attributes if needed
+}
+
+entity "OutdoorLocation" as OutdoorLocation {
+    id: UUID <<key>>
     latitude: DOUBLE
     longitude: DOUBLE
 }
 
-entity Route {
-    id: INT
-    start: INT
-    end: INT
+entity "Route" as Route {
+    id: UUID <<key>>
     accessible: BOOLEAN
-    path: TEXT
-    type: VARCHAR
 }
 
-entity Room {
-    id: INT
+entity "RouteSegment" as RouteSegment {
+    route_id: UUID <<key>> <<FK>>
+    order: INT <<key>> <<FK>>
+    start_outdoor_location_id: UUID <<FK>>
+    end_outdoor_location_id: UUID <<FK>>
+    transportation_mode: ENUM
+    path: ?
+}
+
+
+entity "Room" as Room {
+    id: UUID <<key>>
     number: VARCHAR
     type: VARCHAR
-    accessibility_info: INT
+    floor_id: UUID <<FK>>
+    floorplan_location_id: UUID <<FK>>
 }
 
-entity Campus {
-    id: INT
+entity "Campus" as Campus {
+    id: UUID <<key>>
     name: VARCHAR
 }
 
-entity Building {
-    id: INT
+entity "Building" as Building {
+    id: UUID <<key>>
     name: VARCHAR
-    campus: INT
+    campus_id: UUID <<FK>>
+    outdoor_location_id: UUID <<FK>>
+    polygon_shape: ?
+    description: TEXT
+    address: VARCHAR
+    opening_hours: VARCHAR
 }
 
-entity Floor {
-    id: INT
+entity "Floor" as Floor {
+    id: UUID <<key>>
     number: INT
-    building: INT
-}
-
-entity AccessibilityInfo {
-    id: INT
+    building_id: UUID <<FK>>
+    floorplan_id: UUID <<FK>>
     is_wheelchair_accessible: BOOLEAN
     has_elevator_access: BOOLEAN
     has_ramp_access: BOOLEAN
 }
 
-entity POI {
-    id: INT
-    type: VARCHAR
-    location: INT
+entity "Floorplan" as Floorplan {
+    id: UUID <<key>>
+    data: ?
 }
 
-User }o--|| Calendar : "1..*"
-User }o--|| Location : "0..1" 
-Event }o--|| Location : "1..*"
-Task }o--|| Location : "0..1" 
-Building }o--|| Campus : "1..*"
-Floor }o--|| Building : "1..*" 
-Room }o--|| AccessibilityInfo : "1..1"
-POI }o--|| Location : "1..1"
-Route }o--|| Location : start "1..1"
-Route }o--|| Location : end "1..1"
+entity "FloorplanLocation" as FloorplanLocation {
+    id: UUID <<key>>
+    floorplan_id: UUID <<FK>>
+    x_coordinate: INT
+    y_coordinate: INT
+}
+
+entity "POI" as POI {
+    id: UUID <<key>>
+    type: VARCHAR
+    outdoor_location_id: UUID <<FK>>
+    floorplan_location_id: UUID <<FK>>
+}
+
+entity "Weather" as Weather {
+    id: UUID <<key>>
+    date: DATE <<key>> 
+    data: ?
+}
+note right of Weather: Stores a rolling 7-day forecast\nfor the specified city.  Weather type\nindicates if it's daily summary or hourly.\nDate is the forecast date.
+
+
+' --- Relationships ---
+
+User "1" -- "0..1" OutdoorLocation  : "current location"
+User "1" -- "1" Planner : "uses"
+
+(Calendar, Event) .. CalendarEvent
+(Calendar, User) .. CalendarUser
+Event <|-- Course  : "ISA"
+
+Planner "1" -- "*" Task : "aggregates"
+
+Event "1" -- "1" OutdoorLocation : "located at"  
+Task "1" -- "0..1" OutdoorLocation : "outdoor location"
+Task "1" -- "0..1" FloorplanLocation : "indoor location"
+
+Route "1" o-- "*" RouteSegment : aggregates
+RouteSegment "1" -- "1" OutdoorLocation : "start location"
+RouteSegment "1" -- "1" OutdoorLocation : "end location"
+
+
+Campus "1" o-- "*" Building : "aggregates"
+Building "1" o-- "*" Floor : "aggregates"
+Floor "1" o-- "*" Room : "aggregates"
+
+
+Building "1" -- "1" OutdoorLocation : "has outdoor location"
+POI "1" -- "0..1" OutdoorLocation : "outdoor POI location"
+POI "1" -- "0..1" FloorplanLocation : "indoor POI location"
+Room "1" -- "1" FloorplanLocation : "positioned in"
+Floor "1" -- "1" Floorplan : "has floorplan"
+Floorplan "1" o-- "*" FloorplanLocation : "contains"
+
 
 @enduml
