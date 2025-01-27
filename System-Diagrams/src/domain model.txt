@@ -1,0 +1,237 @@
+@startuml
+title UML domain model (updated 2025-01-27)
+
+abstract class Location {
+  - id: UUID
+  + getLocation(): Location
+}
+class OutdoorLocation extends Location {
+  - latitude: Double
+  - longitude: Double
+  + getCoordinates(): String
+}
+
+class FloorplanLocation extends Location {
+  - floorplan: Floorplan
+  - xCoordinate: Int
+  - yCoordinate: Int
+  + getFloorplan(): Floorplan
+  + getCoordinates(): Point
+}
+
+class User {
+  - id: UUID
+  - name: String
+  - currentLocation: Location
+  - planner: Planner
+  + getPlanner(): Planner
+  + getCurrentLocation(): Location
+  + toggleCampus(campusName: String): void
+}
+
+class Calendar {
+  - id: UUID
+  - events: List<Event>
+  - users: List<User>
+' For M:N relationship
+  + getEvents(): List<Event>
+  + fetchEventsFromExternalSource(): void
+' Generic method name
+}
+
+
+class Event {
+  - id: UUID
+  - name: String
+  - location: Location
+' Generic location for events for now
+  - startTime: DateTime
+  - endTime: DateTime
+  - duration: Duration
+  - recurrence: String
+' Type to be determined for recurrence
+  + getLocation(): Location
+  + getDuration(): Duration
+}
+
+class Course extends Event {
+' Course ISA Event
+  - courseCode: String
+  + getCourseCode(): String
+
+' Inherits attributes and methods from Event
+}
+
+
+class Task {
+  - id: UUID
+  - description: String
+  - location: Location
+' Optional location, could be outdoor or indoor now
+  - indoorTask: Boolean
+  - emergencyTask: Boolean
+  - needsDisplay: Boolean
+  + getDirections(start: Location, end: Location, mode: TransportationMode): Route
+  + showNearestPOI(type: String): List<POI>
+}
+
+class Planner {
+  - id: UUID
+  - user: User
+  - tasks: List<Task>
+  + optimizePlan(): List<Task>
+  + planDay(tasks: List<Task>): List<Task>
+}
+
+
+class Route {
+  - id: UUID
+  - accessible: Boolean
+  - routeSegments: List<RouteSegment>
+  + calculateShortestPath(mode: TransportationMode): Route
+  + calculateInternalCampusRoute(startCampus: Campus, endCampus: Campus, mode: TransportationMode): Route
+  + getRouteSegments(): List<RouteSegment>
+}
+
+class RouteSegment {
+  - id: UUID
+' Consider if needed, composite key route_id+order might suffice
+  - order: Int
+  - startLocation: Location
+  - endLocation: Location
+  - transportationMode: TransportationMode
+  - path: String
+' Type to be determined for path data
+  + getTransportationMode(): TransportationMode
+  + getPath(): String
+}
+
+enum TransportationMode {
+  Walk
+  Shuttle
+  Car
+  PublicTransport
+}
+
+class Room {
+  - id: UUID
+  - number: String
+  - type: TaskType
+' Assuming TaskType enum still relevant for Room type
+  - floor: Floor
+  - location: Location
+  - accessibilityInfo: AccessibilityInfo
+' Consider if Room needs its own AccessibilityInfo or uses Floor
+'s
+  + getFloor(): Floor
+  + getFloorplanLocation(): Location
+  + getAccessibilityInfo(): AccessibilityInfo
+' Consider if needed
+}
+
+class Campus {
+  - id: UUID
+  - name: String
+  - buildings: List<Building>
+  + getBuildingInfo(buildingName: String): Building
+  + toggleCampus(): void
+  + fetchNearbyPOIs(type: String): List<POI>
+}
+
+class Building {
+  - id: UUID
+  - name: String
+  - campus: Campus
+  - location: Location
+  - polygonShape: String
+' Type to be determined for polygon shape data (e.g., GeoJSON string)
+  - description: String
+  - address: String
+  - openingHours: String
+  - floors: List<Floor>
+  - pointsOfInterest: List<POI>
+  + getRoomInfo(roomNumber: String): Room
+  + getAccessibilityInfo(): AccessibilityInfo
+'  Consider if Building needs AccessibilityInfo
+  + getPOIs(type: String): List<POI>
+  + getFloors(): List<Floor>
+}
+
+class Floor {
+  - id: UUID
+  - floorNumber: Int
+  - building: Building
+  - floorplan: Floorplan
+  - isWheelchairAccessible: Boolean
+  - hasElevatorAccess: Boolean
+  - hasRampAccess: Boolean
+  - rooms: List<Room>
+  + fetchIndoorMap(): Floorplan
+' Return Floorplan instead of generic Map
+  + getBuilding(): Building
+  + getRooms(): List<Room>
+}
+
+class Floorplan {
+  - id: UUID
+  - data: String
+' Type to be determined for floorplan data (e.g., GeoJSON string, BLOB path)
+  - floorplanLocations: List<FloorplanLocation>
+  + getFloorplanLocations(): List<FloorplanLocation>
+}
+
+
+class POI {
+  - id: UUID
+  - type: String
+' e.g., washroom, elevator, coffee shop
+  - location: Location
+' Could be outdoor or floorplan location now
+  + getLocation(): Location
+' Could return a more generic Location interface if needed
+}
+
+class Weather {
+  - city: String
+' City name
+  - date: LocalDate
+' Date for the forecast
+  - weatherType: String
+' e.g., "daily", "hourly"
+  - temperature: Float
+  - precipitation: Float
+  - condition: String
+  + getWeatherForecast(city: String, date: LocalDate): Weather
+' Static factory or service method
+}
+
+
+
+' --- Relationships ---
+(Calendar,Event) .. CalendarEvent
+(Calendar, User) .. CalendarUser
+
+User --> Location : currentLocation
+User --> Planner : uses
+Planner o-- Task : aggregates
+Event --> Location : located at
+
+Task --> Location : location
+
+Route o-- RouteSegment : segments
+RouteSegment --> Location : startLocation
+RouteSegment --> Location : endLocation
+
+Campus o-- Building : aggregates
+Building o-- Floor : aggregates
+Floor o-- Room : aggregates
+Building --> Location : has location
+
+Floor --> Floorplan : has floorplan
+Floorplan o-- FloorplanLocation : contains
+
+
+Room --> Location : location
+POI --> Location : location
+
+@enduml

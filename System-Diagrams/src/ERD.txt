@@ -1,0 +1,193 @@
+@startuml
+
+title ER diagram (updated 2025-01-27)
+
+
+' --- Entities ---
+entity "User" as User {
+    id: UUID <<key>>
+    name: VARCHAR
+    current_outdoor_location_id: UUID <<FK>>  
+' Assuming current location is primarily outdoor
+    planner_id: UUID <<FK>>
+}
+
+entity "Calendar" as Calendar {
+    id: UUID <<key>>
+    
+' ... Calendar specific attributes if needed
+}
+
+
+entity "Event" as Event {
+    id: UUID <<key>>
+    name: VARCHAR
+    location_type: ENUM  
+' To indicate if it
+'s outdoor or floorplan location
+    outdoor_location_id: UUID <<FK>>  
+' Can be NULL if it
+'s a floorplan location
+    floorplan_location_id: UUID <<FK>> 
+' Can be NULL if it
+'s an outdoor location
+    start_time: TIMESTAMP
+    end_time: TIMESTAMP
+    duration: INTERVAL
+    recurrence: ?
+}
+
+entity "Course" as Course {
+    course_code: VARCHAR
+    event_id : UUID <<FK>> <<key>> 
+' Course is a special type of Event, using Event
+'s ID as PK & FK
+}
+
+entity "Task" as Task {
+    id: UUID <<key>>
+    description: TEXT
+    outdoor_location_id: UUID <<FK>>  
+' Optional outdoor location
+    floorplan_location_id: UUID <<FK>> 
+' Optional indoor location
+    indoor_task: BOOLEAN
+    emergency_task: BOOLEAN
+    needs_display: BOOLEAN
+    planner_id: UUID <<FK>>
+}
+
+entity "Planner" as Planner {
+    id: UUID <<key>>
+    user_id: UUID <<FK>>
+    
+' ... other planner attributes if needed
+}
+
+entity "OutdoorLocation" as OutdoorLocation {
+    id: UUID <<key>>
+    latitude: DOUBLE
+    longitude: DOUBLE
+}
+
+entity "FloorplanLocation" as FloorplanLocation {
+    id: UUID <<key>>
+    id: UUID <<key>>
+    floorplan_id: UUID <<FK>>
+    x_coordinate: INT
+    y_coordinate: INT
+}
+
+entity "Route" as Route {
+    id: UUID <<key>>
+    accessible: BOOLEAN
+}
+
+entity "RouteSegment" as RouteSegment {
+    route_id: UUID <<key>> <<FK>>
+    order: INT <<key>> <<FK>>
+    start_outdoor_location_id: UUID <<FK>>
+    end_outdoor_location_id: UUID <<FK>>
+    transportation_mode: ENUM
+    path: ?
+}
+
+
+entity "Room" as Room {
+    id: UUID <<key>>
+    number: VARCHAR
+    type: VARCHAR
+    floor_id: UUID <<FK>>
+    floorplan_location_id: UUID <<FK>> 
+' Room is always in a floorplan location
+}
+
+entity "Campus" as Campus {
+    id: UUID <<key>>
+    name: VARCHAR
+}
+
+entity "Building" as Building {
+    id: UUID <<key>>
+    name: VARCHAR
+    campus_id: UUID <<FK>>
+    outdoor_location_id: UUID <<FK>>  
+' Building has an outdoor location
+    polygon_shape: ?
+    description: TEXT
+    address: VARCHAR
+    opening_hours: VARCHAR
+}
+
+entity "Floor" as Floor {
+    id: UUID <<key>>
+    number: INT
+    building_id: UUID <<FK>>
+    floorplan_id: UUID <<FK>>
+    is_wheelchair_accessible: BOOLEAN
+    has_elevator_access: BOOLEAN
+    has_ramp_access: BOOLEAN
+}
+
+entity "Floorplan" as Floorplan {
+    id: UUID <<key>>
+    data: ?
+}
+
+
+entity "POI" as POI {
+    id: UUID <<key>>
+    type: VARCHAR
+    outdoor_location_id: UUID <<FK>>  
+' Optional outdoor POI location
+    floorplan_location_id: UUID <<FK>> 
+' Optional indoor POI location
+}
+
+entity "Weather" as Weather {
+    id: UUID <<key>>
+    date: DATE <<key>>
+    data: ?
+}
+note right of Weather: Stores a rolling 7-day forecast\nfor the specified city.  Weather type\nindicates if it
+'s daily summary or hourly.\nDate is the forecast date.
+
+
+
+' --- Relationships ---
+
+User "1" -- "0..1" OutdoorLocation  : "current location"
+User "1" -- "1" Planner : "uses"
+
+(Calendar, Event) .. CalendarEvent
+(Calendar, User) .. CalendarUser
+Course "1" -- "1" Event : "is a"  
+' Course is a type of Event, 1-to-1 relationship
+
+Planner "1" -- "*" Task : "aggregates"
+
+Event "1" -- "0..1" OutdoorLocation : "outdoor location"
+Event "1" -- "0..1" FloorplanLocation : "floorplan location"
+
+Task "1" -- "0..1" OutdoorLocation : "outdoor location"
+Task "1" -- "0..1" FloorplanLocation : "floorplan location"
+
+Route "1" o-- "*" RouteSegment : aggregates
+RouteSegment "1" -- "1" OutdoorLocation : "start location"
+RouteSegment "1" -- "1" OutdoorLocation : "end location"
+
+
+Campus "1" o-- "*" Building : "aggregates"
+Building "1" o-- "*" Floor : "aggregates"
+Floor "1" o-- "*" Room : "aggregates"
+
+
+Building "1" -- "1" OutdoorLocation : "has outdoor location"
+POI "1" -- "0..1" OutdoorLocation : "outdoor POI location"
+POI "1" -- "0..1" FloorplanLocation : "indoor POI location"
+Room "1" -- "1" FloorplanLocation : "positioned in"
+Floor "1" -- "1" Floorplan : "has floorplan"
+Floorplan "1" o-- "*" FloorplanLocation : "contains"
+
+
+@enduml
