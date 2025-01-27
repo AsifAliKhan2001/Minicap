@@ -2,39 +2,55 @@
 
 title ER diagram (updated 2025-01-27)
 
+
 ' --- Entities ---
 entity "User" as User {
     id: UUID <<key>>
     name: VARCHAR
-    current_outdoor_location_id: UUID <<FK>>
+    current_outdoor_location_id: UUID <<FK>>  
+' Assuming current location is primarily outdoor
     planner_id: UUID <<FK>>
 }
 
 entity "Calendar" as Calendar {
     id: UUID <<key>>
-    ' ... Calendar specific attributes if needed
+    
+' ... Calendar specific attributes if needed
 }
 
 
 entity "Event" as Event {
     id: UUID <<key>>
     name: VARCHAR
-    location_id: UUID <<FK>>
+    location_type: ENUM  
+' To indicate if it
+'s outdoor or floorplan location
+    outdoor_location_id: UUID <<FK>>  
+' Can be NULL if it
+'s a floorplan location
+    floorplan_location_id: UUID <<FK>> 
+' Can be NULL if it
+'s an outdoor location
     start_time: TIMESTAMP
     end_time: TIMESTAMP
     duration: INTERVAL
-    recurrence: ? 
+    recurrence: ?
 }
 
-entity "Course" as Course { 
+entity "Course" as Course {
     course_code: VARCHAR
+    event_id : UUID <<FK>> <<key>> 
+' Course is a special type of Event, using Event
+'s ID as PK & FK
 }
 
 entity "Task" as Task {
     id: UUID <<key>>
     description: TEXT
-    outdoor_location_id: UUID <<FK>>
-    floorplan_location_id: UUID <<FK>>
+    outdoor_location_id: UUID <<FK>>  
+' Optional outdoor location
+    floorplan_location_id: UUID <<FK>> 
+' Optional indoor location
     indoor_task: BOOLEAN
     emergency_task: BOOLEAN
     needs_display: BOOLEAN
@@ -44,13 +60,22 @@ entity "Task" as Task {
 entity "Planner" as Planner {
     id: UUID <<key>>
     user_id: UUID <<FK>>
-    ' ... other planner attributes if needed
+    
+' ... other planner attributes if needed
 }
 
 entity "OutdoorLocation" as OutdoorLocation {
     id: UUID <<key>>
     latitude: DOUBLE
     longitude: DOUBLE
+}
+
+entity "FloorplanLocation" as FloorplanLocation {
+    id: UUID <<key>>
+    id: UUID <<key>>
+    floorplan_id: UUID <<FK>>
+    x_coordinate: INT
+    y_coordinate: INT
 }
 
 entity "Route" as Route {
@@ -73,7 +98,8 @@ entity "Room" as Room {
     number: VARCHAR
     type: VARCHAR
     floor_id: UUID <<FK>>
-    floorplan_location_id: UUID <<FK>>
+    floorplan_location_id: UUID <<FK>> 
+' Room is always in a floorplan location
 }
 
 entity "Campus" as Campus {
@@ -85,7 +111,8 @@ entity "Building" as Building {
     id: UUID <<key>>
     name: VARCHAR
     campus_id: UUID <<FK>>
-    outdoor_location_id: UUID <<FK>>
+    outdoor_location_id: UUID <<FK>>  
+' Building has an outdoor location
     polygon_shape: ?
     description: TEXT
     address: VARCHAR
@@ -107,26 +134,24 @@ entity "Floorplan" as Floorplan {
     data: ?
 }
 
-entity "FloorplanLocation" as FloorplanLocation {
-    id: UUID <<key>>
-    floorplan_id: UUID <<FK>>
-    x_coordinate: INT
-    y_coordinate: INT
-}
 
 entity "POI" as POI {
     id: UUID <<key>>
     type: VARCHAR
-    outdoor_location_id: UUID <<FK>>
-    floorplan_location_id: UUID <<FK>>
+    outdoor_location_id: UUID <<FK>>  
+' Optional outdoor POI location
+    floorplan_location_id: UUID <<FK>> 
+' Optional indoor POI location
 }
 
 entity "Weather" as Weather {
     id: UUID <<key>>
-    date: DATE <<key>> 
+    date: DATE <<key>>
     data: ?
 }
-note right of Weather: Stores a rolling 7-day forecast\nfor the specified city.  Weather type\nindicates if it's daily summary or hourly.\nDate is the forecast date.
+note right of Weather: Stores a rolling 7-day forecast\nfor the specified city.  Weather type\nindicates if it
+'s daily summary or hourly.\nDate is the forecast date.
+
 
 
 ' --- Relationships ---
@@ -136,13 +161,16 @@ User "1" -- "1" Planner : "uses"
 
 (Calendar, Event) .. CalendarEvent
 (Calendar, User) .. CalendarUser
-Event <|-- Course  : "ISA"
+Course "1" -- "1" Event : "is a"  
+' Course is a type of Event, 1-to-1 relationship
 
 Planner "1" -- "*" Task : "aggregates"
 
-Event "1" -- "1" OutdoorLocation : "located at"  
+Event "1" -- "0..1" OutdoorLocation : "outdoor location"
+Event "1" -- "0..1" FloorplanLocation : "floorplan location"
+
 Task "1" -- "0..1" OutdoorLocation : "outdoor location"
-Task "1" -- "0..1" FloorplanLocation : "indoor location"
+Task "1" -- "0..1" FloorplanLocation : "floorplan location"
 
 Route "1" o-- "*" RouteSegment : aggregates
 RouteSegment "1" -- "1" OutdoorLocation : "start location"
