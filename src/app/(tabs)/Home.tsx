@@ -1,17 +1,18 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { Center, VStack, Text } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
-      <Text style={{ fontSize: 20, fontWeight: "bold", alignItems: "center" }}>
-        Welcome to {"\n"}
-        the Concordia{"\n"}
-        Student Navigation App
-      </Text>
+    <SafeAreaView>
+      <Center h="$full">
+        <VStack space="sm" alignItems="center">
+          <Text size="xl" textAlign="center">
+            Welcome to{"\n"}
+            the Concordia{"\n"}
+            Student Navigation App
+          </Text>
+        </VStack>
+      </Center>
     </SafeAreaView>
   );
 };

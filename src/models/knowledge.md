@@ -35,6 +35,22 @@
 - Keep ViewModels focused on single responsibility
 - Handle errors consistently
 - Use TypeScript for type safety
+- Use established libraries for cryptographic operations (uuid, crypto, etc.) instead of custom implementations
+- Combine multiple imports from the same module into a single import statement
+- Mark class members as readonly when they're not reassigned
+- Keep type aliases that add semantic value, even if they alias primitive types
+- Avoid redundant React imports when using TypeScript with React 17+
+- Use consistent import style: group imports by source, one line per import statement
+- ViewModels can compose other ViewModels (e.g. MapViewModel using RouteViewModel)
+- Complex state should use interfaces (e.g. MapState, RouteState)
+- Indoor/outdoor navigation should be handled by separate ViewModels but coordinated by MapViewModel
+- Use mode flags (e.g. isIndoorMode) to determine active navigation context
+=======
+- Combine multiple imports from the same module into a single import statement
+- Mark class members as readonly when they're not reassigned
+- Keep type aliases that add semantic value, even if they alias primitive types
+- Avoid redundant React imports when using TypeScript with React 17+
+- Use consistent import style: group imports by source, one line per import statement
 - ViewModels can compose other ViewModels (e.g. MapViewModel using RouteViewModel)
 - Complex state should use interfaces (e.g. MapState, RouteState)
 - Indoor/outdoor navigation should be handled by separate ViewModels but coordinated by MapViewModel
@@ -52,9 +68,28 @@
 - Additional features (POIs, routing, indoor navigation) to be added incrementally
 - Initial map centered on Concordia (45.495, -73.578)
 
-## GlueStack UI Migration Notes
-- Use GlueStack UI's theme tokens ($) for consistent styling
-- Keep React Native's core components (View) for basic layout
-- GlueStack components (Box, Text, etc.) for styled elements
-- Use SelectTrigger/SelectContent pattern for dropdowns
-- ButtonText component required inside Button for text content
+## UI Standards
+- Use GlueStack UI components exclusively
+- No inline styles allowed
+- No custom CSS classes - use GlueStack's built-in props
+- Use GlueStack's theme tokens for consistency
+- Keep custom components to absolute minimum
+- Extend GlueStack components when needed
+
+## GlueStack Component Usage
+- Box: For layout containers
+- Center: For centering content
+- VStack/HStack: For flex layouts
+- Text: For all text content with size prop
+- Fab: For floating action buttons
+- Overlay: For modal/loading overlays
+- Use theme tokens ($) for spacing, colors, and typography
+
+## GlueStack Component Usage
+- Box: For layout containers
+- Center: For centering content
+- VStack/HStack: For flex layouts
+- Text: For all text content with size prop
+- Fab: For floating action buttons
+- Overlay: For modal/loading overlays
+- Use theme tokens ($) for spacing, colors, and typography

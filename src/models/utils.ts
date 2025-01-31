@@ -1,13 +1,12 @@
-// Type alias for UUID strings
+import { v4 as uuidv4 } from 'uuid';
+
+// UUID type alias is kept for semantic clarity and future extensibility
+// even though it's currently just a string
 export type UUID = string;
 
-// Generate a UUID v4
+// Generate a UUID v4 using the uuid library
 export function generateUUID(): UUID {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
+  return uuidv4();
 }
 
 // Convert Date to ISO8601 string

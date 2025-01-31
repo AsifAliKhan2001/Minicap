@@ -1,17 +1,22 @@
-import { View, Text } from "react-native";
-import React, { useEffect } from "react";
+import { Center } from "@gluestack-ui/themed";
+import { useEffect } from "react";
 import { useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Text } from "@gluestack-ui/themed";
 
 const SGW = () => {
   const navigation = useNavigation();
+  
   useEffect(() => {
-    navigation.setOptions({ title: "SWG" });
+    navigation.setOptions({ title: "SGW" });
   }, [navigation]);
 
   return (
-    <View>
-      <Text>SGW</Text>
-    </View>
+    <SafeAreaView>
+      <Center h="$full">
+        <Text size="xl">SGW</Text>
+      </Center>
+    </SafeAreaView>
   );
 };
 

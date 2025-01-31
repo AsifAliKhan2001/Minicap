@@ -1,13 +1,13 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { Center } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Text } from "@gluestack-ui/themed";
 
 const FindBuilding = () => {
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>Find Building</Text>
+    <SafeAreaView>
+      <Center h="$full">
+        <Text size="2xl">Find Building</Text>
+      </Center>
     </SafeAreaView>
   );
 };

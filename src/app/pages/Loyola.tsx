@@ -1,6 +1,8 @@
-import { View, Text } from "react-native";
-import React, { useEffect } from "react";
+import { Center } from "@gluestack-ui/themed";
+import { useEffect } from "react";
 import { useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Text } from "@gluestack-ui/themed";
 
 const Loyola = () => {
   const navigation = useNavigation();
@@ -10,9 +12,11 @@ const Loyola = () => {
   }, [navigation]);
 
   return (
-    <View>
-      <Text>Loyola</Text>
-    </View>
+    <SafeAreaView>
+      <Center h="$full">
+        <Text size="xl">Loyola</Text>
+      </Center>
+    </SafeAreaView>
   );
 };
 
