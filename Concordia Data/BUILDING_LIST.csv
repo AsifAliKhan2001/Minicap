@@ -1,75 +1,172 @@
-Campus,Building,BuildingName,Building Long Name,Address,Latitude,Longitude
-LOY,AD,AD Building,Administration Building,"7141, Sherbrooke West",45.457984,-73.639834
-SGW,B,B Building,B Annex,2160 Bishop Street,45.497856,-73.579588
-LOY,BB,BB Building,BB-BH Annex,3502 Bermore Avenue,45.459793,-73.639174
-LOY,BH,BH Building,BB-BH Annex,3500 Bermore Avenue,45.459819,-73.639152
-LOY,CC,CC Building,Central Building,7141 Sherbrooke West,45.458204,-73.640300
-SGW,CI,CI Building,CI Annex,2149 Mackay Street,45.497467,-73.579925
-LOY,CJA,CJ Building - wing A,Communication Studies and Journalism Building,"7141, Sherbrooke Wes",45.457478,-73.640354
-LOY,CJN,CJ Building - wing N,Communication Studies and Journalism Building,"7141, Sherbrooke Wes",45.457478,-73.640354
-LOY,CJS,CJ Building - wing S,Communication Studies and Journalism Building,"7141, Sherbrooke Wes",45.457478,-73.640354
-SGW,CL,CL Building,CL Annex,1665 Ste-Catherine W,45.494259,-73.579007
-SGW,D,D Building,D Annex,2140 Bishop Street,45.497827,-73.579409
-SGW,EN,EN Building,EN Annex,2070 Mackay Street,45.496944,-73.579555
-SGW,ER,ER Building,ER Building,2155 Guy Street,45.496428,-73.579990
-SGW,ES,ES Building,ES Building,2135 Guy Street,45.496172,-73.579922
-SGW,ET,ET Building,ET Building,2125-2127 Guy Street,45.496163,-73.579904
-SGW,EV,EV Building,"Engineering, Computer Science and Visual Arts Integrated Complex",1515 Ste-Catherine W,45.495376,-73.577997
-SGW,FA,FA Building,FA Annex,2060 Mackay Street,45.496874,-73.579468
-SGW,FB,FB Building,Faubourg Building,1250 Guy Street,45.494666,-73.577603
-LOY,FC,FC Building,F.C. Smith Building,7141 Sherbrooke West,45.458493,-73.639287
-SGW,FG,FG Building,Faubourg Ste-Catherine Building,1610 Ste-Catherine,45.494381,-73.578425
-SGW,GA,GA Building,Grey Nuns Annex,1211-1215 St-Mathieu,45.494123,-73.577870
-LOY,GE,GE Building,Centre for Structural and Functional Genomics,7141 Sherbrooke W,45.457017,-73.640432
-SGW,GM,GM Building,Guy-De Maisonneuve Building,1550 DeMaisonneuve W,45.495983,-73.578824
-SGW,GNA,GN Building - wing A,Grey Nuns Building,1190 Guy Street,45.493622,-73.577003
-SGW,GNB,"GN Building - wings B, C, D, E, F, G, P",Grey Nuns Building,1190 Guy Street,45.493622,-73.577003
-SGW,GNH,"GN Building - wings H, I, J, K",Grey Nuns Building,1190 Guy Street,45.493622,-73.577003
-SGW,GNL,"GN Building - wings L, M, N",Grey Nuns Building,1190 Guy Street,45.493622,-73.577003
-SGW,GS,GS Building,Guy-Sherbrooke Building,"1538, Sherbrooke W",45.496673,-73.581409
-SGW,H,H Building,Henry F. Hall Building,1455 DeMaisonneuve W,45.497092,-73.578800
-LOY,HA,HA Building,"Hingston Hall, wing HA",7141 Sherbrooke West,45.459356,-73.641270
-LOY,HB,HB Building,"Hingston Hall, wing HB",7141 Sherbrooke West,45.459308,-73.641849
-LOY,HC,HC Building,"Hingston Hall, wing HC",7141 Sherbrooke West,45.459663,-73.642080
-LOY,HU,HU Building,Applied Science Hub,"7141, Sherbrooke W",45.458513,-73.641921
-LOY,JR,JR Building,Jesuit Residence,7141 Sherbrooke West,45.458432,-73.643235
-SGW,K,K Building,K Annex,2150 Bishop Street,45.497777,-73.579531
-SGW,LB,LB Building,J.W. McConnell Building,1400 DeMaisonneuve W,45.497050,-73.578009
-SGW,LC,LC Building,LC Building,1426 Bishop Street,45.496782,-73.577358
-SGW,LD,LD Building,LD Building,1424 Bishop Street,45.496697,-73.577312
-SGW,M,M Building,M Annex,2135 Mackay Street,45.497368,-73.579777
-SGW,MB,MB Building,John Molson Building,1450 Guy Street,45.495304,-73.579044
-SGW,MI,MI Building,MI Annex,2130 Bishop Street,45.497807,-73.579261
-SGW,MK,MK Building,MK Annex,2000-20002 Mackay St,45.496606,-73.579025
-SGW,MM,MM Building,MM Annex,1209 Guy Street,45.494665,-73.576365
-SGW,MN,MN Building,MN Annex,1205-1207 Guy Street,45.494568,-73.576315
-SGW,MT,MT Building,Montefiore Building,1195 Guy Street,45.494442,-73.576108
-SGW,MU,MU Building,MU Annex,2170 Bishop Street,45.497963,-73.579506
-SGW,P,P Building,P Annex,2020 Mackay Street,45.496745,-73.579113
-LOY,PB,PB Building,PB Building,7200 Sherbrooke W,45.456534,-73.638106
-LOY,PC,PC Building,PERFORM centre,7200 Sherbrooke W,45.457088,-73.637683
-SGW,PR,PR Building,PR Annex,2100 Mackay Street,45.497066,-73.579790
-LOY,PS,PS Building,Physical Services Building,7141 Sherbrooke W,45.459636,-73.639758
-LOY,PT,PT Building,Oscar Peterson Concert Hall,7141 Sherbrooke W,45.459308,-73.638941
-LOY,PY,PY Building,Psychology Building,7141 Sherbrooke W,45.458938,-73.640467
-SGW,Q,Q Building,Q Annex,2010 Mackay Street,45.496648,-73.579094
-SGW,R,R Building,R Annex,2050 Mackay Street,45.496826,-73.579389
-LOY,RA,RA Building,Recreation and Athletics Complex,7200 Sherbrooke W,45.456774,-73.637610
-LOY,RF,RF Building,Loyola Jesuit Hall and Conference Centre,7141 Sherbrooke W,45.458489,-73.641028
-SGW,RR,RR Building,RR Annex,2040 Mackay Street,45.496796,-73.579259
-SGW,S,S Building,S Annex,2145 Mackay Street,45.497423,-73.579851
-SGW,SB,SB Building,Samuel Bronfman Building,1590 Doctor Penfield,45.496600,-73.586090
-LOY,SC,SC Building,Student Centre,7141 Sherbrooke W,45.459131,-73.639251
-LOY,SH,SH Building,Solar House,7141 Sherbrooke W,45.459298,-73.642478
-LOY,SP,SP Building,Richard J. Renaud Science Complex,7141 Sherbrooke W,45.457881,-73.641565
-SGW,T,T Building,T Annex,2030 Mackay Street,45.496710,-73.579270
-LOY,TA,TA Building,Terrebonne Building,7079 Terrebonne,45.459992,-73.640897
-LOY,TB,TB Building,TB Annex,7075 Terrebonne,45.460051,-73.640842
-SGW,TD,TD Building,Toronto-Dominion Building,1410 Guy Street,45.495103,-73.578375
-SGW,TU,TU Building,TU Tunnel,1550 DeMaisonneuve,45.496480,-73.578918
-SGW,V,V Building,V Annex,2110 Mackay Street,45.497101,-73.579907
-SGW,VA,VA Building,Visual Arts Building,1395 Rene Levesque W,45.495543,-73.573795
-LOY,VE,VE Building,Vanier Extension,7141 Sherbrooke W,45.459026,-73.638606
-LOY,VL,VL Building,Vanier Library Building,7141 Sherbrooke W,45.459026,-73.638606
-SGW,X,X Building,X Annex,2080 Mackay Street,45.496940,-73.579593
-SGW,Z,Z Building,Z Annex,2090 Mackay Street,45.496981,-73.579705
+Campus,Building,BuildingName,Building Long Name,Address,Latitude,Longitude,Polygon Coordinates
+LOY,AD,AD Building,Administration Building,"7141, Sherbrooke West",45.457984,-73.639834,
+SGW,B,B Building,B Annex,2160 Bishop Street,45.497856,-73.579588,"[   [-73.5793896, 45.497887],
+  [-73.5794406, 45.4979102],
+  [-73.5794655, 45.4979241],
+  [-73.5796322, 45.4977507],
+  [-73.5795607, 45.4977144],
+  [-73.5793896, 45.497887]
+]"
+LOY,BB,BB Building,BB-BH Annex,3502 Bermore Avenue,45.459793,-73.639174,
+LOY,BH,BH Building,BB-BH Annex,3500 Bermore Avenue,45.459819,-73.639152,
+LOY,CC,CC Building,Central Building,7141 Sherbrooke West,45.458204,-73.6403,
+SGW,CI,CI Building,CI Annex,2149 Mackay Street,45.497467,-73.579925,"[  [-73.5800149, 45.4974061],
+  [-73.5799938, 45.4973958],
+  [-73.5799742, 45.4973868],
+  [-73.5799734, 45.497373],
+  [-73.5799483, 45.4973615],
+  [-73.5799218, 45.4973632],
+  [-73.5798023, 45.4974912],
+  [-73.5797543, 45.4975407],
+  [-73.5798422, 45.4975819],
+  [-73.5800149, 45.4974061]
+]"
+LOY,CJA,CJ Building - wing A,Communication Studies and Journalism Building,"7141, Sherbrooke Wes",45.457478,-73.640354,
+LOY,CJN,CJ Building - wing N,Communication Studies and Journalism Building,"7141, Sherbrooke Wes",45.457478,-73.640354,
+LOY,CJS,CJ Building - wing S,Communication Studies and Journalism Building,"7141, Sherbrooke Wes",45.457478,-73.640354,
+SGW,CL,CL Building,CL Annex,1665 Ste-Catherine W,45.494259,-73.579007,"[  [-73.5796402, 45.4941615],
+  [-73.5793327, 45.4939635],
+  [-73.5792952, 45.4939729],
+  [-73.5792697, 45.4939832],
+  [-73.5792348, 45.494002],
+  [-73.5792201, 45.4940152],
+  [-73.5789277, 45.4942577],
+  [-73.5792777, 45.4944711],
+  [-73.5796402, 45.4941615]
+]"
+SGW,D,D Building,D Annex,2140 Bishop Street,45.497827,-73.579409,"[  [-73.5792401, 45.497816],
+  [-73.5792822, 45.4978341],
+  [-73.5793152, 45.4978508],
+  [-73.579405, 45.4977565],
+  [-73.5794536, 45.4977075],
+  [-73.5794096, 45.4976872],
+  [-73.5793694, 45.4977301],
+  [-73.5793354, 45.4977169],
+  [-73.5792401, 45.497816]
+]"
+SGW,EN,EN Building,EN Annex,2070 Mackay Street,45.496944,-73.579555,"[  [-73.5794977, 45.4968834],
+  [-73.5794838, 45.4968982],
+  [-73.5795233, 45.4969165],
+  [-73.5795137, 45.4969267],
+  [-73.5795655, 45.4969507],
+  [-73.5795884, 45.4969271],
+  [-73.5796809, 45.4968297],
+  [-73.5797877, 45.4967146],
+  [-73.5797324, 45.496689],
+  [-73.579621, 45.4968073],
+  [-73.5795851, 45.4967907],
+  [-73.5794977, 45.4968834]
+]"
+SGW,ER,ER Building,ER Building,2155 Guy Street,45.496428,-73.57999,"[  [-73.5796317, 45.4965177],
+  [-73.5799683, 45.4966784],
+  [-73.5803907, 45.4962366],
+  [-73.5802304, 45.4961873],
+  [-73.5800863, 45.4961492],
+  [-73.5800729, 45.4961614],
+  [-73.5799991, 45.4961343],
+  [-73.5798436, 45.4962949],
+  [-73.5796317, 45.4965177]
+]"
+SGW,ES,ES Building,ES Building,2135 Guy Street,45.496172,-73.579922,
+SGW,ET,ET Building,ET Building,2125-2127 Guy Street,45.496163,-73.579904,
+SGW,EV,EV Building,"Engineering, Computer Science and Visual Arts Integrated Complex",1515 Ste-Catherine W,45.495376,-73.577997,
+SGW,FA,FA Building,FA Annex,2060 Mackay Street,45.496874,-73.579468,"[  [-73.5795156, 45.4967406],
+  [-73.5794153, 45.4968443],
+  [-73.5794977, 45.4968834],
+  [-73.5795851, 45.4967907],
+  [-73.579597, 45.4967793],
+  [-73.5795156, 45.4967406]
+]"
+SGW,FB,FB Building,Faubourg Building,1250 Guy Street,45.494666,-73.577603,"[  [-73.5780177, 45.4946786],
+  [-73.5775911, 45.4944394],
+  [-73.5774884, 45.4943818],
+  [-73.5771989, 45.4946349],
+  [-73.577282, 45.4946797],
+  [-73.5772886, 45.4946736],
+  [-73.57736, 45.4947154],
+  [-73.5773687, 45.4947081],
+  [-73.5774421, 45.494752],
+  [-73.5774502, 45.4947451],
+  [-73.5775203, 45.4947858],
+  [-73.577528, 45.4947776],
+  [-73.577598, 45.4948208],
+  [-73.5776061, 45.4948133],
+  [-73.577678, 45.4948613],
+  [-73.5776899, 45.4948539],
+  [-73.5777612, 45.4948923],
+  [-73.5778026, 45.4948598],
+  [-73.5778264, 45.4948398],
+  [-73.5778474, 45.4948522],
+  [-73.5779622, 45.4947542],
+  [-73.5779414, 45.4947429],
+  [-73.5780177, 45.4946786]
+]"
+LOY,FC,FC Building,F.C. Smith Building,7141 Sherbrooke West,45.458493,-73.639287,
+SGW,FG,FG Building,Faubourg Ste-Catherine Building,1610 Ste-Catherine,45.494381,-73.578425,
+SGW,GA,GA Building,Grey Nuns Annex,1211-1215 St-Mathieu,45.494123,-73.57787,
+LOY,GE,GE Building,Centre for Structural and Functional Genomics,7141 Sherbrooke W,45.457017,-73.640432,
+SGW,GM,GM Building,Guy-De Maisonneuve Building,1550 DeMaisonneuve W,45.495983,-73.578824,
+SGW,GNA,GN Building - wing A,Grey Nuns Building,1190 Guy Street,45.493622,-73.577003,
+SGW,GNB,"GN Building - wings B, C, D, E, F, G, P",Grey Nuns Building,1190 Guy Street,45.493622,-73.577003,
+SGW,GNH,"GN Building - wings H, I, J, K",Grey Nuns Building,1190 Guy Street,45.493622,-73.577003,
+SGW,GNL,"GN Building - wings L, M, N",Grey Nuns Building,1190 Guy Street,45.493622,-73.577003,
+SGW,GS,GS Building,Guy-Sherbrooke Building,"1538, Sherbrooke W",45.496673,-73.581409,
+SGW,H,H Building,Henry F. Hall Building,1455 DeMaisonneuve W,45.497092,-73.5788,
+LOY,HA,HA Building,"Hingston Hall, wing HA",7141 Sherbrooke West,45.459356,-73.64127,
+LOY,HB,HB Building,"Hingston Hall, wing HB",7141 Sherbrooke West,45.459308,-73.641849,
+LOY,HC,HC Building,"Hingston Hall, wing HC",7141 Sherbrooke West,45.459663,-73.64208,
+LOY,HU,HU Building,Applied Science Hub,"7141, Sherbrooke W",45.458513,-73.641921,
+LOY,JR,JR Building,Jesuit Residence,7141 Sherbrooke West,45.458432,-73.643235,
+SGW,K,K Building,K Annex,2150 Bishop Street,45.497777,-73.579531,"[  [-73.5793152, 45.4978508],
+  [-73.5793612, 45.4978723],
+  [-73.5793896, 45.497887],
+  [-73.5795607, 45.4977144],
+  [-73.579643, 45.4976342],
+  [-73.5795611, 45.4975958],
+  [-73.5794786, 45.4976804],
+  [-73.5795321, 45.497706],
+  [-73.5794813, 45.4977493],
+  [-73.5794647, 45.4977435],
+  [-73.5794334, 45.49777],
+  [-73.579405, 45.4977565],
+  [-73.5793152, 45.4978508]
+]"
+SGW,LB,LB Building,J.W. McConnell Building,1400 DeMaisonneuve W,45.49705,-73.578009,
+SGW,LC,LC Building,LC Building,1426 Bishop Street,45.496782,-73.577358,
+SGW,LD,LD Building,LD Building,1424 Bishop Street,45.496697,-73.577312,
+SGW,M,M Building,M Annex,2135 Mackay Street,45.497368,-73.579777,
+SGW,MB,MB Building,John Molson Building,1450 Guy Street,45.495304,-73.579044,
+SGW,MI,MI Building,MI Annex,2130 Bishop Street,45.497807,-73.579261,
+SGW,MK,MK Building,MK Annex,2000-20002 Mackay St,45.496606,-73.579025,
+SGW,MM,MM Building,MM Annex,1209 Guy Street,45.494665,-73.576365,
+SGW,MN,MN Building,MN Annex,1205-1207 Guy Street,45.494568,-73.576315,
+SGW,MT,MT Building,Montefiore Building,1195 Guy Street,45.494442,-73.576108,
+SGW,MU,MU Building,MU Annex,2170 Bishop Street,45.497963,-73.579506,
+SGW,P,P Building,P Annex,2020 Mackay Street,45.496745,-73.579113,
+LOY,PB,PB Building,PB Building,7200 Sherbrooke W,45.456534,-73.638106,
+LOY,PC,PC Building,PERFORM centre,7200 Sherbrooke W,45.457088,-73.637683,
+SGW,PR,PR Building,PR Annex,2100 Mackay Street,45.497066,-73.57979,
+LOY,PS,PS Building,Physical Services Building,7141 Sherbrooke W,45.459636,-73.639758,
+LOY,PT,PT Building,Oscar Peterson Concert Hall,7141 Sherbrooke W,45.459308,-73.638941,
+LOY,PY,PY Building,Psychology Building,7141 Sherbrooke W,45.458938,-73.640467,
+SGW,Q,Q Building,Q Annex,2010 Mackay Street,45.496648,-73.579094,
+SGW,R,R Building,R Annex,2050 Mackay Street,45.496826,-73.579389,
+LOY,RA,RA Building,Recreation and Athletics Complex,7200 Sherbrooke W,45.456774,-73.63761,
+LOY,RF,RF Building,Loyola Jesuit Hall and Conference Centre,7141 Sherbrooke W,45.458489,-73.641028,
+SGW,RR,RR Building,RR Annex,2040 Mackay Street,45.496796,-73.579259,
+SGW,S,S Building,S Annex,2145 Mackay Street,45.497423,-73.579851,
+SGW,SB,SB Building,Samuel Bronfman Building,1590 Doctor Penfield,45.4966,-73.58609,
+LOY,SC,SC Building,Student Centre,7141 Sherbrooke W,45.459131,-73.639251,
+LOY,SH,SH Building,Solar House,7141 Sherbrooke W,45.459298,-73.642478,
+LOY,SP,SP Building,Richard J. Renaud Science Complex,7141 Sherbrooke W,45.457881,-73.641565,
+SGW,T,T Building,T Annex,2030 Mackay Street,45.49671,-73.57927,
+LOY,TA,TA Building,Terrebonne Building,7079 Terrebonne,45.459992,-73.640897,
+LOY,TB,TB Building,TB Annex,7075 Terrebonne,45.460051,-73.640842,
+SGW,TD,TD Building,Toronto-Dominion Building,1410 Guy Street,45.495103,-73.578375,
+SGW,TU,TU Building,TU Tunnel,1550 DeMaisonneuve,45.49648,-73.578918,
+SGW,V,V Building,V Annex,2110 Mackay Street,45.497101,-73.579907,
+SGW,VA,VA Building,Visual Arts Building,1395 Rene Levesque W,45.495543,-73.573795,
+LOY,VE,VE Building,Vanier Extension,7141 Sherbrooke W,45.459026,-73.638606,
+LOY,VL,VL Building,Vanier Library Building,7141 Sherbrooke W,45.459026,-73.638606,
+SGW,X,X Building,X Annex,2080 Mackay Street,45.49694,-73.579593,
+SGW,Z,Z Building,Z Annex,2090 Mackay Street,45.496981,-73.579705,
