@@ -3,6 +3,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { GluestackUIProvider, config } from "@gluestack-ui/themed";
 
 export default function RootLayout() {
   // Prevent auto hiding the splash screen
@@ -35,16 +36,14 @@ export default function RootLayout() {
   }
 
   return (
-    <>
-      {/* Status bar with black icons */}
+    <GluestackUIProvider config={config}>
       <StatusBar style="dark" />
-
       <Stack>
         <Stack.Screen
           name="(tabs)"
           options={{ headerTitle: "", headerShown: false }}
         />
       </Stack>
-    </>
+    </GluestackUIProvider>
   );
 }

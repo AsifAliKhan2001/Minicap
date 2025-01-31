@@ -1,15 +1,19 @@
-import { View, Text } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import MapView from "react-native-maps";
+import { Box } from "@gluestack-ui/themed";
 
-const CampusMap = () => {
+export default function CampusMap() {
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>Campus Map</Text>
-    </SafeAreaView>
+    <Box flex={1}>
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 45.495,
+          longitude: -73.578,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        }}
+      />
+    </Box>
   );
-};
-
-export default CampusMap;
+}
