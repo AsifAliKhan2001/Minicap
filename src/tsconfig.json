@@ -5,16 +5,16 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
     "strict": true,
+    "resolveJsonModule": true,  
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+     
   ]
 }
