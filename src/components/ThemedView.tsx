@@ -1,7 +1,8 @@
-import { Box, BoxProps } from "@gluestack-ui/themed";
+import { View, type ViewProps } from "react-native";
+
 import { useThemeColor } from "@/hooks/useThemeColor";
 
-export type ThemedViewProps = BoxProps & {
+export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
 };
@@ -17,5 +18,5 @@ export function ThemedView({
     "background"
   );
 
-  return <Box bg={backgroundColor} style={style} {...otherProps} />;
+  return <View style={[{ backgroundColor }, style]} {...otherProps} />;
 }

@@ -4,7 +4,7 @@ import { UUID } from "../models/utils";
 import { ApiError } from "./BaseRepository";
 
 export class CalendarRepository implements BaseRepository<Calendar> {
-  private readonly apiBaseUrl: string = ""; // TODO: Configure API URL
+  private apiBaseUrl: string = ""; // TODO: Configure API URL
 
   async findById(id: UUID): Promise<Calendar> {
     try {

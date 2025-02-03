@@ -3,8 +3,6 @@ import { UUID } from '../models/utils';
 import { POIInterface } from '../models/POIInterface';
 
 export class MapRepository implements BaseRepository<POIInterface> {
-  private readonly apiBaseUrl: string = ""; // TODO: Configure API URL
-
   async findById(id: UUID): Promise<POIInterface> {
     try {
       // Placeholder:

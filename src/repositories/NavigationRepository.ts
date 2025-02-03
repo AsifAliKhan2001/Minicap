@@ -5,7 +5,7 @@ import { ApiError } from "./BaseRepository";
 import { Coordinate } from "../models/RouteSegment";
 
 export class NavigationRepository implements BaseRepository<Route> {
-  private readonly apiBaseUrl: string = ""; // TODO: Configure API URL
+  private apiBaseUrl: string = ""; // TODO: Configure API URL
 
   async findById(id: UUID): Promise<Route> {
     try {
