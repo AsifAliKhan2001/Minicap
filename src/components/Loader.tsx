@@ -1,27 +1,29 @@
-import { View, ActivityIndicator, Dimensions, Platform } from "react-native";
+import { View } from "react-native";
+import { Spinner } from "@gluestack-ui/themed";
+import { Dimensions } from "react-native";
 
 type LoaderProps = {
   isLoading: boolean;
 };
 
 const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
-  const osName = Platform.OS;
   const screenHeight = Dimensions.get("screen").height;
 
   if (!isLoading) return null;
 
   return (
     <View
-      className="absolute flex justify-center items-center w-full h-full bg-primary/60 z-10"
       style={{
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
         height: screenHeight,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        zIndex: 10,
       }}
     >
-      <ActivityIndicator
-        animating={isLoading}
-        color="#fff"
-        size={osName === "ios" ? "large" : 50}
-      />
+      <Spinner size="large" color="$white" />
     </View>
   );
 };
