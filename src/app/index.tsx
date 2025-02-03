@@ -1,5 +1,6 @@
-import { Redirect } from "expo-router";
-
+import Home from "./(tabs)/Home";
 export default function App() {
-  return <Redirect href="/Home" />;
+  console.log("index Layout is rendering...");
+
+  return <Home />;
 }

@@ -1,9 +1,13 @@
 {
   "dependencies": {
-    "expo-router": "^4.0.17"
+    "expo": "^52.0.28",
+    "expo-location": "^18.0.5",
+    "expo-router": "^4.0.17",
+    "expo-status-bar": "^2.0.1",
+    "react-native-web": "^0.19.13"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "@types/react": "~18.3.12"
+    "@types/react": "~18.3.12",
+    "typescript": "^5.3.3"
   }
 }
