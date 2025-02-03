@@ -3,7 +3,7 @@ import { Route } from "../models/Route";
 import { RouteRepository } from "../repositories/RouteRepository";
 import { UUID } from "../models/utils";
 import { OutdoorLocation } from "../models/OutdoorLocation";
-import { RouteSegment, TransportationMode } from "../models/Routesegment";
+import { RouteSegment, TransportationMode } from "../models/RouteSegment";
 
 interface RouteState {
   route: Route | null;
@@ -26,7 +26,9 @@ export class RouteViewModel extends BaseViewModel<RouteState> {
       const route = await this.repository.findById(id);
       this.setData({ route, segments: [] }); // Would need to load segments separately
     } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load route'));
+      this.setError(
+        error instanceof Error ? error : new Error("Failed to load route")
+      );
     } finally {
       this.setLoading(false);
     }
@@ -44,11 +46,19 @@ export class RouteViewModel extends BaseViewModel<RouteState> {
     try {
       this.setLoading(true);
       this.setError(null);
-      
-      const { route, segments } = await this.repository.findAccessibleRoute(start, end, mode);
+
+      const { route, segments } = await this.repository.findAccessibleRoute(
+        start,
+        end,
+        mode
+      );
       this.setData({ route, segments });
     } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to find accessible route'));
+      this.setError(
+        error instanceof Error
+          ? error
+          : new Error("Failed to find accessible route")
+      );
     } finally {
       this.setLoading(false);
     }

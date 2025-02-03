@@ -16,19 +16,24 @@
 - Follow ERD exactly
 - Use TypeScript interfaces
 - Mark undecided data types as `any`
-- Use UUID for IDs
+- Use UUID for IDs (via uuid package)
+- Use ISO8601 strings for dates
+- Mark optional fields with ?
+- Include relationship fields as optional arrays/objects
 
 ## ViewModels
 - Extend BaseViewModel
 - Handle loading and error states
 - Contain business logic
 - Use repositories for data access
+- Keep empty implementations until backend is ready
 
 ## Repositories
 - Implement BaseRepository interface
 - Handle API errors consistently
 - Include domain-specific methods
-- Placeholder implementations until backend is ready
+- Use placeholder implementations until backend is ready
+- Return hardcoded IDs for now (e.g. '1', '2')
 
 ## Best Practices
 - Don't make assumptions about undecided data types

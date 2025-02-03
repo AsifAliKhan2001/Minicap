@@ -46,7 +46,7 @@ export class CampusRepository implements BaseRepository<Campus> {
       // Placeholder data for Concordia's campuses
       return [
         {
-          id: generateUUID(),
+          id: '1', // Temporary hardcoded ID until backend is ready
           name: 'Sir George Williams Campus',
           description: 'Downtown campus',
           city: 'Montreal',
@@ -57,7 +57,7 @@ export class CampusRepository implements BaseRepository<Campus> {
           updatedAt: new Date().toISOString(),
         },
         {
-          id: generateUUID(),
+          id: '2', // Temporary hardcoded ID until backend is ready
           name: 'Loyola Campus',
           description: 'West end campus',
           city: 'Montreal',
