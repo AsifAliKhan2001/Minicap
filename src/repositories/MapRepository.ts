@@ -1,5 +1,5 @@
 import { BaseRepository, ApiError } from './BaseRepository';
-import { UUID, generateUUID } from '../models/utils';
+import { UUID } from '../models/utils';
 import { POIInterface } from '../models/POIInterface';
 
 export class MapRepository implements BaseRepository<POIInterface> {
