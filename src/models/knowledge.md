@@ -40,6 +40,12 @@
 - Keep ViewModels focused on single responsibility
 - Handle errors consistently
 - Use TypeScript for type safety
+
+## Performance Considerations
+- Add indexes for: building_campus, floor_building, room_floor, event_time
+- Consider materialized path pattern for location hierarchy
+- Cache frequently accessed routes
+- Denormalize frequently joined user location data
 - ViewModels can compose other ViewModels (e.g. MapViewModel using RouteViewModel)
 - Complex state should use interfaces (e.g. MapState, RouteState)
 - Indoor/outdoor navigation should be handled by separate ViewModels but coordinated by MapViewModel
