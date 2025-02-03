@@ -1,5 +1,5 @@
 import { BaseRepository, ApiError } from './BaseRepository';
-import { UUID } from '../models/utils';
+import { UUID, generateUUID } from '../models/utils';
 import { Campus } from '../models/Campus';
 
 export class CampusRepository implements BaseRepository<Campus> {

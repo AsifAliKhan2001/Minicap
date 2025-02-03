@@ -1,7 +1,7 @@
 import { BaseRepository, ApiError } from './BaseRepository';
-import { UUID } from '../models/utils';
+import { UUID, generateUUID } from '../models/utils';
 import { Route } from '../models/Route';
-import { RouteSegment, TransportationMode } from '../models/Routesegment';
+import { RouteSegment, TransportationMode } from '../models/RouteSegment';
 import { OutdoorLocation } from '../models/OutdoorLocation';
 
 export class RouteRepository implements BaseRepository<Route> {
