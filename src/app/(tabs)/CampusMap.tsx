@@ -1,43 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// SWG Campus Map Component
-const SWGCampusMap = () => {
-  const SWGCampus = {
-    latitude: 45.4973,
-    longitude: -73.5789,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
+// Define TypeScript Interface for Props
+interface CampusMapProps {
+  campus: Region;
+  title: string;
+}
 
-  return (
-    <MapView style={styles.map} initialRegion={SWGCampus}>
-      <Marker coordinate={SWGCampus} title="SWG Campus" />
-    </MapView>
-  );
+// Campus Coordinates with Type Safety
+const SWGCampus: Region = {
+  latitude: 45.4973,
+  longitude: -73.5789,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
 };
 
-// Loyola Campus Map Component
-const LoyolaCampusMap = () => {
-  const LoyolaCampus = {
-    latitude: 45.4581,
-    longitude: -73.6405,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
+const LoyolaCampus: Region = {
+  latitude: 45.4581,
+  longitude: -73.6405,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+
+// Reusable Map Component
+const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
+  const mapRef = useRef<MapView | null>(null);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.animateToRegion(campus, 1000); // Smooth transition on switch
+    }
+  }, [campus]);
 
   return (
-    <MapView style={styles.map} initialRegion={LoyolaCampus}>
-      <Marker coordinate={LoyolaCampus} title="Loyola Campus" />
+    <MapView
+      ref={(ref) => (mapRef.current = ref)}
+      style={styles.map}
+      initialRegion={campus}
+      pitchEnabled={false} // Prevents 3D tilt when zooming
+      rotateEnabled={false} // Prevents rotation of the map
+      zoomEnabled={true} // Allows zooming but stays in 2D
+      zoomControlEnabled={true} // Optional: Enables zoom buttons
+    >
+      <Marker coordinate={campus} title={title} />
     </MapView>
   );
 };
 
 // Parent Component that Switches Between Maps
-const CampusSwitcher = () => {
-  const [isSWGCampus, setIsSWGCampus] = useState(true);
+const CampusSwitcher: React.FC = () => {
+  const [isSWGCampus, setIsSWGCampus] = useState<boolean>(true);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,7 +63,10 @@ const CampusSwitcher = () => {
         />
         <Text>Loyola Campus</Text>
       </View>
-      {isSWGCampus ? <SWGCampusMap /> : <LoyolaCampusMap />}
+      <CampusMap
+        campus={isSWGCampus ? SWGCampus : LoyolaCampus}
+        title={isSWGCampus ? "SWG Campus" : "Loyola Campus"}
+      />
     </SafeAreaView>
   );
 };
@@ -73,7 +90,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   map: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject, // Ensures full screen coverage
   },
 });
 
