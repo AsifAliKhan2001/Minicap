@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const CampusMap = () => {
-  const [isSWGCampus, setIsSWGCampus] = useState(true);
-  const mapRef = useRef<MapView | null>(null);
-
+// SWG Campus Map Component
+const SWGCampusMap = () => {
   const SWGCampus = {
     latitude: 45.4973,
     longitude: -73.5789,
@@ -14,6 +12,15 @@ const CampusMap = () => {
     longitudeDelta: 0.01,
   };
 
+  return (
+    <MapView style={styles.map} initialRegion={SWGCampus}>
+      <Marker coordinate={SWGCampus} title="SWG Campus" />
+    </MapView>
+  );
+};
+
+// Loyola Campus Map Component
+const LoyolaCampusMap = () => {
   const LoyolaCampus = {
     latitude: 45.4581,
     longitude: -73.6405,
@@ -21,27 +28,19 @@ const CampusMap = () => {
     longitudeDelta: 0.01,
   };
 
-  useEffect(() => {
-    const campus = isSWGCampus ? SWGCampus : LoyolaCampus;
-    if (mapRef.current) {
-      mapRef.current.animateToRegion(campus, 1000);
-    }
-  }, [isSWGCampus]);
+  return (
+    <MapView style={styles.map} initialRegion={LoyolaCampus}>
+      <Marker coordinate={LoyolaCampus} title="Loyola Campus" />
+    </MapView>
+  );
+};
+
+// Parent Component that Switches Between Maps
+const CampusSwitcher = () => {
+  const [isSWGCampus, setIsSWGCampus] = useState(true);
 
   return (
     <SafeAreaView style={styles.container}>
-      <MapView
-        ref={(ref) => (mapRef.current = ref)}
-        style={styles.map}
-        initialRegion={isSWGCampus ? SWGCampus : LoyolaCampus}
-        zoomEnabled={true}
-        zoomControlEnabled={true}
-      >
-        <Marker
-          coordinate={isSWGCampus ? SWGCampus : LoyolaCampus}
-          title={isSWGCampus ? "SWG Campus" : "Loyola Campus"}
-        />
-      </MapView>
       <View style={styles.switchContainer}>
         <Text>SWG Campus</Text>
         <Switch
@@ -50,6 +49,7 @@ const CampusMap = () => {
         />
         <Text>Loyola Campus</Text>
       </View>
+      {isSWGCampus ? <SWGCampusMap /> : <LoyolaCampusMap />}
     </SafeAreaView>
   );
 };
@@ -57,12 +57,6 @@ const CampusMap = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 10,
   },
   switchContainer: {
     position: "absolute",
@@ -76,10 +70,11 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 20,
+    zIndex: 1,
   },
   map: {
     flex: 1,
   },
 });
 
-export default CampusMap;
+export default CampusSwitcher;
