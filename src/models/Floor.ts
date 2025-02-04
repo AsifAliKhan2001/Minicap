@@ -1,18 +1,12 @@
-import { UUID } from "./utils";
-import { Building } from "./Building";
-import { Floorplan } from "./Floorplan";
-import { Room } from "./Room";
+import { UUID } from './utils';
 
 export interface Floor {
   id: UUID;
-  buildingId: UUID;
+  buildingId: UUID;  // Reference to parent Building
   number: number;
-  name: string;
-  description?: string;
-  isAccessible: boolean;
-  building?: Building;
-  floorplan?: Floorplan;
-  rooms?: Room[];
-  createdAt: string;
-  updatedAt: string;
+  isWheelchairAccessible: boolean;
+  hasElevatorAccess: boolean;
+  hasRampAccess: boolean;
+  roomIds: UUID[];   // One-to-many with Room
+  floorplanId: UUID; // One-to-one with Floorplan
 }
