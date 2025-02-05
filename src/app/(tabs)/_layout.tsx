@@ -36,7 +36,6 @@ const TabIcon: React.FC<TabIconProps> = ({ icon, color, name, focused }) => {
 };
 
 const TabLayout = () => {
-  console.log("TabLayout is rendering"); // Added for debugging
   const [loading, setLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false); // Toggle settings menu
 
@@ -210,3 +209,5 @@ const TabLayout = () => {
     </SafeAreaView>
   );
 };
+
+export default TabLayout;

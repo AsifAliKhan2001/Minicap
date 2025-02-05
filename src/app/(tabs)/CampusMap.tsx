@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as Location from "expo-location";
 
 // Define TypeScript Interface for Props
 interface CampusMapProps {
@@ -27,6 +28,26 @@ const LoyolaCampus: Region = {
 // Reusable Map Component
 const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
   const mapRef = useRef<MapView | null>(null);
+  const [userLocation, setUserLocation] = useState<Region | null>(null);
+  const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
+        setPermissionGranted(true);
+        const location = await Location.getCurrentPositionAsync({});
+        setUserLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -45,6 +66,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
       zoomControlEnabled={true} // Optional: Enables zoom buttons
     >
       <Marker coordinate={campus} title={title} />
+      {permissionGranted && userLocation && (
+        <Marker
+          coordinate={userLocation}
+          title="Your Location"
+          pinColor="blue"
+        />
+      )}
     </MapView>
   );
 };
