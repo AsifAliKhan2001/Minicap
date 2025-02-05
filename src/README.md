@@ -9,12 +9,14 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
    npm install
    ```
-
 2. Start the app
 
    ```bash
-    npx expo start
+    npx expo start --android
+
    ```
+
+--android flag will launch your emulator, make sure to create one through android studio. React native maps  does not work on web
 
 In the output, you'll find options to open the app in a
 
