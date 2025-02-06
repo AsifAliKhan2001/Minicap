@@ -1,10 +1,13 @@
-import { UUID } from "./utils";
+import { UUID } from './utils';
 
 export interface Building {
   id: UUID;
+  campusId: UUID;    // Reference to parent Campus
   name: string;
-  code: string;           // Building code (e.g., "H", "MB")
+  polygonShape: any;
+  description: string;
   address: string;
-  description?: string;
-  polygonShape?: any;     // Type TBD
+  openingHours: string;
+  floorIds: UUID[];  // One-to-many with Floor
+  locationId: UUID;  // FK to Location
 }

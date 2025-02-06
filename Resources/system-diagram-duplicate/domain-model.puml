@@ -1,5 +1,5 @@
 @startuml
-title UML domain model (updated 2025-01-27)
+title UML domain model (updated 2025-02-03)
 
 abstract class Location {
   - id: UUID
@@ -33,10 +33,8 @@ class Calendar {
   - id: UUID
   - events: List<Event>
   - users: List<User>
-' For M:N relationship
   + getEvents(): List<Event>
   + fetchEventsFromExternalSource(): void
-' Generic method name
 }
 
 
@@ -44,12 +42,10 @@ class Event {
   - id: UUID
   - name: String
   - location: Location
-' Generic location for events for now
   - startTime: DateTime
   - endTime: DateTime
   - duration: Duration
   - recurrence: String
-' Type to be determined for recurrence
   + getLocation(): Location
   + getDuration(): Duration
 }
@@ -57,17 +53,15 @@ class Event {
 class Course extends Event {
 ' Course ISA Event
   - courseCode: String
+  - prerequisites: List<Course>
   + getCourseCode(): String
+  + getPrerequisites(): List<Course>
 
 ' Inherits attributes and methods from Event
-}
-
-
-class Task {
+}class Task {
   - id: UUID
   - description: String
   - location: Location
-' Optional location, could be outdoor or indoor now
   - indoorTask: Boolean
   - emergencyTask: Boolean
   - needsDisplay: Boolean
@@ -121,8 +115,7 @@ class Room {
   - floor: Floor
   - location: Location
   - accessibilityInfo: AccessibilityInfo
-' Consider if Room needs its own AccessibilityInfo or uses Floor
-'s
+' Consider if Room needs its own AccessibilityInfo or uses Floor's
   + getFloor(): Floor
   + getFloorplanLocation(): Location
   + getAccessibilityInfo(): AccessibilityInfo
@@ -184,23 +177,19 @@ class Floorplan {
 class POI {
   - id: UUID
   - type: String
-' e.g., washroom, elevator, coffee shop
   - location: Location
-' Could be outdoor or floorplan location now
   + getLocation(): Location
-' Could return a more generic Location interface if needed
 }
 
 class Weather {
   - city: String
 ' City name
-  - date: LocalDate
-' Date for the forecast
-  - weatherType: String
-' e.g., "daily", "hourly"
+  - date: LocalDate  ' Primary key in ERD
+  - weatherType: String  ' daily/hourly
   - temperature: Float
   - precipitation: Float
   - condition: String
+  - data: String  ' JSON data as per ERD
   + getWeatherForecast(city: String, date: LocalDate): Weather
 ' Static factory or service method
 }
@@ -231,7 +220,7 @@ Floor --> Floorplan : has floorplan
 Floorplan o-- FloorplanLocation : contains
 
 
-Room --> Location : location
+Room --> FloorplanLocation : location
 POI --> Location : location
 
 @enduml
