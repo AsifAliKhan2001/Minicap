@@ -2,70 +2,85 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Campus } from "../../models/Campus";
 
-// Define TypeScript Interface for Props
+// Mapping outdoor location UUIDs to actual Region coordinates
+const locationMapping: Record<string, Region> = {
+  "loc-sgw": {  // Updated key
+    latitude: 45.4973,
+    longitude: -73.5789,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  },
+  "loc-loyola": {
+    latitude: 45.4581,
+    longitude: -73.6405,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  }
+};
+
 interface CampusMapProps {
-  campus: Region;
+  campus: Campus;
   title: string;
 }
 
-// Campus Coordinates with Type Safety
-const SWGCampus: Region = {
-  latitude: 45.4973,
-  longitude: -73.5789,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+// Define campuses using Campus model with an outdoorLocation UUID
+const SGWCampus: Campus = { // Updated name and id
+  id: "sgw-uuid", // Replace with a valid UUID
+  name: "SGW Campus",
+  outdoorLocation: "loc-sgw", // Updated to match the location mapping
+  buildingIds: [],
 };
 
-const LoyolaCampus: Region = {
-  latitude: 45.4581,
-  longitude: -73.6405,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+const LoyolaCampus: Campus = {
+  id: "loyola-uuid", // Replace with a valid UUID
+  name: "Loyola Campus",
+  outdoorLocation: "loc-loyola", // Only store the location UUID
+  buildingIds: [],
 };
 
-// Reusable Map Component
 const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
   const mapRef = useRef<MapView | null>(null);
+  const region: Region = locationMapping[campus.outdoorLocation];
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.animateToRegion(campus, 1000); // Smooth transition on switch
+      mapRef.current.animateToRegion(region, 1000);
     }
-  }, [campus]);
+  }, [region]);
 
   return (
     <MapView
       ref={(ref) => (mapRef.current = ref)}
       style={styles.map}
-      initialRegion={campus}
-      pitchEnabled={false} // Prevents 3D tilt when zooming
-      rotateEnabled={false} // Prevents rotation of the map
-      zoomEnabled={true} // Allows zooming but stays in 2D
-      zoomControlEnabled={true} // Optional: Enables zoom buttons
+      initialRegion={region}
+      pitchEnabled={false}
+      rotateEnabled={false}
+      zoomEnabled={true}
+      zoomControlEnabled={true}
     >
-      <Marker coordinate={campus} title={title} />
+      <Marker coordinate={region} title={title} />
     </MapView>
   );
 };
 
-// Parent Component that Switches Between Maps
 const CampusSwitcher: React.FC = () => {
-  const [isSWGCampus, setIsSWGCampus] = useState<boolean>(true);
+  const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.switchContainer}>
-        <Text>SWG Campus</Text>
+        <Text>SGW Campus</Text> {/* Updated label */}
         <Switch
-          value={!isSWGCampus}
-          onValueChange={() => setIsSWGCampus(!isSWGCampus)}
+          value={!isSGWCampus}
+          onValueChange={() => setIsSGWCampus(!isSGWCampus)}
         />
         <Text>Loyola Campus</Text>
       </View>
       <CampusMap
-        campus={isSWGCampus ? SWGCampus : LoyolaCampus}
-        title={isSWGCampus ? "SWG Campus" : "Loyola Campus"}
+        campus={isSGWCampus ? SGWCampus : LoyolaCampus}
+        title={isSGWCampus ? "SGW Campus" : "Loyola Campus"}
       />
     </SafeAreaView>
   );
