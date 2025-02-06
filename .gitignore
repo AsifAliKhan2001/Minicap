@@ -1,5 +1,6 @@
 .DS_Store
-
+.env
+# Resources/system-diagram-duplicate/
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
@@ -200,3 +201,4 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+

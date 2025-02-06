@@ -1,10 +1,7 @@
-import { UUID } from "./utils";
-import { RouteSegment } from "./RouteSegment";
+import { UUID } from './utils';
 
 export interface Route {
   id: UUID;
   accessible: boolean;
-  segments?: RouteSegment[];
-  createdAt: string;
-  updatedAt: string;
+  segmentIds: UUID[];  // One-to-many with RouteSegment
 }
