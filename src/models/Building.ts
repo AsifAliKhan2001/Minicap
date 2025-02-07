@@ -9,5 +9,5 @@ export interface Building {
   address: string;
   openingHours: string;
   floorIds: UUID[];  // One-to-many with Floor
-  locationId: UUID;  // FK to Location
+  outdoorLocationId: UUID;  // FK to OutdoorLocation (updated)
 }
