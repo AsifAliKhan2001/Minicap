@@ -1,5 +1,4 @@
 import { UUID } from './utils';
-import { OutdoorLocation } from './OutdoorLocation';
 
 export interface Campus {
   id: UUID;
