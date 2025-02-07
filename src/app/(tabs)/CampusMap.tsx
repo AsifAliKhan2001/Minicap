@@ -2,17 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Campus } from "../../models/Campus";
 
-// Mapping outdoor location UUIDs to actual Region coordinates
+// Mapping campus IDs to actual Region coordinates
 const locationMapping: Record<string, Region> = {
-  "loc-sgw": {  // Updated key
+  "sgw-uuid": {  // using campus id as key
     latitude: 45.4973,
     longitude: -73.5789,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
-  "loc-loyola": {
+  "loyola-uuid": {
     latitude: 45.4581,
     longitude: -73.6405,
     latitudeDelta: 0.01,
@@ -21,28 +20,13 @@ const locationMapping: Record<string, Region> = {
 };
 
 interface CampusMapProps {
-  campus: Campus;
+  campusId: string;
   title: string;
 }
 
-// Define campuses using Campus model with an outdoorLocation UUID
-const SGWCampus: Campus = { // Updated name and id
-  id: "sgw-uuid", // Replace with a valid UUID
-  name: "SGW Campus",
-  outdoorLocation: "loc-sgw", // Updated to match the location mapping
-  buildingIds: [],
-};
-
-const LoyolaCampus: Campus = {
-  id: "loyola-uuid", // Replace with a valid UUID
-  name: "Loyola Campus",
-  outdoorLocation: "loc-loyola", // Only store the location UUID
-  buildingIds: [],
-};
-
-const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
+const CampusMap: React.FC<CampusMapProps> = ({ campusId, title }) => {
   const mapRef = useRef<MapView | null>(null);
-  const region: Region = locationMapping[campus.outdoorLocation];
+  const region: Region = locationMapping[campusId];
 
   useEffect(() => {
     if (mapRef.current) {
@@ -67,21 +51,20 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
 
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
+  const campusId = isSGWCampus ? "sgw-uuid" : "loyola-uuid";
+  const title = isSGWCampus ? "SGW Campus" : "Loyola Campus";
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.switchContainer}>
-        <Text>SGW Campus</Text> {/* Updated label */}
+        <Text>SGW Campus</Text>
         <Switch
           value={!isSGWCampus}
           onValueChange={() => setIsSGWCampus(!isSGWCampus)}
         />
         <Text>Loyola Campus</Text>
       </View>
-      <CampusMap
-        campus={isSGWCampus ? SGWCampus : LoyolaCampus}
-        title={isSGWCampus ? "SGW Campus" : "Loyola Campus"}
-      />
+      <CampusMap campusId={campusId} title={title} />
     </SafeAreaView>
   );
 };
