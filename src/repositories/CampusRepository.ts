@@ -1,8 +1,37 @@
 import { BaseRepository, ApiError } from './BaseRepository';
 import { UUID } from '../models/utils';
 import { Campus } from '../models/Campus';
+import { MongoClient, Db, Collection } from "mongodb"; // Import MongoDB types
+
+const MONGO_URI = "mongodb+srv://Asif1:wyLpZZWGqgmfg4on@cluster0.6zyyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB URI
+const COLLECTION_NAME = "Campus";
 
 export class CampusRepository implements BaseRepository<Campus> {
+
+  public client: MongoClient; //only temporary change to public from private to just test the method. 
+
+  //original private client:
+  //private client: MongoClient;
+
+  private db: Db; // MongoDB database instance
+  private collection: Collection<Campus>; // MongoDB collection instance
+
+  constructor() {
+    this.client = new MongoClient(MONGO_URI);
+    this.db = this.client.db("CampusDB");   // Database name
+    this.collection = this.db.collection("Campus");
+  }
+  
+  async connect() {
+    try {
+      await this.client.connect();
+      console.log("Connected to MongoDB");
+    } catch (error) {
+      console.error("Failed to connect to MongoDB", error);
+      throw new ApiError("Failed to connect to MongoDB", 500, error);
+    }
+  }
+
   async findById(id: UUID): Promise<Campus> {
     try {
       // Placeholder implementation
@@ -43,31 +72,18 @@ export class CampusRepository implements BaseRepository<Campus> {
   // Campus-specific methods
   async findAllCampuses(): Promise<Campus[]> {
     try {
-      // Placeholder data for Concordia's campuses
-      return [
-        {
-          id: '1', // Temporary hardcoded ID until backend is ready
-          name: 'Sir George Williams Campus',
-          description: 'Downtown campus',
-          city: 'Montreal',
-          address: '1455 De Maisonneuve Blvd. W.',
-          latitude: 45.497,
-          longitude: -73.579,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: '2', // Temporary hardcoded ID until backend is ready
-          name: 'Loyola Campus',
-          description: 'West end campus',
-          city: 'Montreal',
-          address: '7141 Sherbrooke St. W.',
-          latitude: 45.458,
-          longitude: -73.640,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }
-      ];
+      // Ensure the connection to MongoDB is established
+      await this.connect();
+  
+      // Fetch all documents from the "Campuses" collection
+      const campuses = await this.collection.find({}).toArray();
+  
+      // Map the MongoDB documents to the Campus model
+      return campuses.map(doc => ({
+        id: doc._id.toString(), // Convert MongoDB ObjectId to string
+        name: doc.name,
+        buildings: doc.buildings
+    }));
     } catch (error) {
       if (error instanceof ApiError) throw error;
       throw new ApiError('Failed to fetch campuses', 500, error);
