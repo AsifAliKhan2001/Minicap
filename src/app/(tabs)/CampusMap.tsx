@@ -2,31 +2,51 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Location from "expo-location";
+import { Campus } from "@/models/Campus";
+import { OutdoorLocation } from "@/models/OutdoorLocation";
 
-// Define TypeScript Interface for Props
-interface CampusMapProps {
-  campus: Region;
-  title: string;
-}
-
-// Campus Coordinates with Type Safety
-const SWGCampus: Region = {
+// Define two outdoor location objects of type OutdoorLocation
+const outdoorLocationSGW: OutdoorLocation = {
+  id: "loc-sgw",
+  locationType: "outdoor",
   latitude: 45.4973,
   longitude: -73.5789,
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
 };
 
-const LoyolaCampus: Region = {
+const outdoorLocationLoyola: OutdoorLocation = {
+  id: "loc-loyola",
+  locationType: "outdoor",
   latitude: 45.4581,
   longitude: -73.6405,
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
 };
 
-// Reusable Map Component
-const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
+interface CampusMapProps {
+  campusId: string;
+}
+
+// Define campuses using Campus model with an outdoorLocation UUID
+const SGWCampus: Campus = {
+  id: "sgw-uuid",
+  name: "SGW Campus",
+  outdoorLocation: "loc-sgw",
+  buildingIds: [],
+};
+
+const LoyolaCampus: Campus = {
+  id: "loyola-uuid",
+  name: "Loyola Campus",
+  outdoorLocation: "loc-loyola",
+  buildingIds: [],
+};
+
+const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
+  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
+  // Look up the correct OutdoorLocation based on the campus' outdoorLocation id
+  const region: Region = campus.outdoorLocation === "loc-sgw" ? outdoorLocationSGW : outdoorLocationLoyola;
   const mapRef = useRef<MapView | null>(null);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
@@ -51,50 +71,40 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.animateToRegion(campus, 1000); // Smooth transition on switch
+      mapRef.current.animateToRegion(region, 1000);
     }
-  }, [campus]);
+  }, [region]);
 
   return (
     <MapView
       ref={(ref) => (mapRef.current = ref)}
       style={styles.map}
-      initialRegion={campus}
-      pitchEnabled={false} // Prevents 3D tilt when zooming
-      rotateEnabled={false} // Prevents rotation of the map
-      zoomEnabled={true} // Allows zooming but stays in 2D
-      zoomControlEnabled={true} // Optional: Enables zoom buttons
+      initialRegion={region}
+      pitchEnabled={false}
+      rotateEnabled={false}
+      zoomEnabled={true}
+      zoomControlEnabled={true}
     >
-      <Marker coordinate={campus} title={title} />
-      {permissionGranted && userLocation && (
-        <Marker
-          coordinate={userLocation}
-          title="Your Location"
-          pinColor="blue"
-        />
-      )}
+      <Marker coordinate={region} title={campus.name} />
     </MapView>
   );
 };
 
-// Parent Component that Switches Between Maps
 const CampusSwitcher: React.FC = () => {
-  const [isSWGCampus, setIsSWGCampus] = useState<boolean>(true);
+  const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
+  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.switchContainer}>
-        <Text>SWG Campus</Text>
+        <Text>SGW Campus</Text> {/* Updated label */}
         <Switch
-          value={!isSWGCampus}
-          onValueChange={() => setIsSWGCampus(!isSWGCampus)}
+          value={!isSGWCampus}
+          onValueChange={() => setIsSGWCampus(!isSGWCampus)}
         />
         <Text>Loyola Campus</Text>
       </View>
-      <CampusMap
-        campus={isSWGCampus ? SWGCampus : LoyolaCampus}
-        title={isSWGCampus ? "SWG Campus" : "Loyola Campus"}
-      />
+      <CampusMap campusId={currentCampusId} />
     </SafeAreaView>
   );
 };
@@ -123,3 +133,5 @@ const styles = StyleSheet.create({
 });
 
 export default CampusSwitcher;
+
+
