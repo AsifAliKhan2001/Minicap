@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Switch, StyleSheet } from "react-native";
+import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
@@ -36,6 +36,28 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
         setPermissionGranted(true);
+        Location.watchPositionAsync(
+          { accuracy: Location.Accuracy.High, distanceInterval: 1 },
+          (location) => {
+            setUserLocation({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            });
+          }
+        );
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
+        setPermissionGranted(true);
         const location = await Location.getCurrentPositionAsync({});
         setUserLocation({
           latitude: location.coords.latitude,
@@ -66,13 +88,28 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
       zoomControlEnabled={true} // Optional: Enables zoom buttons
     >
       <Marker coordinate={campus} title={title} />
-      {permissionGranted && userLocation && (
+      {permissionGranted && userLocation ? null : null}
+      {userLocation && (
         <Marker
           coordinate={userLocation}
           title="Your Location"
           pinColor="blue"
         />
       )}
+      <TouchableOpacity
+        style={styles.refreshButton}
+        onPress={async () => {
+          const location = await Location.getCurrentPositionAsync({});
+          setUserLocation({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          });
+        }}
+      >
+        <Text style={styles.buttonText}>Refresh Location</Text>
+      </TouchableOpacity>
     </MapView>
   );
 };
@@ -100,6 +137,20 @@ const CampusSwitcher: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  refreshButton: {
+    position: "absolute",
+    bottom: 20, // Adjust this value to position the button lower
+    left: "50%",
+    transform: [{ translateX: -50 }],
+    zIndex: 1,
+    backgroundColor: "rgba(0, 0, 255, 0.7)", // Optional: Add background color
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white", // Text color for the button
+    fontSize: 16,
+  },
   container: {
     flex: 1,
   },
