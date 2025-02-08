@@ -6,7 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const Login = () => {
   const navigation = useNavigation();
-  const [username, setUsername] = useState("");
+  const [identifier, setIdentifier] = useState(""); // Handles both Student ID or Email
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleSubmit = () => {
     // Add your login logic here
-    console.log("Login submitted:", { username, password, rememberMe });
+    console.log("Login submitted:", { identifier, password, rememberMe });
   };
 
   return (
@@ -25,37 +25,20 @@ const Login = () => {
       <BlurView intensity={20} style={styles.blurContainer}>
         <Text style={styles.loginTitle}>Student Login</Text>
 
-        {/* Student ID Input */}
+        {/* Unified Input Field */}
         <View style={styles.inputGroup}>
           <FontAwesome
-            name="id-badge"
+            name="user" // Changed from "id-badge"
             size={20}
             color="rgba(0, 0, 0, 0.7)"
             style={styles.inputIcon}
           />
           <TextInput
             style={styles.input}
-            placeholder="Student ID"
+            placeholder="Student ID or Email" // Updated placeholder
             placeholderTextColor="rgba(0, 0, 0, 0.5)"
-            value={username}
-            onChangeText={setUsername}
-          />
-        </View>
-
-        {/* Email Input */}
-        <View style={styles.inputGroup}>
-          <FontAwesome
-            name="envelope"
-            size={20}
-            color="rgba(0, 0, 0, 0.7)"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email Address"
-            placeholderTextColor="rgba(0, 0, 0, 0.5)"
-            value={username}
-            onChangeText={setUsername}
+            value={identifier} 
+            onChangeText={setIdentifier} 
           />
         </View>
 
