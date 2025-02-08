@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@gluestack-ui/themed": "^1.1.65",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/uuid": "^10.0.0",
     "jsonwebtoken": "^9.0.2",
