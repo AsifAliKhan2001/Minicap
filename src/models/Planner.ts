@@ -1,10 +1,7 @@
-// src/models/Planner.ts
-import { UUID } from "./utils";
-import { User } from "./User";
+import { UUID } from './utils';
 
 export interface Planner {
   id: UUID;
-  userId: UUID; // FK to User
-  user?: User; // Optional, for easier access
-  // ... other planner attributes if needed, add later
+  taskIDs: UUID[];
 }
+

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
-import MapView, { Marker, Region } from "react-native-maps";
+import MapView, { Marker, Region, Circle } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 
@@ -47,6 +47,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
             });
           }
         );
+      } else {
+        console.error("Location permission not granted");
       }
     };
 
@@ -65,6 +67,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         });
+      } else {
+        console.error("Location permission not granted");
       }
     };
 
@@ -88,12 +92,19 @@ const CampusMap: React.FC<CampusMapProps> = ({ campus, title }) => {
       zoomControlEnabled={true} // Optional: Enables zoom buttons
     >
       <Marker coordinate={campus} title={title} />
-      {permissionGranted && userLocation ? null : null}
-      {userLocation && (
+      {permissionGranted && userLocation && (
         <Marker
           coordinate={userLocation}
           title="Your Location"
           pinColor="blue"
+        />
+      )}
+      {userLocation && (
+        <Circle
+          center={userLocation}
+          radius={10}
+          fillColor="rgba(0, 0, 255, 0.5)"
+          strokeColor="rgba(0, 0, 255, 1)"
         />
       )}
       <TouchableOpacity
