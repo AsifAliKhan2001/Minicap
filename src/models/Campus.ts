@@ -1,5 +1,4 @@
-import { UUID } from "./utils";
-import { Building } from "./Building";
+import { UUID } from './utils';
 
 export interface Campus {
   id: UUID;
