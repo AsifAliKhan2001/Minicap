@@ -3,9 +3,7 @@ import { Building } from "../models/Building";
 import { UUID } from "../models/utils";
 import { ApiError } from "./BaseRepository";
 import { MongoClient, Db, Collection, ObjectId } from "mongodb"; // Import MongoDB types
-
-const MONGO_URI = "mongodb+srv://Asif1:wyLpZZWGqgmfg4on@cluster0.6zyyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB URI
-const COLLECTION_NAME = "buildings";
+import 'dotenv/config';
 
 export class BuildingRepository implements BaseRepository<Building> {
 
@@ -14,7 +12,11 @@ export class BuildingRepository implements BaseRepository<Building> {
   private collection: Collection<Building>; // MongoDB collection instance
 
   constructor() {
-    this.client = new MongoClient(MONGO_URI);
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      throw new Error('MongoDB URI not found in environment variables');
+    }
+    this.client = new MongoClient(uri);
     this.db = this.client.db("minicap");   // Database name
     this.collection = this.db.collection("buildings");
   }
