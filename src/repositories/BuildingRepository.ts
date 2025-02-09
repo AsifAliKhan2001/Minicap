@@ -1,5 +1,5 @@
 import { Building } from "@/models/Building";
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 
 export interface BuildingRepository {
   /**

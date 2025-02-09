@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BaseViewModel } from '../viewmodels/BaseViewModel';
-import { UUID } from '@/models/utils';
+import { UUID } from "mongodb";
 
 export function useViewModel<T>(
   ViewModelClass: new () => BaseViewModel<T>,

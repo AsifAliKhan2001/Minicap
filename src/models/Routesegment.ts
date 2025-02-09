@@ -1,9 +1,13 @@
-import { UUID } from '@/models/utils';
+import { UUID } from "mongodb";
 
 export interface RouteSegment {
   routeId: UUID;
   order: number;
-  transportationMode: string;
+  transportationMode: TransportationMode;
   path: any;
+}
+
+export enum TransportationMode {
+
 }
 

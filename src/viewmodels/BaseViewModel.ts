@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection } from "mongodb";
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 import 'dotenv/config';
 
 export abstract class BaseViewModel<T> {

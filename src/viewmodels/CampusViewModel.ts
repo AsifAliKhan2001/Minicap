@@ -1,58 +1,58 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Campus } from "@/models/Campus";
-import { CampusRepository } from "../repositories/CampusRepository";
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
+import { CampusRepository } from "@/repositories/CampusRepository";
 
-export class CampusViewModel extends BaseViewModel<Campus[]> {
-  private repository: CampusRepository;
+export class CampusViewModel extends BaseViewModel<Campus[]> implements CampusRepository {
+  private readonly COLLECTION = "campus";
 
-  constructor() {
-    super();
-    this.repository = new CampusRepository();
+  private mapToCampus(doc: any): Campus {
+    return {
+      id: doc.id,
+      name: doc.name,
+      buildingIds: doc.buildingIds,
+      outdoorLocation: doc.outdoorLocation
+    };
   }
 
-  async load(id: UUID): Promise<void> {
-    // For campus view, we'll load all campuses instead of a single one
-    await this.loadAllCampuses();
+  async findCampusById(id: UUID): Promise<Campus> {
+    const campus = await this.withCollection(this.COLLECTION, async (collection) => {
+      const doc = await collection.findOne({ id });
+      return doc ? this.mapToCampus(doc) : null;
+    });
+    
+    if (!campus) {
+      throw new Error('Campus not found');
+    }
+    
+    return campus;
   }
 
-  async save(data: Partial<Campus[]>): Promise<void> {
-    throw new Error("Not implemented");
+  async getAllCampuses(): Promise<Campus[]> {
+    return await this.withCollection(this.COLLECTION, async (collection) => {
+      const docs = await collection.find({}).toArray();
+      return docs.map(doc => this.mapToCampus(doc));
+    });
   }
 
-  async loadAllCampuses(): Promise<void> {
+  async load(id?: UUID): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);
 
-      console.log("Fetching campuses...");
-
-
-      const campuses = await this.repository.findAllCampuses();
-
-      console.log("Fetched campuses:", campuses);
+      const campuses = id ? 
+        [await this.findCampusById(id)] : 
+        await this.getAllCampuses();
 
       this.setData(campuses);
-    } catch (error) {
-
-      console.error("Error fetching campuses:", error);
-
-      this.setError(error instanceof Error ? error : new Error('Failed to load campuses'));
-    } finally {
-      this.setLoading(false);
-    }
-  }
-
-  async loadCampusById(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const campus = await this.repository.findById(id);
-      this.setData([campus]);
     } catch (error) {
       this.setError(error instanceof Error ? error : new Error('Failed to load campus'));
     } finally {
       this.setLoading(false);
     }
+  }
+
+  async save(): Promise<void> {
+    throw new Error("Campus modification not supported");
   }
 }

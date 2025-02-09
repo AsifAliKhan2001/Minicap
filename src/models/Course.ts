@@ -1,5 +1,5 @@
 import { Event } from './Event';
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 
 export interface Course extends Event {
   courseCode: string;

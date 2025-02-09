@@ -1,66 +1,137 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Route } from "@/models/Route";
 import { RouteRepository } from "../repositories/RouteRepository";
-import { UUID } from "@/models/utils";
-import { OutdoorLocation } from "@/models/OutdoorLocation";
-import { RouteSegment, TransportationMode } from "@/models/RouteSegment";
-
-interface RouteState {
-  route: Route | null;
-  segments: RouteSegment[];
-}
-
-export class RouteViewModel extends BaseViewModel<RouteState> {
-  private repository: RouteRepository;
-
-  constructor() {
-    super();
-    this.repository = new RouteRepository();
-    this.setData({ route: null, segments: [] });
-  }
-
-  async load(id: UUID): Promise<void> {
+import { RouteSegment } from "@/models/Routesegment";
+import { UUID } from "mongodb";
+export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepository {
+  async save(data: (Route | undefined)[]): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);
-      const route = await this.repository.findById(id);
-      this.setData({ route, segments: [] }); // Would need to load segments separately
+
+      if (!data) {
+        throw new Error("No data provided to save");
+      }
+
+      const validRoutes = data.filter((route): route is Route => route !== undefined);
+      
+      await this.withCollection(this.ROUTES_COLLECTION, async (collection) => {
+        for (const route of validRoutes) {
+          await collection.updateOne(
+            { id: route.id },
+            { 
+              $set: {
+                ...route,
+                updatedAt: new Date()
+              }
+            },
+            { upsert: true }
+          );
+        }
+      });
+
+      this.setData(validRoutes);
     } catch (error) {
-      this.setError(
-        error instanceof Error ? error : new Error("Failed to load route")
-      );
+      this.setError(error instanceof Error ? error : new Error('Failed to save routes'));
+      throw error;
+    } finally {
+      this.setLoading(false);
+    }
+  }
+  private readonly ROUTES_COLLECTION = "routes";
+  private readonly SEGMENTS_COLLECTION = "routeSegments";
+
+  private mapToRoute(doc: any): Route {
+    return {
+      id: doc.id,
+      accessible: doc.accessible,
+      segmentIds: doc.segmentIds,
+      createdAt: new Date(doc.createdAt),
+      updatedAt: new Date(doc.updatedAt)
+    };
+  }
+
+  private mapToSegment(doc: any): RouteSegment {
+    return {
+      routeId: doc.routeId,
+      order: doc.order,
+      transportationMode: doc.transportationMode,
+      path: doc.path
+    };
+  }
+
+  async findRouteById(id: UUID): Promise<Route> {
+    const route = await this.withCollection(this.ROUTES_COLLECTION, async (collection) => {
+      const doc = await collection.findOne({ id });
+      return doc ? this.mapToRoute(doc) : null;
+    });
+    
+    if (!route) {
+      throw new Error('Route not found');
+    }
+    
+    return route;
+  }
+
+  async findSegmentsByRouteId(routeId: UUID): Promise<RouteSegment[]> {
+    return await this.withCollection(this.SEGMENTS_COLLECTION, async (collection) => {
+      const docs = await collection.find({ routeId }).toArray();
+      return docs.map(doc => this.mapToSegment(doc));
+    });
+  }
+
+  async createRoute(data: Omit<Route, "id" | "createdAt" | "updatedAt">): Promise<Route> {
+    return await this.withCollection(this.ROUTES_COLLECTION, async (collection) => {
+      const doc = {
+        ...data,
+        id: new UUID(),
+        segmentIds: [], // Initialize empty segments array
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      await collection.insertOne(doc);
+      return this.mapToRoute(doc);
+    });
+  }
+
+  async createRouteSegment(segment: Omit<RouteSegment, 'path'>): Promise<RouteSegment> {
+    return await this.withCollection(this.SEGMENTS_COLLECTION, async (collection) => {
+      const doc = {
+        ...segment,
+        id: new UUID(),
+        path: null
+      };
+      await collection.insertOne(doc);
+      return this.mapToSegment(doc);
+    });
+  }
+
+  async load(id?: UUID): Promise<void> {
+    try {
+      this.setLoading(true);
+      this.setError(null);
+
+      const routes = id ? 
+        [await this.findRouteById(id)] : 
+        await this.withCollection(this.ROUTES_COLLECTION, async (collection) => {
+          const docs = await collection.find({}).toArray();
+          return docs.map(doc => this.mapToRoute(doc));
+        });
+
+      this.setData(routes);
+    } catch (error) {
+      this.setError(error instanceof Error ? error : new Error('Failed to load routes'));
     } finally {
       this.setLoading(false);
     }
   }
 
-  async save(data: Partial<RouteState>): Promise<void> {
-    throw new Error("Not implemented");
-  }
-
-  async findAccessibleRoute(
-    start: OutdoorLocation,
-    end: OutdoorLocation,
-    mode: TransportationMode = TransportationMode.WALKING
-  ): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-
-      const { route, segments } = await this.repository.findAccessibleRoute(
-        start,
-        end,
-        mode
-      );
-      this.setData({ route, segments });
-    } catch (error) {
-      this.setError(
-        error instanceof Error
-          ? error
-          : new Error("Failed to find accessible route")
-      );
-    } finally {
-      this.setLoading(false);
-    }
+  // Required interface methods with basic implementations
+  async updateRoute(): Promise<Route> { throw new Error("Not implemented"); }
+  async deleteRoute(): Promise<void> { throw new Error("Not implemented"); }
+  async updateRouteSegment(): Promise<RouteSegment> { throw new Error("Not implemented"); }
+  async deleteRouteSegment(): Promise<void> { throw new Error("Not implemented"); }
+  async findAccessibleRoute(): Promise<{ route: Route; segments: RouteSegment[] }> { 
+    throw new Error("Not implemented"); 
   }
 }

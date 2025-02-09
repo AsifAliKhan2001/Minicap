@@ -1,7 +1,7 @@
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 import { Route } from "@/models/Route";
-import { RouteSegment} from "@/models/RouteSegment";
 import { OutdoorLocation } from "@/models/OutdoorLocation";
+import { RouteSegment } from "@/models/Routesegment";
 
 export interface RouteRepository {
   /**
@@ -50,4 +50,43 @@ export interface RouteRepository {
     end: OutdoorLocation,
     mode: string
   ): Promise<{ route: Route; segments: RouteSegment[] }>;
+
+  /**
+   * Creates a new route segment in the system
+   * @param segment - Route segment data without path
+   * @returns Promise resolving to the created RouteSegment
+   * @throws {ValidationError} If required fields are missing or invalid
+   */
+  createRouteSegment(segment: Omit<RouteSegment, 'path'>): Promise<RouteSegment>;
+
+  /**
+   * Retrieves all segments of a route by the route's unique identifier
+   * @param routeId - The UUID of the route to find segments for
+   * @returns Promise resolving to an array of RouteSegments
+   * @throws {NotFoundError} If route with given ID doesn't exist
+   */
+  findSegmentsByRouteId(routeId: UUID): Promise<RouteSegment[]>;
+
+  /**
+   * Updates an existing route segment's information
+   * @param routeId - The UUID of the route to which the segment belongs
+   * @param segmentId - The UUID of the segment to update
+   * @param data - Partial route segment data to update
+   * @returns Promise resolving to the updated RouteSegment
+   * @throws {NotFoundError} If route or segment with given IDs don't exist
+   * @throws {ValidationError} If update data is invalid
+   */
+  updateRouteSegment(
+    routeId: UUID, 
+    segmentId: UUID, 
+    data: Partial<Omit<RouteSegment, 'routeId' | 'path'>>
+  ): Promise<RouteSegment>;
+
+  /**
+   * Removes a route segment from the system
+   * @param routeId - The UUID of the route to which the segment belongs
+   * @param segmentId - The UUID of the segment to delete
+   * @throws {NotFoundError} If route or segment with given IDs don't exist
+   */
+  deleteRouteSegment(routeId: UUID, segmentId: UUID): Promise<void>;
 }

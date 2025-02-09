@@ -1,5 +1,5 @@
-import { Weather } from "@/models/Weather";
-import { UUID } from "@/models/utils";
+import { Weather, ForecastData } from "@/models/Weather";
+import { UUID } from "mongodb";
 
 export interface WeatherRepository {
   /**

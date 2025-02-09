@@ -1,5 +1,5 @@
 import { User } from "@/models/User";
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 
 export interface UserRepository {
   /**

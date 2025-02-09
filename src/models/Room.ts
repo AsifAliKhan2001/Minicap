@@ -1,4 +1,4 @@
-import { UUID } from '@/models/utils';
+import { UUID } from "mongodb";
 
 export interface Room {
   id: UUID;

@@ -4,7 +4,7 @@ import { MapRepository } from "../repositories/MapRepository";
 import { RouteViewModel } from "./RouteViewModel";
 import { OutdoorLocation } from "@/models/OutdoorLocation";
 import { TransportationMode } from "@/models/RouteSegment";
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 
 interface MapState {
   pois: POIInterface[];

@@ -1,11 +1,14 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Building } from "@/models/Building";
 import { BuildingRepository } from "../repositories/BuildingRepository";
-import { UUID } from "@/models/utils";
+import { UUID } from "mongodb";
 import { Collection, ObjectId } from "mongodb";
 import 'dotenv/config';
 
 export class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
+  async save(data: Partial<Building>): Promise<void> {
+    throw new Error('Building modification is not supported');
+  }
   private readonly COLLECTION_NAME = "buildings";
 
   async findBuildingById(id: UUID): Promise<Building> {
