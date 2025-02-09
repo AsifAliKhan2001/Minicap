@@ -1,7 +1,7 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Calendar } from "../models/Calendar";
-import { Event } from "../models/Event";
-import { UUID } from "../models/utils";
+import { Calendar } from "@/models/Calendar";
+import { Event } from "@/models/Event";
+import { UUID } from "@/models/utils";
 
 export class CalendarViewModel extends BaseViewModel<Calendar> {
   async load(id: UUID): Promise<void> {

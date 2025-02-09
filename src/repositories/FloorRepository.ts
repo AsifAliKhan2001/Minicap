@@ -1,71 +1,45 @@
-import { BaseRepository, ApiError } from './BaseRepository';
-import { UUID } from '../models/utils';
-import { Floor } from '../models/Floor';
+import { UUID } from '@/models/utils';
+import { Floor } from '@/models/Floor';
 
-export class FloorRepository implements BaseRepository<Floor> {
-  async findById(id: UUID): Promise<Floor> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch floor', 500, error);
-    }
-  }
+export interface FloorRepository {
+  /**
+   * Retrieves a floor by its unique identifier
+   * @param id - The UUID of the floor to find
+   * @returns Promise resolving to the found Floor
+   * @throws {NotFoundError} If floor with given ID doesn't exist
+   */
+  findFloorById(id: UUID): Promise<Floor>;
 
-  async create(data: Omit<Floor, 'id' | 'createdAt' | 'updatedAt'>): Promise<Floor> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to create floor', 500, error);
-    }
-  }
+  /**
+   * Creates a new floor in the system
+   * @param data - Floor data without system-managed fields
+   * @returns Promise resolving to the created Floor
+   * @throws {ValidationError} If required fields are missing or invalid
+   */
+  createFloor(data: Omit<Floor, 'id' | 'createdAt' | 'updatedAt'>): Promise<Floor>;
 
-  async update(id: UUID, data: Partial<Floor>): Promise<Floor> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to update floor', 500, error);
-    }
-  }
+  /**
+   * Updates an existing floor's information
+   * @param id - The UUID of the floor to update
+   * @param data - Partial floor data to update
+   * @returns Promise resolving to the updated Floor
+   * @throws {NotFoundError} If floor with given ID doesn't exist
+   */
+  updateFloor(id: UUID, data: Partial<Floor>): Promise<Floor>;
 
-  async delete(id: UUID): Promise<void> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to delete floor', 500, error);
-    }
-  }
+  /**
+   * Removes a floor from the system
+   * @param id - The UUID of the floor to delete
+   * @throws {NotFoundError} If floor with given ID doesn't exist
+   * @throws {ConflictError} If floor has associated rooms or POIs
+   */
+  deleteFloor(id: UUID): Promise<void>;
 
-  // Floor-specific methods
-  async findByBuilding(buildingId: UUID): Promise<Floor[]> {
-    try {
-      // Placeholder data
-      return [
-        {
-          id: generateUUID(),
-          buildingId,
-          number: 1,
-          name: 'First Floor',
-          isAccessible: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: generateUUID(),
-          buildingId,
-          number: 2,
-          name: 'Second Floor',
-          isAccessible: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }
-      ];
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch building floors', 500, error);
-    }
-  }
+  /**
+   * Retrieves all floors of a specific building
+   * @param buildingId - The UUID of the building
+   * @returns Promise resolving to array of Floors
+   * @throws {NotFoundError} If building with given ID doesn't exist
+   */
+  findFloorsByBuilding(buildingId: UUID): Promise<Floor[]>;
 }

@@ -1,96 +1,45 @@
-import { BaseRepository } from "./BaseRepository";
-import { Weather, ForecastData } from "../models/Weather";
-import { UUID } from "../models/utils";
-import { ApiError } from "./BaseRepository";
+import { Weather } from "@/models/Weather";
+import { UUID } from "@/models/utils";
 
-export class WeatherRepository implements BaseRepository<Weather> {
-  private apiBaseUrl: string = ""; // TODO: Configure API URL
+export interface WeatherRepository {
+  /**
+   * Retrieves weather forecast by ID from database
+   * @param id - The UUID of the forecast to find
+   * @returns Promise resolving to the found Weather forecast
+   * @throws {NotFoundError} If forecast doesn't exist
+   */
+  findForecastById(id: UUID): Promise<Weather>;
 
-  async findById(id: UUID): Promise<Weather> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/weather/${id}`);
-      
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to fetch weather',
-          response.status,
-          await response.json()
-        );
-      }
+  /**
+   * Queries external weather API for forecast
+   * @param latitude - Location latitude
+   * @param longitude - Location longitude
+   * @returns Promise resolving to forecast data
+   * @throws {ApiError} If external API call fails
+   */
+  queryExternalForecast(latitude: number, longitude: number): Promise<ForecastData>;
 
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch weather', 500, error);
-    }
-  }
+  /**
+   * Saves forecast data to database
+   * @param data - Forecast data to save
+   * @returns Promise resolving to saved Weather forecast
+   * @throws {ValidationError} If data is invalid
+   */
+  saveForecast(data: Omit<Weather, "id" | "createdAt" | "updatedAt">): Promise<Weather>;
 
-  async create(data: Omit<Weather, 'id' | 'createdAt' | 'updatedAt'>): Promise<Weather> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/weather`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+  /**
+   * Updates existing forecast in database
+   * @param id - The UUID of the forecast to update
+   * @param data - Partial forecast data to update
+   * @returns Promise resolving to updated Weather forecast
+   * @throws {NotFoundError} If forecast doesn't exist
+   */
+  updateForecast(id: UUID, data: Partial<Weather>): Promise<Weather>;
 
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to create weather',
-          response.status,
-          await response.json()
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to create weather', 500, error);
-    }
-  }
-
-  async update(id: UUID, data: Partial<Weather>): Promise<Weather> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/weather/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to update weather',
-          response.status,
-          await response.json()
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to update weather', 500, error);
-    }
-  }
-
-  async delete(id: UUID): Promise<void> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/weather/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to delete weather',
-          response.status,
-          await response.json()
-        );
-      }
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to delete weather', 500, error);
-    }
-  }
+  /**
+   * Deletes outdated forecasts from database
+   * @param olderThan - Delete forecasts older than this date
+   * @returns Promise resolving to number of deleted forecasts
+   */
+  deleteOutdatedForecasts(olderThan: Date): Promise<number>;
 }

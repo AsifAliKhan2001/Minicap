@@ -1,7 +1,7 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { POIInterface } from "../models/POIInterface";
+import { POIInterface } from "@/models/POIInterface";
 import { POIRepository } from "../repositories/POIRepository";
-import { UUID } from "../models/utils";
+import { UUID } from "@/models/utils";
 
 export class POIViewModel extends BaseViewModel<POIInterface> {
   private repository: POIRepository;

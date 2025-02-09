@@ -1,8 +1,8 @@
 import { BaseRepository } from "./BaseRepository";
-import { Route } from "../models/Route";
-import { UUID } from "../models/utils";
+import { Route } from "@/models/Route";
+import { UUID } from "@/models/utils";
 import { ApiError } from "./BaseRepository";
-import { Coordinate } from "../models/RouteSegment";
+import { Coordinate } from "@/models/RouteSegment";
 
 export class NavigationRepository implements BaseRepository<Route> {
   private apiBaseUrl: string = ""; // TODO: Configure API URL

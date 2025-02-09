@@ -1,6 +1,6 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Weather, ForecastData } from "../models/Weather";
-import { UUID } from "../models/utils";
+import { Weather, ForecastData } from "@/models/Weather";
+import { UUID } from "@/models/utils";
 
 export class WeatherViewModel extends BaseViewModel<Weather> {
   async load(id: UUID): Promise<void> {

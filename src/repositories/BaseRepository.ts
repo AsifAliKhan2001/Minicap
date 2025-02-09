@@ -1,4 +1,4 @@
-import { UUID } from "../models/utils";
+import { UUID } from "@/models/utils";
 
 export interface BaseRepository<T> {
   findById(id: UUID): Promise<T>;

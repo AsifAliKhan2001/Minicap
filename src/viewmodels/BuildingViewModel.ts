@@ -1,27 +1,57 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Building } from "../models/Building";
+import { Building } from "@/models/Building";
 import { BuildingRepository } from "../repositories/BuildingRepository";
-import { UUID } from "../models/utils";
+import { UUID } from "@/models/utils";
+import { Collection, ObjectId } from "mongodb";
+import 'dotenv/config';
 
-export class BuildingViewModel extends BaseViewModel<Building> {
-  load(id: UUID): Promise<void> {
-    throw new Error("Method not implemented.");
-  } 
-  
-  private repository: BuildingRepository;
+export class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
+  private readonly COLLECTION_NAME = "buildings";
 
-  constructor() {
-    super();
-    this.repository = new BuildingRepository();
+  async findBuildingById(id: UUID): Promise<Building> {
+    return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+      const building = await collection.findOne({ _id: new ObjectId(id) });
+      if (!building) {
+        throw new Error("Building not found");
+      }
+      return this.mapToBuilding(building);
+    });
   }
 
-  //calls the "findById" method from the BuildingRepository class to find a building by its ID
-  async loadBuildingById(id: UUID): Promise<void> {
+  async getAllBuildings(): Promise<Building[]> {
+    return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+      const buildings = await collection.find().toArray();
+      return buildings.map(this.mapToBuilding);
+    });
+  }
+
+  async findBuildingsByCampus(campusId: UUID): Promise<Building[]> {
+    return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+      const buildings = await collection.find({ campusId }).toArray();
+      return buildings.map(this.mapToBuilding);
+    });
+  }
+
+
+
+  private mapToBuilding(doc: any): Building {
+    return {
+      id: doc._id.toString(),
+      name: doc.name,
+      address: doc.address || "Address unavailable",
+      description: doc.description || "No description available",
+      polygonShape: doc.polygonShape || null,
+      openingHours: doc.openingHours || "Hours unavailable",
+      floors: doc.floors?.toString() || "",
+      location: doc.location?.toString() || ""
+    };
+  }
+
+  async load(id: UUID): Promise<void> {
     try {
       this.setLoading(true);
-      this.setError(null);
-      const data = await this.repository.findById(id);
-      this.setData(data);
+      const building = await this.findBuildingById(id);
+      this.setData(building);
     } catch (error) {
       this.setError(error instanceof Error ? error : new Error('Failed to load building'));
     } finally {
@@ -29,32 +59,11 @@ export class BuildingViewModel extends BaseViewModel<Building> {
     }
   }
 
-  async save(data: Partial<Building>): Promise<void> {
+  async loadBuildingsByCampus(campusId: UUID): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);
-      
-      if (this.data) {
-        const updated = await this.repository.update(this.data.id, data);
-        this.setData(updated);
-      } else if (data as Omit<Building, 'id' | 'createdAt' | 'updatedAt'>) {
-        const created = await this.repository.create(data as Omit<Building, 'id' | 'createdAt' | 'updatedAt'>);
-        this.setData(created);
-      }
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to save building'));
-    } finally {
-      this.setLoading(false);
-    }
-  }
-
-  async loadByCampus(campusId: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const buildings = await this.repository.findByCampus(campusId);
-      // Since this is a list operation, we might want to handle this differently
-      // For now, just take the first building if any
+      const buildings = await this.findBuildingsByCampus(campusId);
       this.setData(buildings[0] || null);
     } catch (error) {
       this.setError(error instanceof Error ? error : new Error('Failed to load campus buildings'));
@@ -68,9 +77,8 @@ export class BuildingViewModel extends BaseViewModel<Building> {
       this.setLoading(true);
       this.setError(null);
       console.log("Fetching all buildings from the database...");
-      // Call the repository function (which logs automatically)
-      await this.repository.findAllBuildings();
-
+      const buildings = await this.getAllBuildings();
+      this.setData(buildings[0] || null);
     } catch (error) {
       this.setError(error instanceof Error ? error : new Error("Failed to load buildings"));
       console.error("Error fetching buildings:", error);

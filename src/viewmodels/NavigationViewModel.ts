@@ -1,7 +1,7 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Route } from "../models/Route";
-import { RouteSegment, Coordinate } from "../models/RouteSegment";
-import { UUID } from "../models/utils";
+import { Route } from "@/models/Route";
+import { RouteSegment, Coordinate } from "@/models/RouteSegment";
+import { UUID } from "@/models/utils";
 
 export class NavigationViewModel extends BaseViewModel<Route> {
   private currentLocation?: Coordinate;

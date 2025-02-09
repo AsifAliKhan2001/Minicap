@@ -1,4 +1,4 @@
-import { UUID } from './utils';
+import { UUID } from '@/models/utils';
 
 export interface Floorplan {
   id: UUID;

@@ -1,9 +1,9 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { IndoorLocation } from "../models/IndoorLocation";
-import { IndoorNavigationRepository } from "../repositories/IndoorNavigationRepository";
-import { Floor } from "../models/Floor";
-import { POIInterface } from "../models/POIInterface";
-import { UUID } from "../models/utils";
+import { IndoorLocation } from "@/models/IndoorLocation";
+import { IndoorNavigationRepository } from "../repositories/FloorplanNavigationRepository";
+import { Floor } from "@/models/Floor";
+import { POIInterface } from "@/models/POIInterface";
+import { UUID } from "@/models/utils";
 
 interface IndoorNavigationState {
   currentFloor: Floor | null;

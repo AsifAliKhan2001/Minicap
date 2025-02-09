@@ -1,7 +1,8 @@
-import { UUID } from './utils';
+import { UUID } from '@/models/utils';
 
 export interface Campus {
   id: UUID;
   name: string;
-  buildings: UUID[]; 
+  buildingIds: UUID[]; 
+  outdoorLocation: UUID;
 }

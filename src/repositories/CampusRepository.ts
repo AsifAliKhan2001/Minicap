@@ -1,6 +1,6 @@
 import { BaseRepository, ApiError } from './BaseRepository';
-import { UUID } from '../models/utils';
-import { Campus } from '../models/Campus';
+import { UUID } from '@/models/utils';
+import { Campus } from '@/models/Campus';
 import { MongoClient, Db, Collection } from "mongodb"; // Import MongoDB types
 
 const MONGO_URI = "mongodb+srv://Asif1:wyLpZZWGqgmfg4on@cluster0.6zyyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB URI
@@ -81,11 +81,55 @@ export class CampusRepository implements BaseRepository<Campus> {
       return campuses.map(doc => ({
         id: doc._id.toString(), // Convert MongoDB ObjectId to string
         name: doc.name,
-        buildings: doc.buildings || [] // Ensure buildings is an array
+        buildings: doc.buildingIds || [], // Ensure buildings is an array
+        buildingIds: doc.buildingIds || [], // Add buildingIds with default empty array
+        outdoorLocation: doc.outdoorLocation || '' // Add outdoorLocation with default empty string
     }));
     } catch (error) {
       if (error instanceof ApiError) throw error;
       throw new ApiError('Failed to fetch campuses', 500, error);
     }
   }
+}
+
+export interface CampusRepository {
+  /**
+   * Retrieves a campus by its unique identifier
+   * @param id - The UUID of the campus to find
+   * @returns Promise resolving to the found Campus
+   * @throws {NotFoundError} If campus with given ID doesn't exist
+   */
+  findCampusById(id: UUID): Promise<Campus>;
+
+  /**
+   * Creates a new campus in the system
+   * @param data - Campus data without system-managed fields
+   * @returns Promise resolving to the created Campus
+   * @throws {ValidationError} If required fields are missing or invalid
+   */
+  createCampus(data: Omit<Campus, 'id' | 'createdAt' | 'updatedAt'>): Promise<Campus>;
+
+  /**
+   * Updates an existing campus's information
+   * @param id - The UUID of the campus to update
+   * @param data - Partial campus data to update
+   * @returns Promise resolving to the updated Campus
+   * @throws {NotFoundError} If campus with given ID doesn't exist
+   */
+  updateCampus(id: UUID, data: Partial<Campus>): Promise<Campus>;
+
+  /**
+   * Removes a campus from the system
+   * @param id - The UUID of the campus to delete
+   * @throws {NotFoundError} If campus with given ID doesn't exist
+   * @throws {ConflictError} If campus has associated buildings
+   */
+  deleteCampus(id: UUID): Promise<void>;
+
+  /**
+   * Retrieves all campuses in the system
+   * @returns Promise resolving to array of all Campuses
+   * @throws {DatabaseError} If database query fails
+   */
+  getAllCampuses(): Promise<Campus[]>;
 }

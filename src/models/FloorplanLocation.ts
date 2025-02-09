@@ -1,4 +1,4 @@
-import { UUID } from './utils';
+import { UUID } from '@/models/utils';
 import { Location } from './Location';
 
 export interface FloorplanLocation extends Location {

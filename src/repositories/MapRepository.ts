@@ -1,81 +1,43 @@
-import { BaseRepository, ApiError } from './BaseRepository';
-import { UUID } from '../models/utils';
-import { POIInterface } from '../models/POIInterface';
+import { UUID } from '@/models/utils';
+import { POI } from '@/models/POI';
 
-export class MapRepository implements BaseRepository<POIInterface> {
-  async findById(id: UUID): Promise<POIInterface> {
-    try {
-      // Placeholder:
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch POI', 500, error);
-    }
-  }
+export interface MapRepository {
+  /**
+   * Retrieves a map POI by its unique identifier
+   * @param id - The UUID of the POI to find
+   * @returns Promise resolving to the found POI
+   * @throws {NotFoundError} If POI with given ID doesn't exist
+   */
+  findMapPOIById(id: UUID): Promise<POI>;
 
-  async create(data: Omit<POIInterface, 'id' | 'createdAt' | 'updatedAt'>): Promise<POIInterface> {
-    try {
-      // Placeholder:
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to create POI', 500, error);
-    }
-  }
+  /**
+   * Creates a new map POI in the system
+   * @param data - POI data without system-managed fields
+   * @returns Promise resolving to the created POI
+   * @throws {ValidationError} If required fields are missing or invalid
+   */
+  createMapPOI(data: Omit<POI, 'id' | 'createdAt' | 'updatedAt'>): Promise<POI>;
 
-  async update(id: UUID, data: Partial<POIInterface>): Promise<POIInterface> {
-    try {
-      // Placeholder:
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to update POI', 500, error);
-    }
-  }
+  /**
+   * Updates an existing map POI's information
+   * @param id - The UUID of the POI to update
+   * @param data - Partial POI data to update
+   * @returns Promise resolving to the updated POI
+   * @throws {NotFoundError} If POI with given ID doesn't exist
+   */
+  updateMapPOI(id: UUID, data: Partial<POI>): Promise<POI>;
 
-  async delete(id: UUID): Promise<void> {
-    try {
-      // Placeholder:
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to delete POI', 500, error);
-    }
-  }
+  /**
+   * Removes a map POI from the system
+   * @param id - The UUID of the POI to delete
+   * @throws {NotFoundError} If POI with given ID doesn't exist
+   */
+  deleteMapPOI(id: UUID): Promise<void>;
 
-  // Map-specific methods
-  async findAllPOIs(): Promise<POIInterface[]> {
-    try {
-      // Placeholder data:
-      return [
-        {
-          id: generateUUID(),
-          name: 'Library',
-          latitude: 45.495, 
-          longitude: -73.578,
-          description: 'Campus library',
-          category: 'Library',
-          tags: ['study', 'books'],
-          isAccessible: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: generateUUID(),
-          name: 'Cafeteria',
-          latitude: 45.496, 
-          longitude: -73.579,
-          description: 'Campus cafeteria',
-          category: 'Food',
-          tags: ['food', 'coffee'],
-          isAccessible: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ];
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch POIs', 500, error);
-    }
-  }
+  /**
+   * Retrieves all POIs in the system
+   * @returns Promise resolving to array of all POIs
+   * @throws {DatabaseError} If database query fails
+   */
+  getAllMapPOIs(): Promise<POI[]>;
 }

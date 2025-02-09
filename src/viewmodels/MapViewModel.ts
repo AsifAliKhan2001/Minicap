@@ -1,10 +1,10 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { POIInterface } from "../models/POIInterface";
+import { POIInterface } from "@/models/POIInterface";
 import { MapRepository } from "../repositories/MapRepository";
 import { RouteViewModel } from "./RouteViewModel";
-import { OutdoorLocation } from "../models/OutdoorLocation";
-import { TransportationMode } from "../models/RouteSegment";
-import { UUID } from "../models/utils";
+import { OutdoorLocation } from "@/models/OutdoorLocation";
+import { TransportationMode } from "@/models/RouteSegment";
+import { UUID } from "@/models/utils";
 
 interface MapState {
   pois: POIInterface[];

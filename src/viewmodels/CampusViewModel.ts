@@ -1,7 +1,7 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Campus } from "../models/Campus";
+import { Campus } from "@/models/Campus";
 import { CampusRepository } from "../repositories/CampusRepository";
-import { UUID } from "../models/utils";
+import { UUID } from "@/models/utils";
 
 export class CampusViewModel extends BaseViewModel<Campus[]> {
   private repository: CampusRepository;

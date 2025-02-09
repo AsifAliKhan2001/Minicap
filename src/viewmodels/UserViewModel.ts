@@ -1,6 +1,6 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { User } from "../models/User";
-import { UUID } from "../models/utils";
+import { User } from "@/models/User";
+import { UUID } from "@/models/utils";
 
 export class UserViewModel extends BaseViewModel<User> {
   async load(id: UUID): Promise<void> {

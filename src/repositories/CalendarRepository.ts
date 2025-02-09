@@ -1,96 +1,44 @@
-import { BaseRepository } from "./BaseRepository";
-import { Calendar } from "../models/Calendar";
-import { UUID } from "../models/utils";
-import { ApiError } from "./BaseRepository";
+import { UUID } from "@/models/utils";
+import { Calendar } from "@/models/Calendar";
 
-export class CalendarRepository implements BaseRepository<Calendar> {
-  private apiBaseUrl: string = ""; // TODO: Configure API URL
+export interface CalendarRepository {
+  /**
+   * Retrieves a connected calendar by its unique identifier
+   * @param id - The UUID of the calendar to find
+   * @returns Promise resolving to the found Calendar
+   * @throws {NotFoundError} If calendar with given ID doesn't exist
+   */
+  findCalendarById(id: UUID): Promise<Calendar>;
 
-  async findById(id: UUID): Promise<Calendar> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars/${id}`);
-      
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to fetch calendar',
-          response.status,
-          await response.json()
-        );
-      }
+  /**
+   * Connects a Google Calendar to the system
+   * @param googleCalendarId - The Google Calendar ID to connect
+   * @returns Promise resolving to the connected Calendar
+   * @throws {ValidationError} If calendar ID is invalid
+   * @throws {AuthError} If Google Calendar authentication fails
+   */
+  connectGoogleCalendar(googleCalendarId: string): Promise<Calendar>;
 
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch calendar', 500, error);
-    }
-  }
+  /**
+   * Disconnects a Google Calendar from the system
+   * @param id - The UUID of the calendar to disconnect
+   * @throws {NotFoundError} If calendar with given ID doesn't exist
+   */
+  disconnectGoogleCalendar(id: UUID): Promise<void>;
 
-  async create(data: Omit<Calendar, 'id' | 'createdAt' | 'updatedAt'>): Promise<Calendar> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+  /**
+   * Lists all connected Google Calendars
+   * @returns Promise resolving to array of connected Calendars
+   * @throws {AuthError} If Google Calendar API access fails
+   */
+  getConnectedCalendars(): Promise<Calendar[]>;
 
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to create calendar',
-          response.status,
-          await response.json()
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to create calendar', 500, error);
-    }
-  }
-
-  async update(id: UUID, data: Partial<Calendar>): Promise<Calendar> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to update calendar',
-          response.status,
-          await response.json()
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to update calendar', 500, error);
-    }
-  }
-
-  async delete(id: UUID): Promise<void> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to delete calendar',
-          response.status,
-          await response.json()
-        );
-      }
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to delete calendar', 500, error);
-    }
-  }
+  /**
+   * Syncs and retrieves latest events from a connected calendar
+   * @param id - The UUID of the calendar to sync
+   * @returns Promise resolving to the updated Calendar with latest events
+   * @throws {NotFoundError} If calendar with given ID doesn't exist
+   * @throws {AuthError} If Google Calendar API access fails
+   */
+  syncCalendarEvents(id: UUID): Promise<Calendar>;
 }

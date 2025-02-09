@@ -1,9 +1,9 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Route } from "../models/Route";
+import { Route } from "@/models/Route";
 import { RouteRepository } from "../repositories/RouteRepository";
-import { UUID } from "../models/utils";
-import { OutdoorLocation } from "../models/OutdoorLocation";
-import { RouteSegment, TransportationMode } from "../models/RouteSegment";
+import { UUID } from "@/models/utils";
+import { OutdoorLocation } from "@/models/OutdoorLocation";
+import { RouteSegment, TransportationMode } from "@/models/RouteSegment";
 
 interface RouteState {
   route: Route | null;

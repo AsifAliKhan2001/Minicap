@@ -1,7 +1,7 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Floor } from "../models/Floor";
+import { Floor } from "@/models/Floor";
 import { FloorRepository } from "../repositories/FloorRepository";
-import { UUID } from "../models/utils";
+import { UUID } from "@/models/utils";
 
 export class FloorViewModel extends BaseViewModel<Floor[]> {
   private repository: FloorRepository;
