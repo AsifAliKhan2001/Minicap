@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" errors="0" time="1.637">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2025-02-09T03:44:57" time="0.778" tests="1">
-    <testcase classname=" renders correctly" name=" renders correctly" time="0.076">
+<testsuites name="jest tests" tests="4" failures="0" errors="0" time="1.736">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T04:00:10" time="0.759" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.089">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.008">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T03:44:57" time="0.879" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.099">
-    </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
-    </testcase>
-    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.002">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T04:00:11" time="0.63" tests="1">
+    <testcase classname="ThemedText Component renders correctly" name="ThemedText Component renders correctly" time="0.064">
     </testcase>
   </testsuite>
 </testsuites>
