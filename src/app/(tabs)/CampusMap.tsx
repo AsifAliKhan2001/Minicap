@@ -107,8 +107,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       }
 
       const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
-        maximumAge: 1000, // Only accept locations less than 1 second old
+        accuracy: Location.Accuracy.High
       });
 
       const newRegion = {
@@ -172,7 +171,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         {isRefreshing ? (
           <ActivityIndicator color="white" size="small" />
         ) : (
-          <Text style={styles.buttonText}>Refresh Location</Text>
+          <Text style={styles.buttonText}>My Location</Text>
         )}
       </TouchableOpacity>
     </View>
