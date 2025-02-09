@@ -30,6 +30,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: AsifAliKhan2001/Minicap
           fail_ci_if_error: true
-          files: ./src/coverage/lcov.info # Ensure Jest outputs an `lcov.info` file
+          files: src/coverage/lcov.info # Ensure Jest outputs an `lcov.info` file
           flags: unittests # Optional: Use flags to track unit tests separately
           verbose: true # Enable verbose logging to debug issues
