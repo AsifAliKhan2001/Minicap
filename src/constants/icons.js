@@ -36,5 +36,5 @@ export default {
   Campus,
   Calendar,
   searchBuilding,
-  Hamburger
+  Hamburger,
 };
