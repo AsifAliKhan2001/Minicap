@@ -4,9 +4,12 @@ import { BuildingRepository } from "../repositories/BuildingRepository";
 import { UUID } from "../models/utils";
 
 export class BuildingViewModel extends BaseViewModel<Building> {
+  load(id: UUID): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
   public repository: BuildingRepository; //only temporary change to public from private to just test the method. 
 
-  //oginal code
+  //original code
   //private repository: BuildingRepository;
 
   constructor() {
@@ -14,7 +17,8 @@ export class BuildingViewModel extends BaseViewModel<Building> {
     this.repository = new BuildingRepository();
   }
 
-  async load(id: UUID): Promise<void> {
+  //calls the "findById" method from the BuildingRepository class to find a building by its ID
+  async loadBuildingById(id: UUID): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);
@@ -77,3 +81,5 @@ export class BuildingViewModel extends BaseViewModel<Building> {
   }
 }
 }
+
+

@@ -2,10 +2,10 @@ import { BaseRepository } from "./BaseRepository";
 import { Building } from "../models/Building";
 import { UUID } from "../models/utils";
 import { ApiError } from "./BaseRepository";
-import { MongoClient, Db, Collection } from "mongodb"; // Import MongoDB types
+import { MongoClient, Db, Collection, ObjectId } from "mongodb"; // Import MongoDB types
 
 const MONGO_URI = "mongodb+srv://Asif1:wyLpZZWGqgmfg4on@cluster0.6zyyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB URI
-const COLLECTION_NAME = "BuildingTesting";
+const COLLECTION_NAME = "buildings";
 
 export class BuildingRepository implements BaseRepository<Building> {
 
@@ -15,31 +15,50 @@ export class BuildingRepository implements BaseRepository<Building> {
 
   constructor() {
     this.client = new MongoClient(MONGO_URI);
-    this.db = this.client.db("CampusDB");   // Database name
-    this.collection = this.db.collection("BuildingTesting");
+    this.db = this.client.db("minicap");   // Database name
+    this.collection = this.db.collection("buildings");
   }
 
   async connect() {
-    try {
-      await this.client.connect();
-      console.log("Connected to MongoDB");
-    } catch (error) {
-      console.error("Failed to connect to MongoDB", error);
-      throw new ApiError("Failed to connect to MongoDB", 500, error);
+    if (!this.client || !this.client.db().admin()) {
+      try {
+        await this.client.connect();
+        console.log("Connected to MongoDB");
+      } catch (error) {
+        console.error("Failed to connect to MongoDB", error);
+        throw new ApiError("Failed to connect to MongoDB", 500, error);
+      }
     }
   }
 
   async findById(id: UUID): Promise<Building> {
     try {
-      // TODO: Implement actual API call when backend is ready
-      throw new Error("Not implemented");
+      await this.connect();
 
-      // example implementation:
-      // return this.collection.findOne({ id });
+      // Find the building
+      const building = await this.collection.findOne({ _id: ObjectId });
 
+      if (!building) {
+        throw new ApiError("Building not found", 404);
+      }
+
+      // Return the building object
+      return {
+        id: building._id.toString(),
+        name: building.name,
+        address: building.address || "Address unavailable",
+        description: building.description || "No description available",
+        polygonShape: building.polygonShape || null, // Define a proper type if possible
+        openingHours: building.openingHours || "Hours unavailable",
+        floors: building.floors ? building.floors.toString() : "", // TODO: Change to array of floor objects
+        location: building.location ? building.location.toString() : "" 
+      };
+  
     } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch building', 500, error);
+      console.error("Error finding building:", error);
+      throw new ApiError("Failed to fetch building", 500, error);
+    } finally {
+      await this.client.close();
     }
   }
 

@@ -24,9 +24,19 @@ export class CampusViewModel extends BaseViewModel<Campus[]> {
     try {
       this.setLoading(true);
       this.setError(null);
+
+      console.log("Fetching campuses...");
+
+
       const campuses = await this.repository.findAllCampuses();
+
+      console.log("Fetched campuses:", campuses);
+
       this.setData(campuses);
     } catch (error) {
+
+      console.error("Error fetching campuses:", error);
+
       this.setError(error instanceof Error ? error : new Error('Failed to load campuses'));
     } finally {
       this.setLoading(false);
@@ -46,3 +56,12 @@ export class CampusViewModel extends BaseViewModel<Campus[]> {
     }
   }
 }
+
+(async () => {
+  const campusVM = new CampusViewModel();
+
+  console.log("Calling loadAllCampuses()...");
+  await campusVM.loadAllCampuses();
+
+  console.log("Final fetched campuses:", campusVM.getData());
+})();

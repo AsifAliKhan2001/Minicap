@@ -2,25 +2,11 @@ import { UUID } from "./utils";
 
 export interface Building {
   id: UUID;
-  name: string;
-  code: string;           // Building code (e.g., "H", "MB")
-  address: string;
+  name: string;  
+  polygonShape?: any;  // Type TBD (consider defining a specific type)
   description?: string;
-  polygonShape?: any;     // Type TBD
+  address: string;
+  openingHours?: string;
+  floors: UUID; // TODO : Floor type to be changed to array of floor objects after defining the floor model
+  location: UUID; 
 }
-
-// ---with the new erd diagram:---
-// import { UUID } from "./utils";
-
-// export interface Building {
-//   id: UUID;
-//   name: string;
-//   code: string;  // Building code (e.g., "H", "MB")
-//   address: string;
-//   description?: string;
-//   polygonShape?: any;  // Type TBD (consider defining a specific type)
-//   campusId: UUID;  // Foreign key from ERD
-//   openingHours?: string;
-//   outdoorLocationId?: UUID;  // For mapping location if applicable
-
-// }
