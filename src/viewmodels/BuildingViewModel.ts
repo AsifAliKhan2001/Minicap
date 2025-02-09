@@ -6,11 +6,9 @@ import { UUID } from "../models/utils";
 export class BuildingViewModel extends BaseViewModel<Building> {
   load(id: UUID): Promise<void> {
     throw new Error("Method not implemented.");
-  }
-  public repository: BuildingRepository; //only temporary change to public from private to just test the method. 
-
-  //original code
-  //private repository: BuildingRepository;
+  } 
+  
+  private repository: BuildingRepository;
 
   constructor() {
     super();
@@ -66,20 +64,18 @@ export class BuildingViewModel extends BaseViewModel<Building> {
   }
   
   async loadAllBuildings(): Promise<void> {
-  try {
-    this.setLoading(true);
-    this.setError(null);
-    console.log("Fetching all buildings from the database...");
-    // Call the repository function (which logs automatically)
-    await this.repository.findAllBuildings();
+    try {
+      this.setLoading(true);
+      this.setError(null);
+      console.log("Fetching all buildings from the database...");
+      // Call the repository function (which logs automatically)
+      await this.repository.findAllBuildings();
 
-  } catch (error) {
-    this.setError(error instanceof Error ? error : new Error("Failed to load buildings"));
-    console.error("Error fetching buildings:", error);
-  } finally {
-    this.setLoading(false);
+    } catch (error) {
+      this.setError(error instanceof Error ? error : new Error("Failed to load buildings"));
+      console.error("Error fetching buildings:", error);
+    } finally {
+      this.setLoading(false);
+    }
   }
 }
-}
-
-

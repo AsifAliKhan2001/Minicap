@@ -56,12 +56,3 @@ export class CampusViewModel extends BaseViewModel<Campus[]> {
     }
   }
 }
-
-(async () => {
-  const campusVM = new CampusViewModel();
-
-  console.log("Calling loadAllCampuses()...");
-  await campusVM.loadAllCampuses();
-
-  console.log("Final fetched campuses:", campusVM.getData());
-})();
