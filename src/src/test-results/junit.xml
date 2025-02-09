@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="18" failures="0" errors="0" time="2.072">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="0.927" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.107">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.002">
+    </testcase>
+    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="1.047" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.13">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.004">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="1.066" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.056">
+    </testcase>
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.091">
+    </testcase>
+  </testsuite>
+  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="1.165" tests="1">
+    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.076">
+    </testcase>
+  </testsuite>
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="1.178" tests="1">
+    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.083">
+    </testcase>
+  </testsuite>
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="1.164" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.078">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T21:46:59" time="1.203" tests="3">
+    <testcase classname="CampusSwitcher Component starts with SGW Campus selected" name="CampusSwitcher Component starts with SGW Campus selected" time="0.129">
+    </testcase>
+    <testcase classname="CampusSwitcher Component switches between SGW and Loyola Campus" name="CampusSwitcher Component switches between SGW and Loyola Campus" time="0.011">
+    </testcase>
+    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.016">
+    </testcase>
+  </testsuite>
+</testsuites>
