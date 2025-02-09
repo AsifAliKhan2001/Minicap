@@ -1,7 +1,7 @@
 module.exports = {
   preset: "jest-expo",
   collectCoverage: true,
-  coverageDirectory: "src/coverage",
+  coverageDirectory: "coverage",
   testPathIgnorePatterns: ["/node_modules/"],
   coverageReporters: ["text", "lcov", "text-summary"],
   transformIgnorePatterns: [
