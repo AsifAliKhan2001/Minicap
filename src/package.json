@@ -15,9 +15,11 @@
     "preset": "jest-expo",
     "collectCoverage": true,
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov"],
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
     "testEnvironment": "node"
-    
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
@@ -52,7 +54,9 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/react-native": "^13.0.1",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
