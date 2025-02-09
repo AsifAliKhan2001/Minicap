@@ -12,7 +12,6 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
- 
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@gluestack-ui/themed": "^1.1.65",

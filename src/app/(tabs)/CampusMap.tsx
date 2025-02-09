@@ -46,7 +46,10 @@ const LoyolaCampus: Campus = {
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
   // Look up the correct OutdoorLocation based on the campus' outdoorLocation id
-  const region: Region = campus.outdoorLocation === "loc-sgw" ? outdoorLocationSGW : outdoorLocationLoyola;
+  const region: Region =
+    campus.outdoorLocation === "loc-sgw"
+      ? outdoorLocationSGW
+      : outdoorLocationLoyola;
   const mapRef = useRef<MapView | null>(null);
 
   useEffect(() => {
@@ -57,6 +60,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   return (
     <MapView
+      testID="map-view"
       ref={(ref) => (mapRef.current = ref)}
       style={styles.map}
       initialRegion={region}
@@ -65,7 +69,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       zoomEnabled={true}
       zoomControlEnabled={true}
     >
-      <Marker coordinate={region} title={campus.name} />
+      <Marker testID="marker" coordinate={region} title={campus.name} />
     </MapView>
   );
 };
@@ -79,6 +83,7 @@ const CampusSwitcher: React.FC = () => {
       <View style={styles.switchContainer}>
         <Text>SGW Campus</Text> {/* Updated label */}
         <Switch
+          testID="campus-switch"
           value={!isSGWCampus}
           onValueChange={() => setIsSGWCampus(!isSGWCampus)}
         />
@@ -113,5 +118,3 @@ const styles = StyleSheet.create({
 });
 
 export default CampusSwitcher;
-
-
