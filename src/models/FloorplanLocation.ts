@@ -1,9 +1,9 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 import { Location } from './Location';
 
 export interface FloorplanLocation extends Location {
   locationType: 'floorplan';
-  floorplanId: UUID;
+  floorplanId: ObjectId;
   x: number;
   y: number;
 }

@@ -2,7 +2,7 @@ import { BaseViewModel } from "./BaseViewModel";
 import { Route } from "@/models/Route";
 import { RouteRepository } from "../repositories/RouteRepository";
 import { RouteSegment } from "@/models/Routesegment";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepository {
   async save(data: (Route | undefined)[]): Promise<void> {
     try {
@@ -60,7 +60,7 @@ export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepos
     };
   }
 
-  async findRouteById(id: UUID): Promise<Route> {
+  async findRouteById(id: ObjectId): Promise<Route> {
     const route = await this.withCollection(this.ROUTES_COLLECTION, async (collection) => {
       const doc = await collection.findOne({ id });
       return doc ? this.mapToRoute(doc) : null;
@@ -73,7 +73,7 @@ export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepos
     return route;
   }
 
-  async findSegmentsByRouteId(routeId: UUID): Promise<RouteSegment[]> {
+  async findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]> {
     return await this.withCollection(this.SEGMENTS_COLLECTION, async (collection) => {
       const docs = await collection.find({ routeId }).toArray();
       return docs.map(doc => this.mapToSegment(doc));
@@ -84,7 +84,7 @@ export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepos
     return await this.withCollection(this.ROUTES_COLLECTION, async (collection) => {
       const doc = {
         ...data,
-        id: new UUID(),
+        id: new ObjectId(),
         segmentIds: [], // Initialize empty segments array
         createdAt: new Date(),
         updatedAt: new Date()
@@ -98,7 +98,7 @@ export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepos
     return await this.withCollection(this.SEGMENTS_COLLECTION, async (collection) => {
       const doc = {
         ...segment,
-        id: new UUID(),
+        id: new ObjectId(),
         path: null
       };
       await collection.insertOne(doc);
@@ -106,7 +106,7 @@ export class RouteViewModel extends BaseViewModel<Route[]> implements RouteRepos
     });
   }
 
-  async load(id?: UUID): Promise<void> {
+  async load(id?: ObjectId): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);

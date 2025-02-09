@@ -1,9 +1,10 @@
 import { Event } from './Event';
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Course extends Event {
+export interface Course extends Event, Audit {
   courseCode: string;
   description: string;
-  prerequisites: UUID[];
+  prerequisites: ObjectId[];
 }
 

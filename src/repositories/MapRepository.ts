@@ -1,14 +1,14 @@
-import { UUID } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { POI } from '@/models/POI';
 
 export interface MapRepository {
   /**
    * Retrieves a POI by its unique identifier
-   * @param id - The UUID of the POI to find
+   * @param id - The ObjectId of the POI to find
    * @returns Promise resolving to the found POI
    * @throws {NotFoundError} If POI with given ID doesn't exist
    */
-  findPOIById(id: UUID): Promise<POI>;
+  findPOIById(id: ObjectId): Promise<POI>;
 
   /**
    * Retrieves all POIs in the system
@@ -44,19 +44,19 @@ export interface MapRepository {
 
   /**
    * Updates an existing POI's information
-   * @param id - The UUID of the POI to update
+   * @param id - The ObjectId of the POI to update
    * @param data - Partial POI data to update
    * @param token - Authentication token
    * @returns Promise resolving to the updated POI
    * @throws {NotFoundError} If POI with given ID doesn't exist
    */
-  updatePOI(id: UUID, data: Partial<POI>, token: string): Promise<POI>;
+  updatePOI(id: ObjectId, data: Partial<POI>, token: string): Promise<POI>;
 
   /**
    * Removes a POI from the system
-   * @param id - The UUID of the POI to delete
+   * @param id - The ObjectId of the POI to delete
    * @param token - Authentication token
    * @throws {NotFoundError} If POI with given ID doesn't exist
    */
-  deletePOI(id: UUID, token: string): Promise<void>;
+  deletePOI(id: ObjectId, token: string): Promise<void>;
 }

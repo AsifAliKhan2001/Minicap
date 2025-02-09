@@ -1,55 +1,45 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Calendar } from "@/models/Calendar";
 import { Event } from "@/models/Event";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
-export class CalendarViewModel extends BaseViewModel<Calendar> {
-  async load(id: UUID): Promise<void> {
+export class CalendarViewModel extends BaseViewModel<Calendar> implements CalendarRepository {
+  private readonly COLLECTION_NAME = "calendars";
+
+  async findCalendarById(id: ObjectId): Promise<Calendar> {
+    this.setLoading(true);
     try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      // TODO: Implement actual API call
-      const mockCalendar: Calendar = {
-        id,
-        name: '',
-        isPublic: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      
-      this.setData(mockCalendar);
+      const calendar = await this.withCollection(this.COLLECTION_NAME, async (collection) => {
+        const doc = await collection.findOne({ _id: id });
+        if (!doc) throw new Error("Calendar not found");
+        return this.mapToModel(doc);
+      });
+      this.setData(calendar);
+      return calendar;
     } catch (error) {
       this.setError(error instanceof Error ? error : new Error('Failed to load calendar'));
+      throw error;
     } finally {
       this.setLoading(false);
     }
   }
 
-  async save(data: Partial<Calendar>): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      if (this.data) {
-        this.setData({
-          ...this.data,
-          ...data,
-          updatedAt: new Date().toISOString()
-        });
-      }
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to save calendar'));
-    } finally {
-      this.setLoading(false);
-    }
+  protected mapToModel(doc: any): Calendar {
+    if (!doc) return null;
+    
+    return {
+      id: doc._id?.toString() || doc.id,
+      events: (doc.events || []).map(this.mapToEvent),
+      createdAt: doc.createdAt || new Date().toISOString(),
+      updatedAt: doc.updatedAt || new Date().toISOString()
+    };
   }
 
   async addEvent(event: Event): Promise<void> {
     // TODO: Implement adding event to calendar
   }
 
-  async removeEvent(eventId: UUID): Promise<void> {
+  async removeEvent(eventId: ObjectId): Promise<void> {
     // TODO: Implement removing event from calendar
   }
 

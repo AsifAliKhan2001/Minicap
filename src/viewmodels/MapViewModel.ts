@@ -4,7 +4,7 @@ import { MapRepository } from "../repositories/MapRepository";
 import { RouteViewModel } from "./RouteViewModel";
 import { OutdoorLocation } from "@/models/OutdoorLocation";
 import { TransportationMode } from "@/models/RouteSegment";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 interface MapState {
   pois: POIInterface[];
@@ -32,7 +32,7 @@ export class MapViewModel extends BaseViewModel<MapState> {
     });
   }
 
-  async load(id: UUID): Promise<void> {
+  async load(id: ObjectId): Promise<void> {
     await this.loadAllPOIs();
   }
 

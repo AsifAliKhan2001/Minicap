@@ -1,9 +1,9 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { User } from "@/models/User";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export class UserViewModel extends BaseViewModel<User> {
-  async load(id: UUID): Promise<void> {
+  async load(id: ObjectId): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);

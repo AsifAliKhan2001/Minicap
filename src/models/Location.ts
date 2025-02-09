@@ -1,6 +1,6 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Location {
-  id: UUID;
+export interface Location extends Audit {
   locationType: 'outdoor' | 'floorplan';
 }

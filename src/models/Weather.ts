@@ -1,8 +1,8 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Weather {
-  id: UUID;
-  date: string;
+export interface Weather extends Audit {
+  date: Date;
   data: ForecastData;
 }
 

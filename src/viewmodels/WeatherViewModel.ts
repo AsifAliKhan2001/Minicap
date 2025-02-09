@@ -1,9 +1,9 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Weather, ForecastData } from "@/models/Weather";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export class WeatherViewModel extends BaseViewModel<Weather> {
-  async load(id: UUID): Promise<void> {
+  async load(id: ObjectId): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);

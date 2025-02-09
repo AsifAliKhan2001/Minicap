@@ -1,8 +1,8 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Room {
-  id: UUID;
-  floorId: UUID;    // Reference to parent Floor
+export interface Room extends Audit {
+  floorId: ObjectId;    // Reference to parent Floor
   number: string;
   type: string;
 }

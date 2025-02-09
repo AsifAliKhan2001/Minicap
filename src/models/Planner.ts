@@ -1,7 +1,7 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Planner {
-  id: UUID;
-  taskIDs: UUID[];
+export interface Planner extends Audit {
+  taskIDs: ObjectId[];
 }
 

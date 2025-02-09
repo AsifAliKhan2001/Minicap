@@ -1,9 +1,9 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export interface User {
-  id: UUID;
   name: string;
-  calendarIds: UUID[];  // Many-to-many with Calendar
-  currentLocationId?: UUID;  // Optional FK to Location
-  data: any;
+  calendarIds: ObjectId[];  // Many-to-many with Calendar
+  currentLocationId?: ObjectId;  // Optional FK to Location
+  email: string;
+  password: string;
 }

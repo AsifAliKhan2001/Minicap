@@ -1,9 +1,7 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Route {
-  id: UUID;
+export interface Route extends Audit {
   accessible: boolean;
-  segmentIds: UUID[];  // One-to-many with RouteSegment
-  createdAt: Date;
-  updatedAt: Date;
+  segmentIds: ObjectId[];  // One-to-many with RouteSegment
 }

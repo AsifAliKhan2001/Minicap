@@ -1,6 +1,6 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Campus } from "@/models/Campus";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 import { CampusRepository } from "@/repositories/CampusRepository";
 
 export class CampusViewModel extends BaseViewModel<Campus[]> implements CampusRepository {
@@ -15,7 +15,7 @@ export class CampusViewModel extends BaseViewModel<Campus[]> implements CampusRe
     };
   }
 
-  async findCampusById(id: UUID): Promise<Campus> {
+  async findCampusById(id: ObjectId): Promise<Campus> {
     const campus = await this.withCollection(this.COLLECTION, async (collection) => {
       const doc = await collection.findOne({ id });
       return doc ? this.mapToCampus(doc) : null;
@@ -35,7 +35,7 @@ export class CampusViewModel extends BaseViewModel<Campus[]> implements CampusRe
     });
   }
 
-  async load(id?: UUID): Promise<void> {
+  async load(id?: ObjectId): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);

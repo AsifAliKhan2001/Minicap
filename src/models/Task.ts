@@ -1,11 +1,11 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Task {
-  id: UUID;
+export interface Task extends Audit {
   description: string;
-  locationId: UUID;  // FK to Location
+  locationId: ObjectId;  // FK to Location
   locationType: string;
   emergencyTask: boolean;
   needsDisplay: boolean;
-  plannerId: UUID;   // FK to Planner
+  plannerId: ObjectId;   // FK to Planner
 }

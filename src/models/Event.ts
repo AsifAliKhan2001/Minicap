@@ -1,12 +1,12 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Event {
-  id: UUID;
+export interface Event extends Audit {
   name: string;
-  locationId: UUID;  // FK to Location
+  locationId: ObjectId;  // FK to Location
   locationType: 'outdoor' | 'floorplan';  // Discriminator field
   startTime: string;
   endTime: string;
   recurrence: any;
-  calendarId: UUID;  // FK to Calendar
+  calendarId: ObjectId;  // FK to Calendar
 }

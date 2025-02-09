@@ -1,7 +1,7 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Floor } from "@/models/Floor";
 import { FloorRepository } from "../repositories/FloorRepository";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export class FloorViewModel extends BaseViewModel<Floor[]> {
   private repository: FloorRepository;
@@ -11,7 +11,7 @@ export class FloorViewModel extends BaseViewModel<Floor[]> {
     this.repository = new FloorRepository();
   }
 
-  async load(id: UUID): Promise<void> {
+  async load(id: ObjectId): Promise<void> {
     await this.loadFloorById(id);
   }
 
@@ -19,7 +19,7 @@ export class FloorViewModel extends BaseViewModel<Floor[]> {
     throw new Error("Not implemented");
   }
 
-  async loadFloorById(id: UUID): Promise<void> {
+  async loadFloorById(id: ObjectId): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);
@@ -32,7 +32,7 @@ export class FloorViewModel extends BaseViewModel<Floor[]> {
     }
   }
 
-  async loadBuildingFloors(buildingId: UUID): Promise<void> {
+  async loadBuildingFloors(buildingId: ObjectId): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);

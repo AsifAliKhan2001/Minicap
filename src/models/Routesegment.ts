@@ -1,7 +1,7 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export interface RouteSegment {
-  routeId: UUID;
+  routeId: ObjectId;
   order: number;
   transportationMode: TransportationMode;
   path: any;

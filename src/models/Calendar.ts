@@ -1,7 +1,7 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Calendar {
-  id: UUID;
-  eventIds: UUID[]; // One-to-many with Event
-  userIds: UUID[]; // Many-to-many with User
+export interface Calendar extends Audit {
+  eventIds: ObjectId[]; // One-to-many with Event
+  userIds: ObjectId[]; // Many-to-many with User
 }

@@ -1,4 +1,4 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 import { Route } from "@/models/Route";
 import { OutdoorLocation } from "@/models/OutdoorLocation";
 import { RouteSegment } from "@/models/Routesegment";
@@ -6,11 +6,11 @@ import { RouteSegment } from "@/models/Routesegment";
 export interface RouteRepository {
   /**
    * Retrieves a route by its unique identifier
-   * @param id - The UUID of the route to find
+   * @param id - The ObjectId of the route to find
    * @returns Promise resolving to the found Route
    * @throws {NotFoundError} If route with given ID doesn't exist
    */
-  findRouteById(id: UUID): Promise<Route>;
+  findRouteById(id: ObjectId): Promise<Route>;
 
   /**
    * Creates a new route in the system
@@ -22,20 +22,20 @@ export interface RouteRepository {
 
   /**
    * Updates an existing route's information
-   * @param id - The UUID of the route to update
+   * @param id - The ObjectId of the route to update
    * @param data - Partial route data to update
    * @returns Promise resolving to the updated Route
    * @throws {NotFoundError} If route with given ID doesn't exist
    * @throws {ValidationError} If update data is invalid
    */
-  updateRoute(id: UUID, data: Partial<Omit<Route, "id" | "createdAt" | "updatedAt">>): Promise<Route>;
+  updateRoute(id: ObjectId, data: Partial<Omit<Route, "id" | "createdAt" | "updatedAt">>): Promise<Route>;
 
   /**
    * Removes a route from the system
-   * @param id - The UUID of the route to delete
+   * @param id - The ObjectId of the route to delete
    * @throws {NotFoundError} If route with given ID doesn't exist
    */
-  deleteRoute(id: UUID): Promise<void>;
+  deleteRoute(id: ObjectId): Promise<void>;
 
   /**
    * Calculates an accessible route between two locations
@@ -61,32 +61,32 @@ export interface RouteRepository {
 
   /**
    * Retrieves all segments of a route by the route's unique identifier
-   * @param routeId - The UUID of the route to find segments for
+   * @param routeId - The ObjectId of the route to find segments for
    * @returns Promise resolving to an array of RouteSegments
    * @throws {NotFoundError} If route with given ID doesn't exist
    */
-  findSegmentsByRouteId(routeId: UUID): Promise<RouteSegment[]>;
+  findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]>;
 
   /**
    * Updates an existing route segment's information
-   * @param routeId - The UUID of the route to which the segment belongs
-   * @param segmentId - The UUID of the segment to update
+   * @param routeId - The ObjectId of the route to which the segment belongs
+   * @param segmentId - The ObjectId of the segment to update
    * @param data - Partial route segment data to update
    * @returns Promise resolving to the updated RouteSegment
    * @throws {NotFoundError} If route or segment with given IDs don't exist
    * @throws {ValidationError} If update data is invalid
    */
   updateRouteSegment(
-    routeId: UUID, 
-    segmentId: UUID, 
+    routeId: ObjectId, 
+    segmentId: ObjectId, 
     data: Partial<Omit<RouteSegment, 'routeId' | 'path'>>
   ): Promise<RouteSegment>;
 
   /**
    * Removes a route segment from the system
-   * @param routeId - The UUID of the route to which the segment belongs
-   * @param segmentId - The UUID of the segment to delete
+   * @param routeId - The ObjectId of the route to which the segment belongs
+   * @param segmentId - The ObjectId of the segment to delete
    * @throws {NotFoundError} If route or segment with given IDs don't exist
    */
-  deleteRouteSegment(routeId: UUID, segmentId: UUID): Promise<void>;
+  deleteRouteSegment(routeId: ObjectId, segmentId: ObjectId): Promise<void>;
 }

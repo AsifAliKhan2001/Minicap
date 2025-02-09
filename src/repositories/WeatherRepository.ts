@@ -1,14 +1,14 @@
 import { Weather, ForecastData } from "@/models/Weather";
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export interface WeatherRepository {
   /**
    * Retrieves weather forecast by ID from database
-   * @param id - The UUID of the forecast to find
+   * @param id - The ObjectId of the forecast to find
    * @returns Promise resolving to the found Weather forecast
    * @throws {NotFoundError} If forecast doesn't exist
    */
-  findForecastById(id: UUID): Promise<Weather>;
+  findForecastById(id: ObjectId): Promise<Weather>;
 
   /**
    * Queries external weather API for forecast
@@ -29,12 +29,12 @@ export interface WeatherRepository {
 
   /**
    * Updates existing forecast in database
-   * @param id - The UUID of the forecast to update
+   * @param id - The ObjectId of the forecast to update
    * @param data - Partial forecast data to update
    * @returns Promise resolving to updated Weather forecast
    * @throws {NotFoundError} If forecast doesn't exist
    */
-  updateForecast(id: UUID, data: Partial<Weather>): Promise<Weather>;
+  updateForecast(id: ObjectId, data: Partial<Weather>): Promise<Weather>;
 
   /**
    * Deletes outdated forecasts from database

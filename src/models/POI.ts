@@ -1,7 +1,7 @@
-import { UUID } from "mongodb";
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface POI {
-  id: UUID;
+export interface POI extends Audit {
   type: string;
   description: string;
 }
