@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="4" failures="0" errors="0" time="1.571">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2025-02-09T03:36:45" time="1.083" tests="1">
+    <testcase classname=" renders correctly" name=" renders correctly" time="0.07">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-09T03:36:45" time="1.182" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.098">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.002">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>
