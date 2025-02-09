@@ -28,7 +28,7 @@ jobs:
           CI: true
 
       - name: Upload JUnit Test Results as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: junit-test-results
           path: src/test-results/junit.xml
