@@ -82,9 +82,18 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         throw new Error("Method not implemented");
     }
 
-    async updateUser(id: ObjectId, data: Partial<User>, token: string): Promise<User> {
-        throw new Error("Method not implemented");
+     // Update user details
+     async updateUser(id: ObjectId, data: Partial<User>, token: string): Promise<User> {
+        return await this.withCollection(this.COLLECTION, async (collection) => {
+            const result = await collection.updateOne({ _id: id }, { $set: data });
+            if (result.modifiedCount === 0) {
+                throw new Error("User not found or no changes made");
+            }
+            const updatedUser = await collection.findOne({ _id: id });
+            return this.mapToDTO(updatedUser!);
+        });
     }
+
 
     // Delete user
     async deleteUser(id: ObjectId, token: string): Promise<void> {
