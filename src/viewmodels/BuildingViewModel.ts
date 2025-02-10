@@ -36,7 +36,7 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
             address: doc.address,
             description: doc.description,
             floors: doc.floors,
-            location: doc.location,
+            outdoorLocation: doc.location,
             createdAtUTC: doc.createdAtUTC,
             updatedAtUTC: doc.updatedAtUTC,
             createdBy: doc.createdBy,
@@ -45,22 +45,6 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
     }
 
     protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
-        const now = new Date();
-        if (!existingAudit) {
-            return {
-                _id: new ObjectId(),
-                createdAtUTC: now,
-                updatedAtUTC: now,
-                createdBy: userId,
-                updatedBy: userId
-            };
-        }
-        return {
-            _id: existingAudit._id!,
-            createdAtUTC: existingAudit.createdAtUTC!,
-            createdBy: existingAudit.createdBy!,
-            updatedAtUTC: now,
-            updatedBy: userId
-        };
+        throw new Error("Buildings are read-only, audit updates not implemented");
     }
 }

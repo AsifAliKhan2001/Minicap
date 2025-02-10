@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { POI } from '@/models/POI';
+import { POI, POICategory } from '@/models/POI';
 
 export interface MapRepository {
   /**
@@ -19,44 +19,36 @@ export interface MapRepository {
 
   /**
    * Finds POIs by category
-   * @param category - Category to filter by
+   * @param category - The category to filter by
    * @returns Promise resolving to array of matching POIs
+   * @throws {DatabaseError} If database query fails
    */
-  findPOIsByCategory(category: string): Promise<POI[]>;
+  findPOIsByCategory(category: POICategory): Promise<POI[]>;
 
   /**
-   * Finds POIs within specified radius of coordinates
-   * @param latitude - Center point latitude
-   * @param longitude - Center point longitude
-   * @param radius - Search radius in meters
-   * @returns Promise resolving to array of nearby POIs
-   */
-  findNearbyPOIs(latitude: number, longitude: number, radius: number): Promise<POI[]>;
-
-  /**
-   * Creates a new POI in the system
+   * Creates a new POI in the system with audit trail
    * @param data - POI data without system-managed fields
-   * @param token - Authentication token
-   * @returns Promise resolving to the created POI
+   * @param userId - ID of user creating the POI for audit
+   * @returns Promise resolving to the created POI with audit
    * @throws {ValidationError} If required fields are missing or invalid
    */
-  createPOI(data: Omit<POI, 'id' | 'createdAt' | 'updatedAt'>, token: string): Promise<POI>;
+  createPOI(data: Omit<POI, '_id' | 'createdAtUTC' | 'updatedAtUTC'>, userId: ObjectId): Promise<POI>;
 
   /**
-   * Updates an existing POI's information
+   * Updates an existing POI's information and audit trail
    * @param id - The ObjectId of the POI to update
    * @param data - Partial POI data to update
-   * @param token - Authentication token
-   * @returns Promise resolving to the updated POI
+   * @param userId - ID of user updating the POI for audit
+   * @returns Promise resolving to the updated POI with new audit
    * @throws {NotFoundError} If POI with given ID doesn't exist
    */
-  updatePOI(id: ObjectId, data: Partial<POI>, token: string): Promise<POI>;
+  updatePOI(id: ObjectId, data: Partial<POI>, userId: ObjectId): Promise<POI>;
 
   /**
-   * Removes a POI from the system
+   * Removes a POI and logs deletion in audit
    * @param id - The ObjectId of the POI to delete
-   * @param token - Authentication token
+   * @param userId - ID of user deleting the POI for audit
    * @throws {NotFoundError} If POI with given ID doesn't exist
    */
-  deletePOI(id: ObjectId, token: string): Promise<void>;
+  deletePOI(id: ObjectId, userId: ObjectId): Promise<void>;
 }

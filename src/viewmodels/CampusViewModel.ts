@@ -1,58 +1,43 @@
 import { BaseViewModel } from "./BaseViewModel";
 import { Campus } from "@/models/Campus";
 import { ObjectId } from "mongodb";
+import { Audit } from "@/models/Audit";
 import { CampusRepository } from "@/repositories/CampusRepository";
 
-export class CampusViewModel extends BaseViewModel<Campus[]> implements CampusRepository {
-  private readonly COLLECTION = "campus";
+export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepository {
+    private readonly COLLECTION_NAME = "campus";
 
-  private mapToCampus(doc: any): Campus {
-    return {
-      id: doc.id,
-      name: doc.name,
-      buildingIds: doc.buildingIds,
-      outdoorLocation: doc.outdoorLocation
-    };
-  }
-
-  async findCampusById(id: ObjectId): Promise<Campus> {
-    const campus = await this.withCollection(this.COLLECTION, async (collection) => {
-      const doc = await collection.findOne({ id });
-      return doc ? this.mapToCampus(doc) : null;
-    });
-    
-    if (!campus) {
-      throw new Error('Campus not found');
+    async findCampusById(id: ObjectId): Promise<Campus> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const doc = await collection.findOne({ _id: id });
+            if (!doc) throw new Error(`Campus with id ${id} not found`);
+            return this.mapToDTO(doc);
+        });
     }
-    
-    return campus;
-  }
 
-  async getAllCampuses(): Promise<Campus[]> {
-    return await this.withCollection(this.COLLECTION, async (collection) => {
-      const docs = await collection.find({}).toArray();
-      return docs.map(doc => this.mapToCampus(doc));
-    });
-  }
-
-  async load(id?: ObjectId): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-
-      const campuses = id ? 
-        [await this.findCampusById(id)] : 
-        await this.getAllCampuses();
-
-      this.setData(campuses);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load campus'));
-    } finally {
-      this.setLoading(false);
+    async getAllCampuses(): Promise<Campus[]> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const docs = await collection.find({}).toArray();
+            return docs.map(doc => this.mapToDTO(doc));
+        });
     }
-  }
 
-  async save(): Promise<void> {
-    throw new Error("Campus modification not supported");
-  }
+    protected mapToDTO(doc: any): Campus {
+        if (!doc) throw new Error('Campus Not Found');
+        
+        return {
+            _id: doc._id,
+            name: doc.name,
+            buildingIds: doc.buildingIds || [],
+            outdoorLocation: doc.outdoorLocation,
+            createdAtUTC: doc.createdAtUTC,
+            updatedAtUTC: doc.updatedAtUTC,
+            createdBy: doc.createdBy,
+            updatedBy: doc.updatedBy
+        };
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        throw new Error("Campuses are read-only, audit updates not implemented");
+    }
 }

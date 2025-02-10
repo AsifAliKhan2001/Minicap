@@ -1,9 +1,14 @@
 import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface User {
-  name: string;
-  calendarIds: ObjectId[];  // Many-to-many with Calendar
-  currentLocationId?: ObjectId;  // Optional FK to Location
-  email: string;
-  password: string;
+export interface User extends Audit {
+    email: string;
+    password: string;
+    name: string;
+    calendarIds: ObjectId[];
+    currentLocationId?: ObjectId;
+}
+
+export interface Administrator extends User {
+  dateGranted: Date;
 }

@@ -1,92 +1,72 @@
 import { ObjectId } from "mongodb";
-import { Route } from "@/models/Route";
-import { OutdoorLocation } from "@/models/OutdoorLocation";
-import { RouteSegment } from "@/models/Routesegment";
+import { Location } from "@/models/Location";
+import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 
 export interface RouteRepository {
-  /**
-   * Retrieves a route by its unique identifier
-   * @param id - The ObjectId of the route to find
-   * @returns Promise resolving to the found Route
-   * @throws {NotFoundError} If route with given ID doesn't exist
-   */
-  findRouteById(id: ObjectId): Promise<Route>;
+    /**
+     * Retrieves a route by its unique identifier
+     * @param id - The ObjectId of the route to find
+     * @returns Promise resolving to the found Route
+     * @throws {NotFoundError} If route with given ID doesn't exist
+     * @throws {DatabaseError} If database query fails
+     */
+    findRouteById(id: ObjectId): Promise<Route>;
 
-  /**
-   * Creates a new route in the system
-   * @param data - Route data without system-managed fields
-   * @returns Promise resolving to the created Route
-   * @throws {ValidationError} If required fields are missing or invalid
-   */
-  createRoute(data: Omit<Route, "id" | "createdAt" | "updatedAt">): Promise<Route>;
+    /**
+     * Creates a new route by generating segments between waypoints
+     * All waypoints must be of the same location type (indoor or outdoor)
+     * @param waypoints - Array of locations to route through
+     * @param mode - Transportation mode to use
+     * @param userId - User creating the route
+     * @returns Promise resolving to the created Route
+     * @throws {ValidationError} If waypoint types don't match
+     * @throws {ValidationError} If waypoints array has less than 2 points
+     * @throws {DatabaseError} If database operation fails
+     */
+    createRoute(waypoints: Location[], mode: TransportationMode, userId: ObjectId): Promise<Route>;
 
-  /**
-   * Updates an existing route's information
-   * @param id - The ObjectId of the route to update
-   * @param data - Partial route data to update
-   * @returns Promise resolving to the updated Route
-   * @throws {NotFoundError} If route with given ID doesn't exist
-   * @throws {ValidationError} If update data is invalid
-   */
-  updateRoute(id: ObjectId, data: Partial<Omit<Route, "id" | "createdAt" | "updatedAt">>): Promise<Route>;
+    /**
+     * Finds or creates a route segment between two locations
+     * Both locations must be of the same type
+     * @param start - Starting location
+     * @param end - Ending location
+     * @param mode - Transportation mode
+     * @param userId - User creating/accessing the segment
+     * @returns Promise resolving to the RouteSegment
+     * @throws {ValidationError} If location types don't match
+     * @throws {DatabaseError} If database operation fails
+     */
+    findOrCreateSegment(start: Location, end: Location, mode: TransportationMode, userId: ObjectId): Promise<RouteSegment>;
 
-  /**
-   * Removes a route from the system
-   * @param id - The ObjectId of the route to delete
-   * @throws {NotFoundError} If route with given ID doesn't exist
-   */
-  deleteRoute(id: ObjectId): Promise<void>;
+    /**
+     * Updates a route segment (e.g., mark as obstructed, change path)
+     * @param segmentId - The ObjectId of the segment to update
+     * @param updates - Partial segment data to update
+     * @param userId - User updating the segment
+     * @returns Promise resolving to updated RouteSegment
+     * @throws {NotFoundError} If segment with given ID doesn't exist
+     * @throws {ValidationError} If updates are invalid
+     * @throws {DatabaseError} If database operation fails
+     */
+    updateSegment(segmentId: ObjectId, updates: Partial<RouteSegment>, userId: ObjectId): Promise<RouteSegment>;
 
-  /**
-   * Calculates an accessible route between two locations
-   * @param start - Starting outdoor location
-   * @param end - Ending outdoor location
-   * @param mode - Transportation mode to use
-   * @returns Promise resolving to route and its segments
-   * @throws {ValidationError} If locations are invalid
-   */
-  findAccessibleRoute(
-    start: OutdoorLocation,
-    end: OutdoorLocation,
-    mode: string
-  ): Promise<{ route: Route; segments: RouteSegment[] }>;
+    /**
+     * Retrieves all segments belonging to a route
+     * @param routeId - The ObjectId of the route
+     * @returns Promise resolving to array of RouteSegments
+     * @throws {NotFoundError} If route with given ID doesn't exist
+     * @throws {DatabaseError} If database query fails
+     */
+    findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]>;
 
-  /**
-   * Creates a new route segment in the system
-   * @param segment - Route segment data without path
-   * @returns Promise resolving to the created RouteSegment
-   * @throws {ValidationError} If required fields are missing or invalid
-   */
-  createRouteSegment(segment: Omit<RouteSegment, 'path'>): Promise<RouteSegment>;
-
-  /**
-   * Retrieves all segments of a route by the route's unique identifier
-   * @param routeId - The ObjectId of the route to find segments for
-   * @returns Promise resolving to an array of RouteSegments
-   * @throws {NotFoundError} If route with given ID doesn't exist
-   */
-  findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]>;
-
-  /**
-   * Updates an existing route segment's information
-   * @param routeId - The ObjectId of the route to which the segment belongs
-   * @param segmentId - The ObjectId of the segment to update
-   * @param data - Partial route segment data to update
-   * @returns Promise resolving to the updated RouteSegment
-   * @throws {NotFoundError} If route or segment with given IDs don't exist
-   * @throws {ValidationError} If update data is invalid
-   */
-  updateRouteSegment(
-    routeId: ObjectId, 
-    segmentId: ObjectId, 
-    data: Partial<Omit<RouteSegment, 'routeId' | 'path'>>
-  ): Promise<RouteSegment>;
-
-  /**
-   * Removes a route segment from the system
-   * @param routeId - The ObjectId of the route to which the segment belongs
-   * @param segmentId - The ObjectId of the segment to delete
-   * @throws {NotFoundError} If route or segment with given IDs don't exist
-   */
-  deleteRouteSegment(routeId: ObjectId, segmentId: ObjectId): Promise<void>;
+    /**
+     * Calculates and updates the path for a route segment
+     * @param segmentId - The ObjectId of the segment to calculate path for
+     * @param userId - User triggering the path calculation
+     * @returns Promise resolving to updated RouteSegment with new path
+     * @throws {NotFoundError} If segment with given ID doesn't exist
+     * @throws {NotImplementedError} If path calculation is not implemented for segment type
+     * @throws {DatabaseError} If database operation fails
+     */
+    calculatePath(segmentId: ObjectId, userId: ObjectId): Promise<RouteSegment>;
 }

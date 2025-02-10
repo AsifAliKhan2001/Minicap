@@ -17,32 +17,4 @@ export interface FloorRepository {
    * @throws {NotFoundError} If building with given ID doesn't exist
    */
   findFloorsByBuilding(buildingId: ObjectId): Promise<Floor[]>;
-
-  /**
-   * Creates a new floor in the system
-   * @param data - Floor data without system-managed fields
-   * @param token - Authentication token
-   * @returns Promise resolving to the created Floor
-   * @throws {ValidationError} If required fields are missing or invalid
-   */
-  createFloor(data: Omit<Floor, 'id' | 'createdAt' | 'updatedAt'>, token: string): Promise<Floor>;
-
-  /**
-   * Updates an existing floor's information
-   * @param id - The ObjectId of the floor to update
-   * @param data - Partial floor data to update
-   * @param token - Authentication token
-   * @returns Promise resolving to the updated Floor
-   * @throws {NotFoundError} If floor with given ID doesn't exist
-   */
-  updateFloor(id: ObjectId, data: Partial<Floor>, token: string): Promise<Floor>;
-
-  /**
-   * Removes a floor from the system
-   * @param id - The ObjectId of the floor to delete
-   * @param token - Authentication token
-   * @throws {NotFoundError} If floor with given ID doesn't exist
-   * @throws {ConflictError} If floor has associated rooms or POIs
-   */
-  deleteFloor(id: ObjectId, token: string): Promise<void>;
 }

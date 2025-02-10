@@ -1,24 +1,33 @@
 import { ObjectId } from "mongodb";
-import { Calendar } from "@/models/Calendar";
+import { Calendar, Event } from "@/models/Calendar";
 
 export interface CalendarRepository {
   /**
-   * Retrieves a calendar by its unique identifier
-   * @param id - The ObjectId of the calendar to find
-   * @returns Promise resolving to the found Calendar
+   * Connects a Google Calendar to our system
+   * @param googleCalendarId - The Google Calendar ID to connect
+   * @param userId - The user connecting the calendar
+   * @returns Promise resolving to the connected Calendar
    */
-  findCalendarById(id: ObjectId): Promise<Calendar>;
+  connectGoogleCalendar(googleCalendarId: string, userId: ObjectId): Promise<Calendar>;
 
   /**
-   * Lists all available Google Calendars
-   * @returns Promise resolving to array of Calendars
+   * Disconnects a Google Calendar from our system
+   * @param calendarId - The ObjectId of our calendar entry
+   * @returns Promise resolving when disconnected
    */
-  getAllCalendars(): Promise<Calendar[]>;
+  disconnectGoogleCalendar(calendarId: ObjectId): Promise<void>;
 
   /**
-   * Retrieves latest events from a calendar
-   * @param id - The ObjectId of the calendar
-   * @returns Promise resolving to the Calendar with latest events
+   * Gets events from a connected Google Calendar
+   * @param calendarId - The ObjectId of our calendar entry
+   * @returns Promise resolving to array of calendar events
    */
-  getCalendarEvents(id: ObjectId): Promise<Calendar>;
+  getGoogleCalendarEvents(calendarId: ObjectId): Promise<Event[]>;
+
+  /**
+   * Lists all connected Google Calendars for a user
+   * @param userId - The user whose calendars to list
+   * @returns Promise resolving to array of connected Calendars
+   */
+  getUserConnectedCalendars(userId: ObjectId): Promise<Calendar[]>;
 }

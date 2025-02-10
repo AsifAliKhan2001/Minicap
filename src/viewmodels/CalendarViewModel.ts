@@ -1,57 +1,64 @@
 import { BaseViewModel } from "./BaseViewModel";
-import { Calendar } from "@/models/Calendar";
-import { Event } from "@/models/Event";
+import { Calendar, Event } from "@/models/Calendar";
 import { ObjectId } from "mongodb";
+import { Audit } from "@/models/Audit";
+import { CalendarRepository } from "@/repositories/CalendarRepository";
 
 export class CalendarViewModel extends BaseViewModel<Calendar> implements CalendarRepository {
-  private readonly COLLECTION_NAME = "calendars";
-
-  async findCalendarById(id: ObjectId): Promise<Calendar> {
-    this.setLoading(true);
-    try {
-      const calendar = await this.withCollection(this.COLLECTION_NAME, async (collection) => {
-        const doc = await collection.findOne({ _id: id });
-        if (!doc) throw new Error("Calendar not found");
-        return this.mapToModel(doc);
-      });
-      this.setData(calendar);
-      return calendar;
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load calendar'));
-      throw error;
-    } finally {
-      this.setLoading(false);
+    protected mapToDTO(doc: any): Calendar {
+      if (!doc) throw new Error(`Calendar Not Found`);
+      
+      return {
+        _id: doc._id,
+        eventIds: doc.eventIds || [],
+        userIds: doc.userIds || [],
+        ...doc.audit
+      };
     }
-  }
+    private readonly COLLECTION_NAME = "calendars";
 
-  protected mapToModel(doc: any): Calendar {
-    if (!doc) return null;
-    
-    return {
-      id: doc._id?.toString() || doc.id,
-      events: (doc.events || []).map(this.mapToEvent),
-      createdAt: doc.createdAt || new Date().toISOString(),
-      updatedAt: doc.updatedAt || new Date().toISOString()
-    };
-  }
+    async connectGoogleCalendar(googleCalendarId: string, userId: ObjectId): Promise<Calendar> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const calendar: Calendar = {
+                eventIds: [],
+                userIds: [userId],
+                ...await this.updateAudit(null, userId)
+            };
 
-  async addEvent(event: Event): Promise<void> {
-    // TODO: Implement adding event to calendar
-  }
+            await collection.insertOne(calendar);
+            return calendar;
+        });
+    }
 
-  async removeEvent(eventId: ObjectId): Promise<void> {
-    // TODO: Implement removing event from calendar
-  }
+    async disconnectGoogleCalendar(calendarId: ObjectId): Promise<void> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const result = await collection.deleteOne({ _id: calendarId });
+            if (result.deletedCount === 0) {
+                throw new Error(`Calendar with id ${calendarId} not found`);
+            }
+        });
+    }
 
-  getUpcomingEvents(days: number = 7): Event[] {
-    if (!this.data?.events) return [];
-    
-    const now = new Date();
-    const futureDate = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
-    
-    return this.data.events.filter(event => {
-      const eventDate = new Date(event.startTime);
-      return eventDate >= now && eventDate <= futureDate;
-    });
-  }
+    async getGoogleCalendarEvents(calendarId: ObjectId): Promise<Event[]> {
+        // TODO: Implement Google Calendar API integration
+        return [];
+    }
+
+    async getUserConnectedCalendars(userId: ObjectId): Promise<Calendar[]> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const calendars = await collection.find({ userIds: userId }).toArray();
+            return calendars as Calendar[];
+        });
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        const now = new Date();
+        return {
+            _id: existingAudit?._id || new ObjectId(),
+            createdAtUTC: existingAudit?.createdAtUTC || now,
+            updatedAtUTC: now,
+            createdBy: existingAudit?.createdBy || userId,
+            updatedBy: userId
+        };
+    }
 }

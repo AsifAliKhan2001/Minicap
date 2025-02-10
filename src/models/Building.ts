@@ -8,5 +8,5 @@ export interface Building extends Audit {
   polygonShape?: any;  // Type TBD (consider defining a specific type)
   openingHours?: string;
   floors: ObjectId; // TODO : Floor type to be changed to array of floor objects after defining the floor model
-  location: ObjectId; 
+  outdoorLocation: ObjectId; 
 }

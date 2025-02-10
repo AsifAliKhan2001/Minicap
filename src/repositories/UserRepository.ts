@@ -54,4 +54,11 @@ export interface UserRepository {
    * @throws {AuthError} If token is invalid
    */
   deleteUser(id: ObjectId, token: string): Promise<void>;
+
+  /**
+   * Finds a user by their email address
+   * @param email - The email to search for
+   * @returns Promise resolving to the found User or null
+   */
+  findByEmail(email: string): Promise<User | null>;
 }
