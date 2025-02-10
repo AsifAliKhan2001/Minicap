@@ -35,7 +35,7 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
             name: doc.name,
             address: doc.address,
             description: doc.description,
-            floors: doc.floors,
+            floors: doc.floors || [],
             outdoorLocation: doc.location,
             createdAtUTC: doc.createdAtUTC,
             updatedAtUTC: doc.updatedAtUTC,
