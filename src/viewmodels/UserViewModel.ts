@@ -77,9 +77,10 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         return { user, token };
     }
 
-    // Logout the user
+    // Logout user (placeholder)
     async logout(token: string): Promise<void> {
-        throw new Error("Method not implemented");
+        // We might need to blacklist the token here i.e., we'll prevent it from being reused later 
+        console.log("User logged out:", token);
     }
 
      // Update user details
