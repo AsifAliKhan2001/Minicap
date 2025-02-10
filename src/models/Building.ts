@@ -1,13 +1,12 @@
-import { UUID } from './utils';
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Building {
-  id: UUID;
-  campusId: UUID;    // Reference to parent Campus
-  name: string;
-  polygonShape: any;
-  description: string;
+export interface Building extends Audit {
+  name: string;  
   address: string;
-  openingHours: string;
-  floorIds: UUID[];  // One-to-many with Floor
-  outdoorLocationId: UUID;  // FK to OutdoorLocation (updated)
+  description: string;
+  polygonShape?: any;  // Type TBD (consider defining a specific type)
+  openingHours?: string;
+  floors: ObjectId[]; 
+  outdoorLocation: ObjectId; 
 }

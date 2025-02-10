@@ -29,16 +29,16 @@ interface CampusMapProps {
   campusId: string;
 }
 
-// Define campuses using Campus model with an outdoorLocation UUID
+// Define campuses using Campus model with an outdoorLocation ObjectId
 const SGWCampus: Campus = {
-  id: "sgw-uuid",
+  id: "sgw-ObjectId",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 
 const LoyolaCampus: Campus = {
-  id: "loyola-uuid",
+  id: "loyola-ObjectId",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],

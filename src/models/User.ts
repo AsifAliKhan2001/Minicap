@@ -1,9 +1,14 @@
-import { UUID } from './utils';
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface User {
-  id: UUID;
-  name: string;
-  calendarIds: UUID[];  // Many-to-many with Calendar
-  currentLocationId?: UUID;  // Optional FK to Location
-  data: any;
+export interface User extends Audit {
+    email: string;
+    password: string;
+    name: string;
+    calendarIds: ObjectId[];
+    currentLocationId?: ObjectId;
+}
+
+export interface Administrator extends User {
+  dateGranted: Date;
 }

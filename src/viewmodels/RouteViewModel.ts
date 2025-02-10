@@ -1,66 +1,60 @@
-import { BaseViewModel } from "./BaseViewModel";
-import { Route } from "../models/Route";
-import { RouteRepository } from "../repositories/RouteRepository";
-import { UUID } from "../models/utils";
-import { OutdoorLocation } from "../models/OutdoorLocation";
-import { RouteSegment, TransportationMode } from "../models/RouteSegment";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
+import { Route, RouteSegment, TransportationMode } from "@/models/Route";
+import { Location } from "@/models/Location";
+import { ObjectId } from "mongodb";
+import { RouteRepository } from "@/repositories/RouteRepository";
+import { Audit } from "@/models/Audit";
 
-interface RouteState {
-  route: Route | null;
-  segments: RouteSegment[];
-}
+export class RouteViewModel extends BaseViewModel<Route> implements RouteRepository {
+    private readonly ROUTES_COLLECTION = "routes";
+    private readonly SEGMENTS_COLLECTION = "routeSegments";
 
-export class RouteViewModel extends BaseViewModel<RouteState> {
-  private repository: RouteRepository;
-
-  constructor() {
-    super();
-    this.repository = new RouteRepository();
-    this.setData({ route: null, segments: [] });
-  }
-
-  async load(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const route = await this.repository.findById(id);
-      this.setData({ route, segments: [] }); // Would need to load segments separately
-    } catch (error) {
-      this.setError(
-        error instanceof Error ? error : new Error("Failed to load route")
-      );
-    } finally {
-      this.setLoading(false);
+    constructor() {
+        super();
     }
-  }
 
-  async save(data: Partial<RouteState>): Promise<void> {
-    throw new Error("Not implemented");
-  }
-
-  async findAccessibleRoute(
-    start: OutdoorLocation,
-    end: OutdoorLocation,
-    mode: TransportationMode = TransportationMode.WALKING
-  ): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-
-      const { route, segments } = await this.repository.findAccessibleRoute(
-        start,
-        end,
-        mode
-      );
-      this.setData({ route, segments });
-    } catch (error) {
-      this.setError(
-        error instanceof Error
-          ? error
-          : new Error("Failed to find accessible route")
-      );
-    } finally {
-      this.setLoading(false);
+    async findRouteById(id: ObjectId): Promise<Route> {
+        throw new Error("Method not implemented: findRouteById");
     }
-  }
+
+    async findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]> {
+        throw new Error("Method not implemented: findSegmentsByRouteId");
+    }
+
+    async findOrCreateSegment(
+        startPoint: Location,
+        endPoint: Location,
+        mode: TransportationMode,
+        userId: ObjectId
+    ): Promise<RouteSegment> {
+        throw new Error("Method not implemented: findOrCreateSegment");
+    }
+
+    async updateSegment(
+        segmentId: ObjectId, 
+        updates: Partial<RouteSegment>,
+        userId: ObjectId
+    ): Promise<RouteSegment> {
+        throw new Error("Method not implemented: updateSegment");
+    }
+
+    async createRoute(
+        waypoints: Location[],
+        mode: TransportationMode,
+        userId: ObjectId
+    ): Promise<Route> {
+        throw new Error("Method not implemented: createRoute");
+    }
+
+    async calculatePath(segmentId: ObjectId, userId: ObjectId): Promise<RouteSegment> {
+        throw new Error("Method not implemented: calculatePath");
+    }
+
+    protected mapToDTO<T extends Route | RouteSegment>(doc: any): T {
+        throw new Error("Method not implemented: mapToDTO");
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        throw new Error("Method not implemented: updateAudit");
+    }
 }

@@ -1,59 +1,45 @@
-import { BaseViewModel } from "./BaseViewModel";
-import { Weather, ForecastData } from "../models/Weather";
-import { UUID } from "../models/utils";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
+import { Weather, ForecastData } from "@/models/Weather";
+import { ObjectId } from "mongodb";
+import { WeatherRepository } from "@/repositories/WeatherRepository";
+import { Audit } from "@/models/Audit";
 
-export class WeatherViewModel extends BaseViewModel<Weather> {
-  async load(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      // TODO: Implement actual API call
-      // For now, mock data
-      const mockWeather: Weather = {
-        id,
-        date: new Date().toISOString(),
-        city: "Montreal",
-        weatherType: "DAILY",
-        forecast: []
-      };
-      
-      this.setData(mockWeather);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load weather'));
-    } finally {
-      this.setLoading(false);
+export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherRepository {
+    private readonly COLLECTION = "weather";
+
+    async findForecastById(id: ObjectId): Promise<Weather> {
+        throw new Error("Method not implemented: findForecastById");
     }
-  }
 
-  async save(data: Partial<Weather>): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      // TODO: Implement actual API call
-      // For now, just update local data
-      if (this.data) {
-        this.setData({
-          ...this.data,
-          ...data
-        });
-      }
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to save weather'));
-    } finally {
-      this.setLoading(false);
+    async queryExternalForecast(latitude: number, longitude: number): Promise<ForecastData> {
+        throw new Error("Method not implemented: queryExternalForecast");
     }
-  }
 
-  // Example of business logic in ViewModel
-  getAverageTemperature(): number | null {
-    if (!this.data?.forecast.length) return null;
-    
-    const sum = this.data.forecast.reduce(
-      (acc, curr) => acc + curr.temperature,
-      0
-    );
-    return sum / this.data.forecast.length;
-  }
+    async saveForecast(data: Omit<Weather, "id" | "createdAt" | "updatedAt">): Promise<Weather> {
+        throw new Error("Method not implemented: saveForecast");
+    }
+
+    async updateForecast(id: ObjectId, data: Partial<Weather>): Promise<Weather> {
+        throw new Error("Method not implemented: updateForecast");
+    }
+
+    async deleteOutdatedForecasts(olderThan: Date): Promise<number> {
+        throw new Error("Method not implemented: deleteOutdatedForecasts");
+    }
+
+    protected mapToDTO(doc: any): Weather {
+        if (!doc) throw new Error('Document not found');
+        return {
+            _id: doc._id,
+            ...doc,
+            createdAtUTC: doc.createdAtUTC,
+            updatedAtUTC: doc.updatedAtUTC,
+            createdBy: doc.createdBy,
+            updatedBy: doc.updatedBy
+        } as Weather;
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        throw new Error("Method not implemented: updateAudit");
+    }
 }
