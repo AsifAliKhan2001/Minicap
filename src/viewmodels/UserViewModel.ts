@@ -3,7 +3,8 @@ import { User } from "@/models/User";
 import { ObjectId } from "mongodb";
 import { UserRepository } from "@/repositories/UserRepository";
 import { Audit } from "@/models/Audit";
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 export class UserViewModel extends BaseViewModel<User> implements UserRepository {
     private readonly COLLECTION = "Users_Info";
 
@@ -23,19 +24,60 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         });
     }
 
+    // Private helper method to generate token
+    private generateToken(userId: ObjectId): string {
+        if (!process.env.JWT_SECRET) {
+            throw new Error("JWT_SECRET is not defined in environment variables");
+        }
+        return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    }
+
+
     // All other repository methods should throw errors as they weren't implemented in server.js
+  
+    // Find user by ID 
     async findUserById(id: ObjectId): Promise<User> {
-        throw new Error("Method not implemented");
+        return await this.withCollection(this.COLLECTION, async (collection) => {
+            const user = await collection.findOne({ _id: id });
+            if (!user) throw new Error("User not found");
+            return this.mapToDTO(user);
+        });
     }
 
-    async signUp(data: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<{ user: User; token: string }> {
-        throw new Error("Method not implemented");
+    // Allowing sign up for a new user
+    async signUp(data: Omit<User, "_id" | "createdAt" | "updatedAt">): Promise<{ user: User; token: string }> {
+        const existingUser = await this.findByEmail(data.email);
+        if (existingUser) {
+            throw new Error("User already exists");
+        }
+
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const newUser = await this.createUser({
+            ...data,
+            password: hashedPassword,
+        });
+
+        const token = this.generateToken(newUser._id);
+        return { user: newUser, token };
     }
 
+    // Login the user
     async login(email: string, password: string): Promise<{ user: User; token: string }> {
-        throw new Error("Method not implemented");
+        const user = await this.findByEmail(email);
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            throw new Error("Invalid password");
+        }
+
+        const token = this.generateToken(user._id);
+        return { user, token };
     }
 
+    // Logout the user
     async logout(token: string): Promise<void> {
         throw new Error("Method not implemented");
     }
@@ -44,12 +86,23 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         throw new Error("Method not implemented");
     }
 
+    // Delete user
     async deleteUser(id: ObjectId, token: string): Promise<void> {
-        throw new Error("Method not implemented");
+        await this.withCollection(this.COLLECTION, async (collection) => {
+            const result = await collection.deleteOne({ _id: id });
+            if (result.deletedCount === 0) {
+                throw new Error("User not found");
+            }
+        });
     }
 
+
+    // Find user by email
     async findByEmail(email: string): Promise<User | null> {
-        throw new Error("Method not implemented");
+        return await this.withCollection(this.COLLECTION, async (collection) => {
+            const user = await collection.findOne({ email });
+            return user ? this.mapToDTO(user) : null;
+        });
     }
 
     protected mapToDTO(doc: any): User {
