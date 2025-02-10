@@ -1,8 +1,8 @@
-import { BaseViewModel } from "./BaseViewModel";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 import { Location } from "@/models/Location";
 import { ObjectId } from "mongodb";
-import { RouteRepository } from "../repositories/RouteRepository";
+import { RouteRepository } from "@/repositories/RouteRepository";
 import { Audit } from "@/models/Audit";
 
 export class RouteViewModel extends BaseViewModel<Route> implements RouteRepository {

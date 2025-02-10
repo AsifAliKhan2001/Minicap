@@ -1,4 +1,4 @@
-import { BaseViewModel } from "./BaseViewModel";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { POI, POICategory } from "@/models/POI";
 import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";

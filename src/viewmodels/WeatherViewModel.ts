@@ -1,7 +1,7 @@
-import { BaseViewModel } from "./BaseViewModel";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Weather, ForecastData } from "@/models/Weather";
 import { ObjectId } from "mongodb";
-import { WeatherRepository } from "../repositories/WeatherRepository";
+import { WeatherRepository } from "@/repositories/WeatherRepository";
 import { Audit } from "@/models/Audit";
 
 export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherRepository {

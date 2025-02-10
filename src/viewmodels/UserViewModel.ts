@@ -1,7 +1,7 @@
-import { BaseViewModel } from "./BaseViewModel";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { User } from "@/models/User";
 import { ObjectId } from "mongodb";
-import { UserRepository } from "../repositories/UserRepository";
+import { UserRepository } from "@/repositories/UserRepository";
 import { Audit } from "@/models/Audit";
 
 export class UserViewModel extends BaseViewModel<User> implements UserRepository {

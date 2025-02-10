@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "typescript": "^5.7.3"
+  },
+  "scripts": {
+    "dev": "ts-node src/viewmodels/BuildingViewModel.ts"
   }
 }

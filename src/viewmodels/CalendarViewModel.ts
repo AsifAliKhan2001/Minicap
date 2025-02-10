@@ -1,4 +1,4 @@
-import { BaseViewModel } from "./BaseViewModel";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Calendar, Event } from "@/models/Calendar";
 import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";

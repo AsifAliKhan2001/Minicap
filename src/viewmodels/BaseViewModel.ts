@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
-import { Audit } from "../models/Audit";
+import { Audit } from "@/models/Audit";
 import 'dotenv/config';
 
 export abstract class BaseViewModel<T extends Audit> {
