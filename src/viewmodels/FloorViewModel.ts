@@ -1,47 +1,47 @@
-import { BaseViewModel } from "./BaseViewModel";
-import { Floor } from "../models/Floor";
-import { FloorRepository } from "../repositories/FloorRepository";
-import { UUID } from "../models/utils";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
+import { Floor } from "@/models/Floor";
+import { ObjectId } from "mongodb";
+import { Audit } from "@/models/Audit";
+import { FloorRepository } from "@/repositories/FloorRepository";
 
-export class FloorViewModel extends BaseViewModel<Floor[]> {
-  private repository: FloorRepository;
+export class FloorViewModel extends BaseViewModel<Floor> implements FloorRepository {
+    private readonly COLLECTION_NAME = "floors";
 
-  constructor() {
-    super();
-    this.repository = new FloorRepository();
-  }
-
-  async load(id: UUID): Promise<void> {
-    await this.loadFloorById(id);
-  }
-
-  async save(data: Partial<Floor[]>): Promise<void> {
-    throw new Error("Not implemented");
-  }
-
-  async loadFloorById(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const floor = await this.repository.findById(id);
-      this.setData([floor]);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load floor'));
-    } finally {
-      this.setLoading(false);
+    async findFloorById(id: ObjectId): Promise<Floor> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const doc = await collection.findOne({ _id: id });
+            if (!doc) throw new Error(`Floor with id ${id} not found`);
+            return this.mapToDTO(doc);
+        });
     }
-  }
 
-  async loadBuildingFloors(buildingId: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const floors = await this.repository.findByBuilding(buildingId);
-      this.setData(floors);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load building floors'));
-    } finally {
-      this.setLoading(false);
+    async findFloorsByBuilding(buildingId: ObjectId): Promise<Floor[]> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const docs = await collection.find({ buildingId }).toArray();
+            return docs.map(doc => this.mapToDTO(doc));
+        });
     }
-  }
+
+    protected mapToDTO(doc: any): Floor {
+        if (!doc) throw new Error('Floor Not Found');
+        
+        return {
+            _id: doc._id,
+            number: doc.number,
+            buildingId: doc.buildingId,
+            isWheelchairAccessible: doc.isWheelchairAccessible,
+            hasElevatorAccess: doc.hasElevatorAccess,
+            hasRampAccess: doc.hasRampAccess,
+            roomIds: doc.roomIds,
+            floorplanId: doc.floorplanId,
+            createdAtUTC: doc.createdAtUTC,
+            updatedAtUTC: doc.updatedAtUTC,
+            createdBy: doc.createdBy,
+            updatedBy: doc.updatedBy
+        };
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        throw new Error("Floors are read-only, audit updates not implemented");
+    }
 }

@@ -1,60 +1,50 @@
-import { BaseViewModel } from "./BaseViewModel";
-import { Building } from "../models/Building";
-import { BuildingRepository } from "../repositories/BuildingRepository";
-import { UUID } from "../models/utils";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
+import { Building } from "@/models/Building";
+import { ObjectId } from "mongodb";
+import { Audit } from "@/models/Audit";
+import { BuildingRepository } from "@/repositories/BuildingRepository";
 
-export class BuildingViewModel extends BaseViewModel<Building> {
-  private repository: BuildingRepository;
+export class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
+    private readonly COLLECTION_NAME = "buildings";
 
-  constructor() {
-    super();
-    this.repository = new BuildingRepository();
-  }
-
-  async load(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const data = await this.repository.findById(id);
-      this.setData(data);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load building'));
-    } finally {
-      this.setLoading(false);
+    async findBuildingById(id: ObjectId): Promise<Building> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const doc = await collection.findOne({ _id: id });
+            if (!doc) throw new Error(`Building with id ${id} not found`);
+            return this.mapToDTO(doc);
+        });
     }
-  }
 
-  async save(data: Partial<Building>): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      if (this.data) {
-        const updated = await this.repository.update(this.data.id, data);
-        this.setData(updated);
-      } else if (data as Omit<Building, 'id' | 'createdAt' | 'updatedAt'>) {
-        const created = await this.repository.create(data as Omit<Building, 'id' | 'createdAt' | 'updatedAt'>);
-        this.setData(created);
-      }
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to save building'));
-    } finally {
-      this.setLoading(false);
+    async findBuildingsByCampus(campusId: ObjectId): Promise<Building[]> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const docs = await collection.find({ campusId }).toArray();
+            return docs.map(doc => this.mapToDTO(doc));
+        });
     }
-  }
 
-  async loadByCampus(campusId: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      const buildings = await this.repository.findByCampus(campusId);
-      // Since this is a list operation, we might want to handle this differently
-      // For now, just take the first building if any
-      this.setData(buildings[0] || null);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load campus buildings'));
-    } finally {
-      this.setLoading(false);
+    async getAllBuildings(): Promise<Building[]> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const docs = await collection.find({}).toArray();
+            return docs.map(doc => this.mapToDTO(doc));
+        });
     }
-  }
+
+    protected mapToDTO(doc: any): Building {
+        return {
+            _id: doc._id,  // Already ObjectId, no conversion needed
+            name: doc.name,
+            address: doc.address,
+            description: doc.description,
+            floors: doc.floors,
+            outdoorLocation: doc.location,
+            createdAtUTC: doc.createdAtUTC,
+            updatedAtUTC: doc.updatedAtUTC,
+            createdBy: doc.createdBy,
+            updatedBy: doc.updatedBy
+        };
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        throw new Error("Buildings are read-only, audit updates not implemented");
+    }
 }

@@ -1,78 +1,72 @@
-import { BaseRepository, ApiError } from "./BaseRepository";
-import { UUID } from "../models/utils";
-import { Route } from "../models/Route";
-import { RouteSegment, TransportationMode } from "../models/RouteSegment";
-import { OutdoorLocation } from "../models/OutdoorLocation";
+import { ObjectId } from "mongodb";
+import { Location } from "@/models/Location";
+import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 
-export class RouteRepository implements BaseRepository<Route> {
-  async findById(id: UUID): Promise<Route> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError("Failed to fetch route", 500, error);
-    }
-  }
+export interface RouteRepository {
+    /**
+     * Retrieves a route by its unique identifier
+     * @param id - The ObjectId of the route to find
+     * @returns Promise resolving to the found Route
+     * @throws {NotFoundError} If route with given ID doesn't exist
+     * @throws {DatabaseError} If database query fails
+     */
+    findRouteById(id: ObjectId): Promise<Route>;
 
-  async create(data: Omit<Route, "id">): Promise<Route> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError("Failed to create route", 500, error);
-    }
-  }
+    /**
+     * Creates a new route by generating segments between waypoints
+     * All waypoints must be of the same location type (indoor or outdoor)
+     * @param waypoints - Array of locations to route through
+     * @param mode - Transportation mode to use
+     * @param userId - User creating the route
+     * @returns Promise resolving to the created Route
+     * @throws {ValidationError} If waypoint types don't match
+     * @throws {ValidationError} If waypoints array has less than 2 points
+     * @throws {DatabaseError} If database operation fails
+     */
+    createRoute(waypoints: Location[], mode: TransportationMode, userId: ObjectId): Promise<Route>;
 
-  async update(id: UUID, data: Partial<Route>): Promise<Route> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError("Failed to update route", 500, error);
-    }
-  }
+    /**
+     * Finds or creates a route segment between two locations
+     * Both locations must be of the same type
+     * @param start - Starting location
+     * @param end - Ending location
+     * @param mode - Transportation mode
+     * @param userId - User creating/accessing the segment
+     * @returns Promise resolving to the RouteSegment
+     * @throws {ValidationError} If location types don't match
+     * @throws {DatabaseError} If database operation fails
+     */
+    findOrCreateSegment(start: Location, end: Location, mode: TransportationMode, userId: ObjectId): Promise<RouteSegment>;
 
-  async delete(id: UUID): Promise<void> {
-    try {
-      throw new Error("Not implemented");
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError("Failed to delete route", 500, error);
-    }
-  }
+    /**
+     * Updates a route segment (e.g., mark as obstructed, change path)
+     * @param segmentId - The ObjectId of the segment to update
+     * @param updates - Partial segment data to update
+     * @param userId - User updating the segment
+     * @returns Promise resolving to updated RouteSegment
+     * @throws {NotFoundError} If segment with given ID doesn't exist
+     * @throws {ValidationError} If updates are invalid
+     * @throws {DatabaseError} If database operation fails
+     */
+    updateSegment(segmentId: ObjectId, updates: Partial<RouteSegment>, userId: ObjectId): Promise<RouteSegment>;
 
-  // Route-specific methods
-  async findAccessibleRoute(
-    start: OutdoorLocation,
-    end: OutdoorLocation,
-    mode: TransportationMode = TransportationMode.WALKING
-  ): Promise<{ route: Route; segments: RouteSegment[] }> {
-    try {
-      // Placeholder implementation returning a simple route
-      const route: Route = {
-        id: generateUUID(),
-        accessible: true,
-      };
+    /**
+     * Retrieves all segments belonging to a route
+     * @param routeId - The ObjectId of the route
+     * @returns Promise resolving to array of RouteSegments
+     * @throws {NotFoundError} If route with given ID doesn't exist
+     * @throws {DatabaseError} If database query fails
+     */
+    findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]>;
 
-      const segments: RouteSegment[] = [
-        {
-          id: generateUUID(),
-          routeId: route.id,
-          order: 1,
-          startOutdoorLocationId: start.id,
-          endOutdoorLocationId: end.id,
-          transportationMode: mode,
-          path: [
-            { lat: start.latitude, lng: start.longitude },
-            { lat: end.latitude, lng: end.longitude },
-          ],
-        },
-      ];
-
-      return { route, segments };
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError("Failed to find accessible route", 500, error);
-    }
-  }
+    /**
+     * Calculates and updates the path for a route segment
+     * @param segmentId - The ObjectId of the segment to calculate path for
+     * @param userId - User triggering the path calculation
+     * @returns Promise resolving to updated RouteSegment with new path
+     * @throws {NotFoundError} If segment with given ID doesn't exist
+     * @throws {NotImplementedError} If path calculation is not implemented for segment type
+     * @throws {DatabaseError} If database operation fails
+     */
+    calculatePath(segmentId: ObjectId, userId: ObjectId): Promise<RouteSegment>;
 }
