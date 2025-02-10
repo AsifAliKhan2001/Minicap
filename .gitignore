@@ -1,5 +1,5 @@
 .DS_Store
-
+.env
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
@@ -200,3 +200,4 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
