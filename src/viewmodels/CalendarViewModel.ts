@@ -1,67 +1,64 @@
-import { BaseViewModel } from "./BaseViewModel";
-import { Calendar } from "../models/Calendar";
-import { Event } from "../models/Event";
-import { UUID } from "../models/utils";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
+import { Calendar, Event } from "@/models/Calendar";
+import { ObjectId } from "mongodb";
+import { Audit } from "@/models/Audit";
+import { CalendarRepository } from "@/repositories/CalendarRepository";
 
-export class CalendarViewModel extends BaseViewModel<Calendar> {
-  async load(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
+export class CalendarViewModel extends BaseViewModel<Calendar> implements CalendarRepository {
+    protected mapToDTO(doc: any): Calendar {
+      if (!doc) throw new Error(`Calendar Not Found`);
       
-      // TODO: Implement actual API call
-      const mockCalendar: Calendar = {
-        id,
-        name: '',
-        isPublic: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+      return {
+        _id: doc._id,
+        eventIds: doc.eventIds || [],
+        userIds: doc.userIds || [],
+        ...doc.audit
       };
-      
-      this.setData(mockCalendar);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load calendar'));
-    } finally {
-      this.setLoading(false);
     }
-  }
+    private readonly COLLECTION_NAME = "calendars";
 
-  async save(data: Partial<Calendar>): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      if (this.data) {
-        this.setData({
-          ...this.data,
-          ...data,
-          updatedAt: new Date().toISOString()
+    async connectGoogleCalendar(googleCalendarId: string, userId: ObjectId): Promise<Calendar> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const calendar: Calendar = {
+                eventIds: [],
+                userIds: [userId],
+                ...await this.updateAudit(null, userId)
+            };
+
+            await collection.insertOne(calendar);
+            return calendar;
         });
-      }
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to save calendar'));
-    } finally {
-      this.setLoading(false);
     }
-  }
 
-  async addEvent(event: Event): Promise<void> {
-    // TODO: Implement adding event to calendar
-  }
+    async disconnectGoogleCalendar(calendarId: ObjectId): Promise<void> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const result = await collection.deleteOne({ _id: calendarId });
+            if (result.deletedCount === 0) {
+                throw new Error(`Calendar with id ${calendarId} not found`);
+            }
+        });
+    }
 
-  async removeEvent(eventId: UUID): Promise<void> {
-    // TODO: Implement removing event from calendar
-  }
+    async getGoogleCalendarEvents(calendarId: ObjectId): Promise<Event[]> {
+        // TODO: Implement Google Calendar API integration
+        return [];
+    }
 
-  getUpcomingEvents(days: number = 7): Event[] {
-    if (!this.data?.events) return [];
-    
-    const now = new Date();
-    const futureDate = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
-    
-    return this.data.events.filter(event => {
-      const eventDate = new Date(event.startTime);
-      return eventDate >= now && eventDate <= futureDate;
-    });
-  }
+    async getUserConnectedCalendars(userId: ObjectId): Promise<Calendar[]> {
+        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
+            const calendars = await collection.find({ userIds: userId }).toArray();
+            return calendars as Calendar[];
+        });
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        const now = new Date();
+        return {
+            _id: existingAudit?._id || new ObjectId(),
+            createdAtUTC: existingAudit?.createdAtUTC || now,
+            updatedAtUTC: now,
+            createdBy: existingAudit?.createdBy || userId,
+            updatedBy: userId
+        };
+    }
 }

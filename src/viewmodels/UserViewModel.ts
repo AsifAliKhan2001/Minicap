@@ -1,52 +1,53 @@
-import { BaseViewModel } from "./BaseViewModel";
-import { User } from "../models/User";
-import { UUID } from "../models/utils";
+import { BaseViewModel } from "@/viewmodels/BaseViewModel";
+import { User } from "@/models/User";
+import { ObjectId } from "mongodb";
+import { UserRepository } from "@/repositories/UserRepository";
+import { Audit } from "@/models/Audit";
 
-export class UserViewModel extends BaseViewModel<User> {
-  async load(id: UUID): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      // TODO: Implement actual API call
-      const mockUser: User = {
-        id,
-        email: '',
-        firstName: '',
-        lastName: '',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      
-      this.setData(mockUser);
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to load user'));
-    } finally {
-      this.setLoading(false);
+export class UserViewModel extends BaseViewModel<User> implements UserRepository {
+    private readonly COLLECTION = "users";
+
+    async findUserById(id: ObjectId): Promise<User> {
+        throw new Error("Method not implemented: findUserById");
     }
-  }
 
-  async save(data: Partial<User>): Promise<void> {
-    try {
-      this.setLoading(true);
-      this.setError(null);
-      
-      if (this.data) {
-        this.setData({
-          ...this.data,
-          ...data,
-          updatedAt: new Date().toISOString()
-        });
-      }
-    } catch (error) {
-      this.setError(error instanceof Error ? error : new Error('Failed to save user'));
-    } finally {
-      this.setLoading(false);
+    async signUp(data: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<{ user: User; token: string }> {
+        throw new Error("Method not implemented: signUp");
     }
-  }
 
-  getFullName(): string {
-    if (!this.data) return '';
-    return `${this.data.firstName} ${this.data.lastName}`.trim();
-  }
+    async login(email: string, password: string): Promise<{ user: User; token: string }> {
+        throw new Error("Method not implemented: login");
+    }
+
+    async logout(token: string): Promise<void> {
+        throw new Error("Method not implemented: logout");
+    }
+
+    async updateUser(id: ObjectId, data: Partial<User>, token: string): Promise<User> {
+        throw new Error("Method not implemented: updateUser");
+    }
+
+    async deleteUser(id: ObjectId, token: string): Promise<void> {
+        throw new Error("Method not implemented: deleteUser");
+    }
+
+    async findByEmail(email: string): Promise<User | null> {
+        throw new Error("Method not implemented: findByEmail");
+    }
+
+    protected mapToDTO(doc: any): User {
+        if (!doc) throw new Error('Document not found');
+        return {
+            _id: doc._id,
+            ...doc,
+            createdAtUTC: doc.createdAtUTC,
+            updatedAtUTC: doc.updatedAtUTC,
+            createdBy: doc.createdBy,
+            updatedBy: doc.updatedBy
+        } as User;
+    }
+
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+        throw new Error("Method not implemented: updateAudit");
+    }
 }

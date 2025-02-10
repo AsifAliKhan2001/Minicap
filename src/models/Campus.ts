@@ -1,8 +1,8 @@
-import { UUID } from './utils';
+import { ObjectId } from "mongodb";
+import { Audit } from "./Audit";
 
-export interface Campus {
-  id: UUID;
+export interface Campus extends Audit {
   name: string;
-  outdoorLocation: UUID; 
-  buildingIds: UUID[];  // One-to-many with Building
+  buildingIds: ObjectId[]; 
+  outdoorLocation: ObjectId;
 }

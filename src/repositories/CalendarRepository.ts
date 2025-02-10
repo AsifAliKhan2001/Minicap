@@ -1,96 +1,33 @@
-import { BaseRepository } from "./BaseRepository";
-import { Calendar } from "../models/Calendar";
-import { UUID } from "../models/utils";
-import { ApiError } from "./BaseRepository";
+import { ObjectId } from "mongodb";
+import { Calendar, Event } from "@/models/Calendar";
 
-export class CalendarRepository implements BaseRepository<Calendar> {
-  private apiBaseUrl: string = ""; // TODO: Configure API URL
+export interface CalendarRepository {
+  /**
+   * Connects a Google Calendar to our system
+   * @param googleCalendarId - The Google Calendar ID to connect
+   * @param userId - The user connecting the calendar
+   * @returns Promise resolving to the connected Calendar
+   */
+  connectGoogleCalendar(googleCalendarId: string, userId: ObjectId): Promise<Calendar>;
 
-  async findById(id: UUID): Promise<Calendar> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars/${id}`);
-      
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to fetch calendar',
-          response.status,
-          await response.json()
-        );
-      }
+  /**
+   * Disconnects a Google Calendar from our system
+   * @param calendarId - The ObjectId of our calendar entry
+   * @returns Promise resolving when disconnected
+   */
+  disconnectGoogleCalendar(calendarId: ObjectId): Promise<void>;
 
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to fetch calendar', 500, error);
-    }
-  }
+  /**
+   * Gets events from a connected Google Calendar
+   * @param calendarId - The ObjectId of our calendar entry
+   * @returns Promise resolving to array of calendar events
+   */
+  getGoogleCalendarEvents(calendarId: ObjectId): Promise<Event[]>;
 
-  async create(data: Omit<Calendar, 'id' | 'createdAt' | 'updatedAt'>): Promise<Calendar> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to create calendar',
-          response.status,
-          await response.json()
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to create calendar', 500, error);
-    }
-  }
-
-  async update(id: UUID, data: Partial<Calendar>): Promise<Calendar> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to update calendar',
-          response.status,
-          await response.json()
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to update calendar', 500, error);
-    }
-  }
-
-  async delete(id: UUID): Promise<void> {
-    try {
-      const response = await fetch(`${this.apiBaseUrl}/calendars/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          'Failed to delete calendar',
-          response.status,
-          await response.json()
-        );
-      }
-    } catch (error) {
-      if (error instanceof ApiError) throw error;
-      throw new ApiError('Failed to delete calendar', 500, error);
-    }
-  }
+  /**
+   * Lists all connected Google Calendars for a user
+   * @param userId - The user whose calendars to list
+   * @returns Promise resolving to array of connected Calendars
+   */
+  getUserConnectedCalendars(userId: ObjectId): Promise<Calendar[]>;
 }

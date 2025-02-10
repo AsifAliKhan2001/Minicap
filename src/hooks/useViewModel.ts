@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { BaseViewModel } from '../viewmodels/BaseViewModel';
-import { UUID } from '../models/utils';
+import { ObjectId } from "mongodb";
 
 export function useViewModel<T>(
   ViewModelClass: new () => BaseViewModel<T>,
-  id?: UUID
+  id?: ObjectId
 ) {
   const [viewModel] = useState(() => new ViewModelClass());
   const [data, setData] = useState<T | null>(null);
