@@ -1,10 +1,10 @@
 module.exports = {
   preset: "jest-expo",
   collectCoverage: true,
-  coverageDirectory: "src/coverage",
+  coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov", "text-summary", "clover", "json"],
   reporters: [
     "default",
-    ["jest-junit", { outputDirectory: "src/test-results", outputName: "junit.xml" }]
+    ["jest-junit", { outputDirectory: "coverage/test-results", outputName: "junit.xml" }]
   ],
 };
