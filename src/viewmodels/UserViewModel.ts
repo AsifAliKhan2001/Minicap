@@ -126,6 +126,8 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         };
     }
 
+    // Waiting to be implemented 
+
     protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
         throw new Error("Method not implemented");
     }
