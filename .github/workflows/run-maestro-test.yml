@@ -1,23 +1,23 @@
 name: Run Maestro Test with Recording and Artifact Upload
 
 on:
-  push: {}             # Trigger on every push
-  workflow_dispatch: {}  # Also allow manual triggering
+  push: {}
+  workflow_dispatch: {}
 
 jobs:
   run-maestro:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout repository code.
+      # Step 1: Check out your repository code.
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Install the latest Maestro CLI.
+      # Step 2: Install the latest Maestro CLI using the official installer.
       - name: Install Maestro CLI
         run: |
-          curl -L https://github.com/mobile-dev-inc/maestro/releases/latest/download/maestro-linux-amd64.tar.gz -o maestro.tar.gz
-          tar -xzf maestro.tar.gz
-          sudo mv maestro /usr/local/bin/maestro
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          # Add Maestro to the PATH. The installer typically puts it in $HOME/.maestro/bin.
+          export PATH="$PATH:$HOME/.maestro/bin"
           maestro --version
 
       # Step 3: Run your Maestro test file with recording.
@@ -41,10 +41,10 @@ jobs:
         run: |
           RECORDING_URL=$(cat recording_url.txt)
           echo "Downloading recording from $RECORDING_URL"
-          # Optionally, append a timestamp to the file name to avoid name collisions.
+          # Append a timestamp to the file name to avoid collisions.
           TIMESTAMP=$(date +%s)
           curl -L "$RECORDING_URL" -o recording-${TIMESTAMP}.mp4
-          # Save the filename for later artifact upload.
+          # Save the resulting filename.
           echo "recording-${TIMESTAMP}.mp4" > recording_file.txt
 
       # Step 5: Upload the recording file as an artifact.
