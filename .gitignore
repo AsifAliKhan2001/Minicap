@@ -181,7 +181,7 @@ vendor/
 
 # dependencies
 node_modules/
-coverage/
+
 android/
 
 # Expo
