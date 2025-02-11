@@ -25,6 +25,7 @@ const outdoorLocationLoyola: OutdoorLocation = {
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
 };
+
 // CampusMap Component
 interface CampusMapProps {
   campusId: string;
@@ -109,6 +110,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           <Polygon
             key={building._id}
             coordinates={coordinates}
+            strokeColor="rgb(165, 35, 35)"
+            strokeWidth={2}
+            fillColor="rgba(180, 16, 16, 0.48)"
           />
         );
       }
