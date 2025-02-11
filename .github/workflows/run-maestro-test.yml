@@ -23,15 +23,18 @@ jobs:
       - name: Verify Maestro CLI
         run: maestro --version
 
-      # Step 4: Install the required Android system image for API 33.
-      - name: Install Android System Image for API 33
+      # Step 4: Install the required Android system image for API 31.
+      - name: Install Android System Image for API 31
         run: |
-          # Automatically answer "y" to install the required system image.
-          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "system-images;android-33;google_apis;x86_64"
+          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;google_apis;x86_64"
 
-      # Step 5: Start a device (Android, OS version 33) so that flows can run.
+      # Step 5: Start a device (Android, OS version 31) so that flows can run.
       - name: Start Device
-        run: maestro start-device --platform=android --os-version=33 --force-create
+        run: maestro start-device --platform=android --os-version=31 --force-create
+
+      # Optional: Wait for a bit to ensure the device is fully booted.
+      - name: Wait for Device to Boot
+        run: sleep 30
 
       # Step 6: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
