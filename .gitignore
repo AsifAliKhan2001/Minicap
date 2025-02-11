@@ -166,6 +166,9 @@ vendor/
 
 # dependencies
 node_modules/
+coverage/
+android/
+ios/
 
 # Expo
 .expo/
