@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
-import MapView, { Marker, Region, Circle } from "react-native-maps";
+import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Location from "expo-location"; // Import Location module
-import { Campus } from "@/models/Campus"; // Corrected import path
-import { OutdoorLocation } from "@/models/OutdoorLocation"; // Corrected import path
+import * as Location from "expo-location";
+import { Campus } from "@/models/Campus";
+import { OutdoorLocation } from "@/models/Location";
+import buildingsData from "@/data/hardcodedBuildings.json";
 
-// Define two outdoor location objects of type OutdoorLocation
+// Outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
   id: "loc-sgw",
   locationType: "outdoor",
@@ -24,12 +25,12 @@ const outdoorLocationLoyola: OutdoorLocation = {
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
 };
-
+// CampusMap Component
 interface CampusMapProps {
   campusId: string;
 }
 
-// Define campuses using Campus model with an outdoorLocation ObjectId
+// Define Campuses
 const SGWCampus: Campus = {
   id: "sgw-ObjectId",
   name: "SGW Campus",
@@ -70,7 +71,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         const location = await Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
         });
-        
+
         setUserLocation({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -92,11 +93,35 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
+  const renderBuildings = () => {
+    return buildingsData.map((building) => {
+      if (Array.isArray(building.polygonShape)) {
+        const coordinates = building.polygonShape.map((coords) => {
+          if (Array.isArray(coords) && coords.length === 2) {
+            const [longitude, latitude] = coords;
+            return { latitude, longitude };
+          }
+          console.warn(`Invalid coordinates for building ${building._id}`);
+          return null;
+        }).filter(coord => coord !== null);
+
+        return (
+          <Polygon
+            key={building._id}
+            coordinates={coordinates}
+          />
+        );
+      }
+      console.warn(`Building ${building._id} does not have a valid polygonShape`);
+      return null;
+    });
+  };
+
   const updateUserLocation = async () => {
     try {
       setIsRefreshing(true);
       setLocationError(null);
-      
+
       if (!permissionGranted) {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -154,6 +179,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             pinColor="blue"
           />
         )}
+        {renderBuildings()}
+
         {userLocation && (
           <Circle
             center={userLocation}
@@ -178,6 +205,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
+// CampusSwitcher Component
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
   const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
@@ -197,6 +225,7 @@ const CampusSwitcher: React.FC = () => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
