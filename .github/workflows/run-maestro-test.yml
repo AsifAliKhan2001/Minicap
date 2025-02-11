@@ -16,27 +16,24 @@ jobs:
       - name: Install Maestro CLI
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
-          # Add the directory to the PATH for subsequent steps.
+          # Add Maestro to the PATH for subsequent steps.
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
       # Step 3: Verify the Maestro CLI installation.
       - name: Verify Maestro CLI
         run: maestro --version
 
-      # Step 4: Run your Maestro test file with recording.
-      - name: Run Maestro Test with Recording
+      # Step 4: Run your Maestro flow and record it.
+      - name: Run Maestro Flow Recording
         id: run_test
         run: |
-          # Execute Maestro in record mode and capture its output.
-          OUTPUT=$(maestro record src/app/maestro/test.yaml \
-            --apk src/android/app/build/outputs/apk/debug/app-debug.apk \
-            --app-id com.anonymous.src \
-            --record)
+          # Run the recording command without extra unsupported options.
+          OUTPUT=$(maestro record src/app/maestro/test.yaml)
           echo "$OUTPUT"
           # Extract the signed URL (assuming it starts with "https://").
           RECORDING_URL=$(echo "$OUTPUT" | grep -Eo 'https://[^ ]+')
           echo "Recording URL: $RECORDING_URL"
-          # Save the URL to a file for later use.
+          # Save the URL for later use.
           echo "$RECORDING_URL" > recording_url.txt
 
       # Step 5: Download the recording file from the signed URL.
