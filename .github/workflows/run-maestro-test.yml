@@ -23,24 +23,24 @@ jobs:
       - name: Verify Maestro CLI
         run: maestro --version
 
-      # NEW STEP: Start a device so that flows can run.
+      # Step 4: Start a device (Android, OS version 33) so that flows can run.
       - name: Start Device
-        run: maestro start-device
+        run: maestro start-device --platform=android --os-version=33 --force-create
 
-      # Step 4: Run your Maestro flow and record it.
+      # Step 5: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
         id: run_test
         run: |
           # Execute Maestro in record mode and capture its output.
           OUTPUT=$(maestro record src/maestro/test.yaml)
           echo "$OUTPUT"
-          # Extract the signed URL (assuming it starts with "https://")
+          # Extract the signed URL (assuming it starts with "https://").
           RECORDING_URL=$(echo "$OUTPUT" | grep -Eo 'https://[^ ]+')
           echo "Recording URL: $RECORDING_URL"
           # Save the URL for later use.
           echo "$RECORDING_URL" > recording_url.txt
 
-      # Step 5: Download the recording file from the signed URL.
+      # Step 6: Download the recording file from the signed URL.
       - name: Download Maestro Recording
         run: |
           RECORDING_URL=$(cat recording_url.txt)
@@ -51,7 +51,7 @@ jobs:
           # Save the resulting filename.
           echo "recording-${TIMESTAMP}.mp4" > recording_file.txt
 
-      # Step 6: Upload the recording file as an artifact.
+      # Step 7: Upload the recording file as an artifact.
       - name: Upload Maestro Recording Artifact
         uses: actions/upload-artifact@v4
         with:
