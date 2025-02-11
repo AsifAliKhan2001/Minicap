@@ -6,7 +6,7 @@ on:
 
 jobs:
   run-maestro:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       # Step 1: Check out your repository code.
       - name: Checkout repository
@@ -23,18 +23,9 @@ jobs:
       - name: Verify Maestro CLI
         run: maestro --version
 
-      # Step 4: Start Android emulator using ReactiveCircus/android-emulator-runner.
-      - name: Start Android Emulator
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: 31
-          target: google_apis
-          arch: x86_64
-          emulator-boot-timeout: 1200  # 20 minutes in seconds
-          script: |
-            adb kill-server
-            adb start-server
-            adb devices
+      # Step 4: Start the device using Maestro CLI.
+      - name: Start Device via Maestro CLI
+        run: maestro start-device --platform=android --os-version=31 --force-create
 
       # Step 5: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
@@ -54,7 +45,7 @@ jobs:
         run: |
           RECORDING_URL=$(cat recording_url.txt)
           echo "Downloading recording from $RECORDING_URL"
-          # Append a timestamp to the file name to avoid collisions.
+          # Append a timestamp to the filename to avoid collisions.
           TIMESTAMP=$(date +%s)
           curl -L "$RECORDING_URL" -o recording-${TIMESTAMP}.mp4
           # Save the resulting filename.
