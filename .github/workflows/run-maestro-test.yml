@@ -23,11 +23,16 @@ jobs:
       - name: Verify Maestro CLI
         run: maestro --version
 
-      # Step 4: Start the device using Maestro CLI.
+      # Step 4: Install the required Android system image (arm64-v8a) for API 31.
+      - name: Install Android System Image for API 31 (arm64-v8a)
+        run: |
+          yes | /Users/runner/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;google_apis;arm64-v8a"
+
+      # Step 5: Start the device using Maestro CLI.
       - name: Start Device via Maestro CLI
         run: maestro start-device --platform=android --os-version=31 --force-create
 
-      # Step 5: Run your Maestro flow and record it.
+      # Step 6: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
         id: run_test
         run: |
@@ -40,18 +45,18 @@ jobs:
           # Save the URL for later use.
           echo "$RECORDING_URL" > recording_url.txt
 
-      # Step 6: Download the recording file from the signed URL.
+      # Step 7: Download the recording file from the signed URL.
       - name: Download Maestro Recording
         run: |
           RECORDING_URL=$(cat recording_url.txt)
           echo "Downloading recording from $RECORDING_URL"
-          # Append a timestamp to the filename to avoid collisions.
+          # Append a timestamp to the file name to avoid collisions.
           TIMESTAMP=$(date +%s)
           curl -L "$RECORDING_URL" -o recording-${TIMESTAMP}.mp4
           # Save the resulting filename.
           echo "recording-${TIMESTAMP}.mp4" > recording_file.txt
 
-      # Step 7: Upload the recording file as an artifact.
+      # Step 8: Upload the recording file as an artifact.
       - name: Upload Maestro Recording Artifact
         uses: actions/upload-artifact@v4
         with:
