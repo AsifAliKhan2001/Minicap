@@ -16,12 +16,14 @@ jobs:
       - name: Install Maestro CLI
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
-          # Add the directory to the PATH for subsequent steps
+          # Add the directory to the PATH for subsequent steps.
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-          # Verify installation
-          maestro --version
 
-      # Step 3: Run your Maestro test file with recording.
+      # Step 3: Verify the Maestro CLI installation.
+      - name: Verify Maestro CLI
+        run: maestro --version
+
+      # Step 4: Run your Maestro test file with recording.
       - name: Run Maestro Test with Recording
         id: run_test
         run: |
@@ -31,13 +33,13 @@ jobs:
             --app-id com.anonymous.src \
             --record)
           echo "$OUTPUT"
-          # Extract the signed URL (assuming it starts with "https://")
+          # Extract the signed URL (assuming it starts with "https://").
           RECORDING_URL=$(echo "$OUTPUT" | grep -Eo 'https://[^ ]+')
           echo "Recording URL: $RECORDING_URL"
           # Save the URL to a file for later use.
           echo "$RECORDING_URL" > recording_url.txt
 
-      # Step 4: Download the recording file from the signed URL.
+      # Step 5: Download the recording file from the signed URL.
       - name: Download Maestro Recording
         run: |
           RECORDING_URL=$(cat recording_url.txt)
@@ -48,7 +50,7 @@ jobs:
           # Save the resulting filename.
           echo "recording-${TIMESTAMP}.mp4" > recording_file.txt
 
-      # Step 5: Upload the recording file as an artifact.
+      # Step 6: Upload the recording file as an artifact.
       - name: Upload Maestro Recording Artifact
         uses: actions/upload-artifact@v4
         with:
