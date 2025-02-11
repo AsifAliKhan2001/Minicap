@@ -35,11 +35,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: junit-test-results
-          path: src/test-results/junit.xml
+          path: src/coverage/test-results/junit.xml
 
       - name: Publish Test Report in GitHub Actions Summary
         uses: dorny/test-reporter@v1
         with:
           name: Unit Test Results
-          path: src/test-results/junit.xml
+          path: src/coverage/test-results/junit.xml
           reporter: jest-junit
