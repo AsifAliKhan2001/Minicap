@@ -23,6 +23,10 @@ jobs:
       - name: Verify Maestro CLI
         run: maestro --version
 
+      # NEW STEP: Start a device so that flows can run.
+      - name: Start Device
+        run: maestro start-device
+
       # Step 4: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
         id: run_test
