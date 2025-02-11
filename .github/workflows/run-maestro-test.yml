@@ -11,7 +11,7 @@ jobs:
       # Step 1: Check out your repository code.
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      
       # Step 2: Install the latest Maestro CLI using the official installer.
       - name: Install Maestro CLI
         run: |
@@ -23,20 +23,19 @@ jobs:
       - name: Verify Maestro CLI
         run: maestro --version
 
-      # Step 4: Install the required Android system image for API 31.
-      - name: Install Android System Image for API 31
-        run: |
-          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;google_apis;x86_64"
+      # Step 4: Start Android emulator using ReactiveCircus/android-emulator-runner.
+      - name: Start Android Emulator
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          target: google_apis
+          arch: x86_64
+          # The action will boot the emulator and wait for it to be ready.
+          script: |
+            adb wait-for-device
+            # If needed, you can install an APK here using adb install.
 
-      # Step 5: Start a device (Android, OS version 31) so that flows can run.
-      - name: Start Device
-        run: maestro start-device --platform=android --os-version=31 --force-create
-
-      # Optional: Wait for a bit to ensure the device is fully booted.
-      - name: Wait for Device to Boot
-        run: sleep 30
-
-      # Step 6: Run your Maestro flow and record it.
+      # Step 5: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
         id: run_test
         run: |
@@ -49,7 +48,7 @@ jobs:
           # Save the URL for later use.
           echo "$RECORDING_URL" > recording_url.txt
 
-      # Step 7: Download the recording file from the signed URL.
+      # Step 6: Download the recording file from the signed URL.
       - name: Download Maestro Recording
         run: |
           RECORDING_URL=$(cat recording_url.txt)
@@ -60,7 +59,7 @@ jobs:
           # Save the resulting filename.
           echo "recording-${TIMESTAMP}.mp4" > recording_file.txt
 
-      # Step 8: Upload the recording file as an artifact.
+      # Step 7: Upload the recording file as an artifact.
       - name: Upload Maestro Recording Artifact
         uses: actions/upload-artifact@v4
         with:
