@@ -16,8 +16,9 @@ jobs:
       - name: Install Maestro CLI
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
-          # Add Maestro to the PATH. The installer typically puts it in $HOME/.maestro/bin.
-          export PATH="$PATH:$HOME/.maestro/bin"
+          # Add the directory to the PATH for subsequent steps
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+          # Verify installation
           maestro --version
 
       # Step 3: Run your Maestro test file with recording.
