@@ -153,6 +153,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         zoomControlEnabled={true}
       >
         <Marker
+          testID="marker"
           coordinate={{
             latitude: region.latitude,
             longitude: region.longitude,
@@ -168,6 +169,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         )}
         {userLocation && (
           <Circle
+            testID="circle"
             center={userLocation}
             radius={10}
             fillColor="rgba(0, 0, 255, 0.5)"
@@ -176,6 +178,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         )}
       </MapView>
       <TouchableOpacity
+        testID="my-location-button"
         style={[
           styles.refreshButton,
           isRefreshing && styles.refreshButtonDisabled,
