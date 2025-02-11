@@ -30,43 +30,26 @@ jobs:
           api-level: 31
           target: google_apis
           arch: x86_64
-          boot-timeout: 300
-          # This script runs after the emulator starts; it ensures ADB can connect.
+          emulator-boot-timeout: 1200  # 20 minutes in seconds
           script: |
             adb kill-server
             adb start-server
             adb devices
 
-      # Step 5: Wait for the emulator to fully boot.
-      - name: Wait for Device Boot Completion
-        run: |
-          echo "Waiting for device boot to complete..."
-          for i in {1..30}; do
-            BOOT_STATUS=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
-            echo "Boot status: $BOOT_STATUS"
-            if [ "$BOOT_STATUS" == "1" ]; then
-              echo "Device boot completed."
-              exit 0
-            fi
-            sleep 10
-          done
-          echo "Device did not boot in time."
-          exit 1
-
-      # Step 6: Run your Maestro flow and record it.
+      # Step 5: Run your Maestro flow and record it.
       - name: Run Maestro Flow Recording
         id: run_test
         run: |
           # Execute Maestro in record mode and capture its output.
           OUTPUT=$(maestro record src/maestro/test.yaml)
           echo "$OUTPUT"
-          # Extract the signed URL (assuming it starts with "https://")
+          # Extract the signed URL (assuming it starts with "https://").
           RECORDING_URL=$(echo "$OUTPUT" | grep -Eo 'https://[^ ]+')
           echo "Recording URL: $RECORDING_URL"
           # Save the URL for later use.
           echo "$RECORDING_URL" > recording_url.txt
 
-      # Step 7: Download the recording file from the signed URL.
+      # Step 6: Download the recording file from the signed URL.
       - name: Download Maestro Recording
         run: |
           RECORDING_URL=$(cat recording_url.txt)
@@ -77,7 +60,7 @@ jobs:
           # Save the resulting filename.
           echo "recording-${TIMESTAMP}.mp4" > recording_file.txt
 
-      # Step 8: Upload the recording file as an artifact.
+      # Step 7: Upload the recording file as an artifact.
       - name: Upload Maestro Recording Artifact
         uses: actions/upload-artifact@v4
         with:
