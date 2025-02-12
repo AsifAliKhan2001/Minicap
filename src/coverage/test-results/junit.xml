@@ -1,59 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="20" failures="0" errors="0" time="2.265">
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="0.677" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.005">
+<testsuites name="jest tests" tests="20" failures="4" errors="0" time="8.807">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="0.672" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="0.911" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.091">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="0.971" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.088">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.001">
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.002">
+    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.001">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0">
+    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
     </testcase>
     <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="1.085" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.044">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="1.081" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.043">
     </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.089">
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.082">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="1.081" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.132">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="1.081" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.14">
     </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.004">
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
     </testcase>
     <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="1.134" tests="1">
-    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.096">
+  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="1.177" tests="1">
+    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.081">
     </testcase>
   </testsuite>
-  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="1.136" tests="1">
-    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.084">
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="1.185" tests="1">
+    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.075">
     </testcase>
   </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="1.168" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.078">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-12T22:02:23" time="1.608" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.07">
     </testcase>
   </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-02-11T21:02:28" time="1.398" tests="4">
-    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="0.274">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="4" skipped="0" timestamp="2025-02-12T22:02:23" time="3.151" tests="4">
+    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="0.626">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+
+Check the render method of `CampusMap`.
+    at createFiberFromTypeAndProps (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17557:17)
+    at createFiberFromElement (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17583:15)
+    at createChild (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3532:28)
+    at reconcileChildrenArray (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3822:25)
+    at reconcileChildFibers (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:4214:16)
+    at reconcileChildren (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9115:28)
+    at updateHostComponent (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9742:3)
+    at beginWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11382:14)
+    at performUnitOfWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:12:11)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:68:33)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:43:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\__test__\app\CampusMap.test.tsx:54:46)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+    at C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component switches between SGW and Loyola Campus" name="CampusSwitcher Component switches between SGW and Loyola Campus" time="0.019">
+    <testcase classname="CampusSwitcher Component switches between SGW and Loyola Campus" name="CampusSwitcher Component switches between SGW and Loyola Campus" time="0.232">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+
+Check the render method of `CampusMap`.
+    at createFiberFromTypeAndProps (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17557:17)
+    at createFiberFromElement (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17583:15)
+    at createChild (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3532:28)
+    at reconcileChildrenArray (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3822:25)
+    at reconcileChildFibers (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:4214:16)
+    at reconcileChildren (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9115:28)
+    at updateHostComponent (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9742:3)
+    at beginWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11382:14)
+    at performUnitOfWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:12:11)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:68:33)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:43:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\__test__\app\CampusMap.test.tsx:64:46)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+    at C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.006">
+    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.258">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+
+Check the render method of `CampusMap`.
+    at createFiberFromTypeAndProps (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17557:17)
+    at createFiberFromElement (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17583:15)
+    at createChild (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3532:28)
+    at reconcileChildrenArray (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3822:25)
+    at reconcileChildFibers (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:4214:16)
+    at reconcileChildren (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9115:28)
+    at updateHostComponent (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9742:3)
+    at beginWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11382:14)
+    at performUnitOfWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:12:11)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:68:33)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:43:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\__test__\app\CampusMap.test.tsx:83:35)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+    at C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0.005">
+    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0.199">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+
+Check the render method of `CampusMap`.
+    at createFiberFromTypeAndProps (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17557:17)
+    at createFiberFromElement (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:17583:15)
+    at createChild (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3532:28)
+    at reconcileChildrenArray (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:3822:25)
+    at reconcileChildFibers (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:4214:16)
+    at reconcileChildren (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9115:28)
+    at updateHostComponent (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9742:3)
+    at beginWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11382:14)
+    at performUnitOfWork (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:12:11)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:68:33)
+    at renderInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:43:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\__test__\app\CampusMap.test.tsx:106:35)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+    at C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\MobileApp\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
 </testsuites>
