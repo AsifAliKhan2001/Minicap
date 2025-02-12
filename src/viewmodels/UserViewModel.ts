@@ -2,7 +2,7 @@ import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { User } from "@/models/User";
 import { ObjectId } from "mongodb";
 import { UserRepository } from "@/repositories/UserRepository";
-import bcrypt from "bcrypt";
+import bcrypt from "react-native-bcrypt";
 import jwt from "jsonwebtoken";
 import { Audit } from "@/models/Audit";
 
