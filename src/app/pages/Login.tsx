@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
+// Import UserViewModel methods 
+import { UserViewModel } from "@/viewmodels/UserViewModel";
 
 const Login = () => {
   const navigation = useNavigation();
