@@ -46,10 +46,7 @@ const Login = () => {
     navigation.setOptions({ title: "Login" });
   }, [navigation]);
 
-  const handleSubmit = () => {
-    // Add your login logic here
-    console.log("Login submitted:", { identifier, password, rememberMe });
-  };
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
