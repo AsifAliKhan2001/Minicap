@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import MapView, { Marker, Region, Circle, Callout } from "react-native-maps";
+import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Location from "expo-location"; // Import Location module
-import { Campus } from "@/models/Campus"; // Corrected import path
-import { OutdoorLocation } from "@/models/OutdoorLocation"; // Corrected import path
+import * as Location from "expo-location";
+import { Campus } from "@/models/Campus";
+import { OutdoorLocation } from "@/models/Location";
+import buildingsData from "@/data/hardcodedBuildings.json";
 
-// Define two outdoor location objects of type OutdoorLocation
+// Outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
   id: "loc-sgw",
   locationType: "outdoor",
@@ -32,11 +33,12 @@ const outdoorLocationLoyola: OutdoorLocation = {
   longitudeDelta: 0.01,
 };
 
+// CampusMap Component
 interface CampusMapProps {
   campusId: string;
 }
 
-// Define campuses using Campus model with an outdoorLocation ObjectId
+// Define Campuses
 const SGWCampus: Campus = {
   id: "sgw-ObjectId",
   name: "SGW Campus",
@@ -99,6 +101,37 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       mapRef.current.animateToRegion(region, 1000);
     }
   }, [region]);
+
+  const renderBuildings = () => {
+    return buildingsData.map((building) => {
+      if (Array.isArray(building.polygonShape)) {
+        const coordinates = building.polygonShape
+          .map((coords) => {
+            if (Array.isArray(coords) && coords.length === 2) {
+              const [longitude, latitude] = coords;
+              return { latitude, longitude };
+            }
+            console.warn(`Invalid coordinates for building ${building._id}`);
+            return null;
+          })
+          .filter((coord) => coord !== null);
+
+        return (
+          <Polygon
+            key={building._id}
+            coordinates={coordinates}
+            strokeColor="rgb(165, 35, 35)"
+            strokeWidth={2}
+            fillColor="rgba(180, 16, 16, 0.48)"
+          />
+        );
+      }
+      console.warn(
+        `Building ${building._id} does not have a valid polygonShape`
+      );
+      return null;
+    });
+  };
 
   const updateUserLocation = async () => {
     try {
@@ -166,6 +199,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             pinColor="blue"
           />
         )}
+        {renderBuildings()}
+
         {userLocation && (
           <Circle
             testID="circle"
@@ -176,14 +211,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           />
         )}
       </MapView>
-  
+
       {/* Dedicated overlay for testing */}
       <View style={styles.overlay}>
         <Text testID="campus-label" style={styles.overlayText}>
           {campus.name}
         </Text>
       </View>
-  
+
       <TouchableOpacity
         testID="my-location-button"
         style={[
@@ -203,6 +238,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
+// CampusSwitcher Component
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
   const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
@@ -223,6 +259,7 @@ const CampusSwitcher: React.FC = () => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
