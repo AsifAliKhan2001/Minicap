@@ -1,84 +1,59 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, router } from "expo-router";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
-// Import UserViewModel methods 
-import { UserViewModel } from "@/viewmodels/UserViewModel";
+
+
+
+
 
 const Login = () => {
   const navigation = useNavigation();
-  const [identifier, setIdentifier] = useState(""); // Handles both Student ID or Email
+  const [identifier, setIdentifier] = useState(""); 
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-
-  // Create an instance of UserViewModel
-  const userViewModel = new UserViewModel();
-
+  const [sessionToken, setSessionToken] = useState<string | null>(null); 
 
   // Handle form submission
-
   const handleSubmit = async () => {
     if (!identifier || !password) {
-      alert("Please fill all fields");
+      Alert.alert("Error", "Please fill all fields");
       return;
     }
-  
-    try {
-      const { user, token } = await userViewModel.login(identifier, password);
-      console.log("Login successful:", { user, token });
-      
-      router.push("/Home");
-      
-    } catch (error) {
-      console.error("Login failed:", error);
-  
-      // Ensure we display a valid error message
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      alert(errorMessage);
-    }
+
+    setLoading(true);
+    setError("");
+
+   
   };
 
   useEffect(() => {
     navigation.setOptions({ title: "Login" });
   }, [navigation]);
 
-
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Blurred Container */}
       <BlurView intensity={20} style={styles.blurContainer}>
         <Text style={styles.loginTitle}>Student Login</Text>
 
-        {/* Unified Input Field */}
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
         <View style={styles.inputGroup}>
-          <FontAwesome
-            name="user" // Changed from "id-badge"
-            size={20}
-            color="rgba(0, 0, 0, 0.7)"
-            style={styles.inputIcon}
-          />
+          <FontAwesome name="user" size={20} color="rgba(0, 0, 0, 0.7)" style={styles.inputIcon} />
           <TextInput
             style={styles.input}
-            placeholder="Student ID or Email" // Updated placeholder
+            placeholder="Email"
             placeholderTextColor="rgba(0, 0, 0, 0.5)"
-            value={identifier} 
-            onChangeText={setIdentifier} 
+            value={identifier}
+            onChangeText={setIdentifier}
           />
         </View>
 
-        {/* Password Input */}
         <View style={styles.inputGroup}>
-          <FontAwesome
-            name="lock"
-            size={20}
-            color="rgba(0, 0, 0, 0.7)"
-            style={styles.inputIcon}
-          />
+          <FontAwesome name="lock" size={20} color="rgba(0, 0, 0, 0.7)" style={styles.inputIcon} />
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -89,12 +64,8 @@ const Login = () => {
           />
         </View>
 
-        {/* Remember Me & Forgot Password */}
         <View style={styles.checkboxGroup}>
-          <TouchableOpacity
-            style={styles.rememberMe}
-            onPress={() => setRememberMe(!rememberMe)}
-          >
+          <TouchableOpacity style={styles.rememberMe} onPress={() => setRememberMe(!rememberMe)}>
             <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
               {rememberMe && <FontAwesome name="check" size={12} color="#fff" />}
             </View>
@@ -106,16 +77,14 @@ const Login = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Login Button */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-          <Text style={styles.loginButtonText}>Sign In</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={handleSubmit} disabled={loading}>
+          <Text style={styles.loginButtonText}>{loading ? "Signing In..." : "Sign In"}</Text>
         </TouchableOpacity>
 
-        {/* Register Link */}
         <View style={styles.registerLink}>
           <Text style={styles.registerText}>
             Don't have an account?{" "}
-            <Text style={styles.registerLinkText} onPress={() => console.log("Register pressed")}>
+            <Text style={styles.registerLinkText} onPress={() => router.push("/Home")}>
               Register here
             </Text>
           </Text>
@@ -221,5 +190,10 @@ const styles = StyleSheet.create({
   registerLinkText: {
     color: "#007BFF",
     fontWeight: "600",
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
   },
 });
