@@ -148,6 +148,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               fillColor="rgba(180, 16, 16, 0.48)"
             />
             <Marker
+              testID={`building-marker-${building._id}`}
               coordinate={center}
               onPress={() => {
                 setBuildingInfo({

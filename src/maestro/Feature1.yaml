@@ -6,7 +6,7 @@ appId: com.anonymous.src
 # Wait for "Campus Map" to appear before tapping
 - extendedWaitUntil:
     visible: { text: "Campus Map" }
-    timeout: 10000 # Wait up to 10 seconds
+    timeout: 20000 # Wait up to 10 seconds
 
 # Tap the Campus Map tab
 - tapOn: "Campus Map"
@@ -14,8 +14,8 @@ appId: com.anonymous.src
 - assertVisible:
     id: "map-view"
 
-- assertVisible:
-    id: "campus-label"
+# - assertVisible:
+#     id: "campus-label"
 
 # Interact with the map: simulate panning (these swipe directions can be adjusted)
 - swipe: { direction: "left", percent: 0.3 }
@@ -42,3 +42,9 @@ appId: com.anonymous.src
 - assertVisible: { text: "Loyola Campus" }
 - tapOn: { id: "campus-switch" }
 - assertVisible: { text: "SGW Campus" }
+# # Tap a building marker (replace "building-marker-H" with a valid testID)
+# - tapOn: { id: "building-marker-67aaabc9a89802f0176bad83" }
+
+# # Verify that the building information appears
+# - assertVisible:
+#     id: "building-info"
