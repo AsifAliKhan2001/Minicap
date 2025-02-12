@@ -29,6 +29,8 @@ export abstract class BaseViewModel<T extends Audit> {
         return BaseViewModel.dbInstance;
     }
 
+    
+
     protected async withCollection<R>(
         collectionName: string,
         operation: (collection: Collection) => Promise<R>

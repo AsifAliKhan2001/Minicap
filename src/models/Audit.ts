@@ -1,9 +1,8 @@
 import { ObjectId } from "mongodb";
 
 export interface Audit {
-    _id: ObjectId;  // MongoDB document ID
-    createdAtUTC?: Date;
-    updatedAtUTC?: Date;
-    createdBy?: ObjectId;
-    updatedBy?: ObjectId;
+    createdBy?: ObjectId | string;   // User ID or system identifier
+    updatedBy?: ObjectId | string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
