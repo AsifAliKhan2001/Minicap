@@ -11,10 +11,36 @@ const Login = () => {
   const [identifier, setIdentifier] = useState(""); // Handles both Student ID or Email
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
 
   // Create an instance of UserViewModel
   const userViewModel = new UserViewModel();
+
+
+  // Handle form submission
+
+  const handleSubmit = async () => {
+    if (!identifier || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+  
+    try {
+      const { user, token } = await userViewModel.login(identifier, password);
+      console.log("Login successful:", { user, token });
+  
+      // Save the token (e.g., in AsyncStorage or SecureStore)
+      // await SecureStore.setItemAsync("token", token);
+  
+      // Navigate to the home screen
+      // navigation.navigate("Home");
+    } catch (error) {
+      console.error("Login failed:", error.message);
+      alert(error.message); // Show error to the user
+    }
+  };
 
   useEffect(() => {
     navigation.setOptions({ title: "Login" });
