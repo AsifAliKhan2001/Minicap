@@ -93,7 +93,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       mapRef.current.animateToRegion(region, 1000);
     }
   }, [region]);
-
+  
   const renderBuildings = () => {
     return buildingsData.map((building) => {
       if (Array.isArray(building.polygonShape)) {
@@ -106,14 +106,37 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           return null;
         }).filter(coord => coord !== null);
 
+        const center = coordinates.reduce((acc, curr) => {
+          acc.latitude += curr.latitude;
+          acc.longitude += curr.longitude;
+          return acc;
+        }, { latitude: 0, longitude: 0 });
+
+        center.latitude /= coordinates.length;
+        center.longitude /= coordinates.length;
+
+        // Get the first two letters of the building name
+        const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
+
         return (
-          <Polygon
-            key={building._id}
-            coordinates={coordinates}
-            strokeColor="rgb(165, 35, 35)"
-            strokeWidth={2}
-            fillColor="rgba(180, 16, 16, 0.48)"
-          />
+          <View key={building._id}>
+            <Polygon
+              coordinates={coordinates}
+              strokeColor="rgb(165, 35, 35)"
+              strokeWidth={2}
+              fillColor="rgba(180, 16, 16, 0.48)"
+            />
+            <Marker
+              coordinate={center}
+              anchor={{ x: 0.5, y: 0.5 }}
+            >
+              <View style={styles.marker}>
+                <View style={styles.buildingButton}>
+                  <Text style={styles.buildingButtonText}>{buildingNameInitials}</Text>
+                </View>
+              </View>
+            </Marker>
+          </View>
         );
       }
       console.warn(`Building ${building._id} does not have a valid polygonShape`);
@@ -283,6 +306,24 @@ const styles = StyleSheet.create({
   },
   refreshButtonDisabled: {
     backgroundColor: "rgba(0, 0, 255, 0.4)",
+  },
+  marker: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buildingButton: {
+    width: 25,
+    height: 25,
+    backgroundColor: 'rgb(165, 35, 35)',
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buildingButtonText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 });
 
