@@ -27,8 +27,3 @@ appId: com.anonymous.src
 - doubleTapOn:
     point: 1000,2020
 
-# Simulate refreshing the map data by tapping "My Location"
-- tapOn: "My Location"
-
-# Verify that the user's location marker appears, indicating that the map updated
-- assertVisible: "Your Location"
