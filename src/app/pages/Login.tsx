@@ -84,7 +84,7 @@ const Login = () => {
         <View style={styles.registerLink}>
           <Text style={styles.registerText}>
             Don't have an account?{" "}
-            <Text style={styles.registerLinkText} onPress={() => router.push("/Home")}>
+            <Text style={styles.registerLinkText} onPress={() => router.push("../pages/Register")}>
               Register here
             </Text>
           </Text>
