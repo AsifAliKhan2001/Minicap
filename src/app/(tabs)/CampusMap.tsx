@@ -48,7 +48,6 @@ const LoyolaCampus: Campus = {
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
-  // Look up the correct OutdoorLocation based on the campus' outdoorLocation id
   const region: Region =
     campus.outdoorLocation === "loc-sgw"
       ? outdoorLocationSGW
@@ -59,6 +58,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [buildingInfo, setBuildingInfo] = useState<{ name: string; address: string; openingHours: string } | null>(null);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -116,6 +116,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         center.latitude /= coordinates.length;
         center.longitude /= coordinates.length;
 
+        // Determine the fill color based on whether the building is selected
+        const fillColor = selectedBuildingId === building._id ? "rgba(255, 165, 0, 0.5)" : "rgba(180, 16, 16, 0.48)";
+
         // Get the first two letters of the building name
         const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -125,12 +128,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               coordinates={coordinates}
               strokeColor="rgb(165, 35, 35)"
               strokeWidth={2}
-              fillColor="rgba(180, 16, 16, 0.48)"
+              fillColor={fillColor}
             />
             <Marker
               coordinate={center}
               onPress={() => {
                 setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
+                setSelectedBuildingId(building._id); // Set selected building ID
               }}
               anchor={{ x: 0.5, y: 0.5 }}
             >
@@ -186,6 +190,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const handleMapPress = () => {
     if (buildingInfo) {
       setBuildingInfo(null);
+      setSelectedBuildingId(null); // Reset selected building ID
     }
   };
 
