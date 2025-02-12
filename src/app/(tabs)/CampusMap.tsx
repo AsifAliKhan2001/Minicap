@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
+import MapView, {
+  Marker,
+  Region,
+  Polygon,
+  Circle,
+  Callout,
+} from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";

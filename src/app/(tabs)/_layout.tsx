@@ -163,6 +163,7 @@ const TabLayout = () => {
             name="CampusMap"
             options={{
               title: "Campus Map",
+              tabBarAccessibilityLabel: "tab-campus-map",
               headerShown: false,
               tabBarIcon: ({ color, focused }) => (
                 <TabIcon
