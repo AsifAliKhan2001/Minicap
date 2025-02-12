@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, router } from "expo-router";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
 // Import UserViewModel methods 
@@ -30,15 +30,15 @@ const Login = () => {
     try {
       const { user, token } = await userViewModel.login(identifier, password);
       console.log("Login successful:", { user, token });
-  
-      // Save the token (e.g., in AsyncStorage or SecureStore)
-      // await SecureStore.setItemAsync("token", token);
-  
-      // Navigate to the home screen
-      // navigation.navigate("Home");
+      
+      router.push("/Home");
+      
     } catch (error) {
-      console.error("Login failed:", error.message);
-      alert(error.message); // Show error to the user
+      console.error("Login failed:", error);
+  
+      // Ensure we display a valid error message
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      alert(errorMessage);
     }
   };
 
