@@ -6,14 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  TouchableWithoutFeedback,
 } from "react-native";
-import MapView, {
-  Marker,
-  Region,
-  Polygon,
-  Circle,
-  Callout,
-} from "react-native-maps";
+import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";
@@ -71,6 +66,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [buildingInfo, setBuildingInfo] = useState<{
+    name: string;
+    address: string;
+    openingHours: string;
+  } | null>(null);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -122,14 +122,51 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           })
           .filter((coord) => coord !== null);
 
+        const center = coordinates.reduce(
+          (acc, curr) => {
+            acc.latitude += curr.latitude;
+            acc.longitude += curr.longitude;
+            return acc;
+          },
+          { latitude: 0, longitude: 0 }
+        );
+
+        center.latitude /= coordinates.length;
+        center.longitude /= coordinates.length;
+
+        // Get the first two letters of the building name
+        const buildingNameInitials = building.name
+          .substring(0, 2)
+          .toUpperCase();
+
         return (
-          <Polygon
-            key={building._id}
-            coordinates={coordinates}
-            strokeColor="rgb(165, 35, 35)"
-            strokeWidth={2}
-            fillColor="rgba(180, 16, 16, 0.48)"
-          />
+          <View key={building._id}>
+            <Polygon
+              coordinates={coordinates}
+              strokeColor="rgb(165, 35, 35)"
+              strokeWidth={2}
+              fillColor="rgba(180, 16, 16, 0.48)"
+            />
+            <Marker
+              coordinate={center}
+              onPress={() => {
+                setBuildingInfo({
+                  name: building.name,
+                  address: building.address,
+                  openingHours: building.openingHours,
+                });
+              }}
+              anchor={{ x: 0.5, y: 0.5 }}
+            >
+              <View style={styles.marker}>
+                <View style={styles.buildingButton}>
+                  <Text style={styles.buildingButtonText}>
+                    {buildingNameInitials}
+                  </Text>
+                </View>
+              </View>
+            </Marker>
+          </View>
         );
       }
       console.warn(
@@ -173,74 +210,86 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setIsRefreshing(false);
     }
   };
+
+  const handleMapPress = () => {
+    if (buildingInfo) {
+      setBuildingInfo(null);
+    }
+  };
+
   return (
-    <View style={styles.mapContainer}>
-      {locationError ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{locationError}</Text>
-        </View>
-      ) : null}
-      <MapView
-        testID="map-view"
-        ref={(ref) => (mapRef.current = ref)}
-        style={styles.map}
-        initialRegion={region}
-        pitchEnabled={false}
-        rotateEnabled={false}
-        zoomEnabled={true}
-        zoomControlEnabled={true}
-      >
-        <Marker
-          coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude,
-          }}
-          title={campus.name}
-        />
-        {permissionGranted && userLocation && (
+    <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
+      <View style={styles.mapContainer}>
+        {locationError ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{locationError}</Text>
+          </View>
+        ) : null}
+        <MapView
+          testID="map-view"
+          ref={(ref) => (mapRef.current = ref)}
+          style={styles.map}
+          initialRegion={region}
+          pitchEnabled={false}
+          rotateEnabled={false}
+          zoomEnabled={true}
+          zoomControlEnabled={true}
+        >
           <Marker
-            testID="user-location-marker"
-            coordinate={userLocation}
-            title="Your Location"
-            pinColor="blue"
+            coordinate={{
+              latitude: region.latitude,
+              longitude: region.longitude,
+            }}
+            title={campus.name}
           />
-        )}
-        {renderBuildings()}
+          {permissionGranted && userLocation && (
+            <Marker
+              testID="user-location-marker"
+              coordinate={userLocation}
+              title="Your Location"
+              pinColor="blue"
+            />
+          )}
+          {renderBuildings()}
 
-        {userLocation && (
-          <Circle
-            testID="circle"
-            center={userLocation}
-            radius={10}
-            fillColor="rgba(0, 0, 255, 0.5)"
-            strokeColor="rgba(0, 0, 255, 1)"
-          />
-        )}
-      </MapView>
+          {userLocation && (
+            <Circle
+              testID="circle"
+              center={userLocation}
+              radius={10}
+              fillColor="rgba(0, 0, 255, 0.5)"
+              strokeColor="rgba(0, 0, 255, 1)"
+            />
+          )}
+        </MapView>
 
-      {/* Dedicated overlay for testing */}
-      <View style={styles.overlay}>
-        <Text testID="campus-label" style={styles.overlayText}>
-          {campus.name}
-        </Text>
+        {buildingInfo && (
+          <View style={styles.buildingInfoContainer}>
+            <Text style={styles.buildingNameText}>{buildingInfo.name}</Text>
+            <Text style={styles.openingHoursText}>
+              {buildingInfo.openingHours}
+            </Text>
+            <Text style={styles.addressText}>{buildingInfo.address}</Text>
+          </View>
+        )}
+
+        <TouchableOpacity
+          testID="my-location-button"
+          style={[
+            styles.refreshButton,
+            isRefreshing && styles.refreshButtonDisabled,
+          ]}
+          onPress={updateUserLocation}
+          disabled={isRefreshing}
+        >
+          {isRefreshing ? (
+            <ActivityIndicator color="white" size="small" />
+          ) : (
+            <Text style={styles.buttonText}>My Location</Text>
+          )}
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        testID="my-location-button"
-        style={[
-          styles.refreshButton,
-          isRefreshing && styles.refreshButtonDisabled,
-        ]}
-        onPress={updateUserLocation}
-        disabled={isRefreshing}
-      >
-        {isRefreshing ? (
-          <ActivityIndicator color="white" size="small" />
-        ) : (
-          <Text style={styles.buttonText}>My Location</Text>
-        )}
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -320,20 +369,54 @@ const styles = StyleSheet.create({
   refreshButtonDisabled: {
     backgroundColor: "rgba(0, 0, 255, 0.4)",
   },
-  overlay: {
+  buildingInfoContainer: {
     position: "absolute",
-    top: 10,
-    left: 10,
-    // Ensure the overlay is in the accessibility tree without disturbing the UI:
-    backgroundColor: "transparent",
+    top: 50,
+    alignSelf: "center",
+    backgroundColor: "rgb(255, 255, 255)",
+    padding: 15,
+    borderRadius: 10,
+    width: "85%",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    zIndex: 2,
   },
-  overlayText: {
-    // Instead of making it fully transparent (which might cause some tools to ignore it),
-    // use a very low opacity and minimal size
-    opacity: 0.01,
-    fontSize: 1,
-    width: 1,
-    height: 1,
+  buildingNameText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  openingHoursText: {
+    color: "gray",
+    marginBottom: 5,
+  },
+  addressText: {
+    color: "#555",
+    fontSize: 14,
+  },
+  marker: {
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buildingButton: {
+    width: 25,
+    height: 25,
+    backgroundColor: "rgb(165, 35, 35)",
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buildingButtonText: {
+    color: "white",
+    fontSize: 10,
+    fontWeight: "bold",
   },
 });
 
