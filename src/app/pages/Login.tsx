@@ -12,6 +12,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
+
+  // Create an instance of UserViewModel
+  const userViewModel = new UserViewModel();
+
   useEffect(() => {
     navigation.setOptions({ title: "Login" });
   }, [navigation]);
