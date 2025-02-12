@@ -8,9 +8,7 @@ const Home = () => {
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
       <Text style={{ fontSize: 20, fontWeight: "bold", alignItems: "center" }}>
-        Welcome to {"\n"}
-        the Concordia{"\n"}
-        Student Navigation App
+        Welcome to {"\n"}the Concordia{"\n"}Student Navigation App
       </Text>
     </SafeAreaView>
   );

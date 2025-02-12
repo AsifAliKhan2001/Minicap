@@ -2,3 +2,5 @@ appId: com.anonymous.src
 ---
 - launchApp
 - assertVisible: "Welcome to \nthe Concordia\nStudent Navigation App"
+- assertVisible: "Welcome to \nthe Concordia\nStudent Navigation App"
+
