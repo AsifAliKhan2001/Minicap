@@ -2,7 +2,6 @@ import { ObjectId } from "mongodb";
 import { Audit } from "./Audit";
 
 export interface User extends Audit {
-    _id?: ObjectId;  // Unique identifier 
     email: string;
     password: string;
     name: string;
