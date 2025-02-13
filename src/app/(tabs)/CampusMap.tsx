@@ -5,7 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
-import buildingsData from "@/data/hardcodedBuildings.json";
+import { BuildingViewModel } from "@/viewmodels/BuildingViewModel";
+import { Building } from "@/models/Building";
 
 // Outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -58,6 +59,22 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [buildings, setBuildings] = useState<Building[]>([]);
+  const buildingViewModel = new BuildingViewModel();
+
+  useEffect(() => {
+    const fetchBuildings = async () => {
+      try {
+        const buildingsData = await buildingViewModel.getAllBuildings();
+        setBuildings(buildingsData);
+      } catch (error) {
+        console.error('Error fetching buildings:', error);
+        setLocationError('Failed to load buildings');
+      }
+    };
+
+    fetchBuildings();
+  }, []);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -95,7 +112,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   }, [region]);
 
   const renderBuildings = () => {
-    return buildingsData.map((building) => {
+    return buildings.map((building) => {
       if (Array.isArray(building.polygonShape)) {
         const coordinates = building.polygonShape.map((coords) => {
           if (Array.isArray(coords) && coords.length === 2) {
