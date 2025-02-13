@@ -24,9 +24,8 @@ As a [stakeholder], I want to [action/feature] so that [benefit/value].
 ## Dependencies
 
 - List any dependent user stories or tasks
-
-- [ ] Dependency 1
-- [ ] Dependency 2
+- [US_NUM].1.  Dependency 1
+  - [US_NUM].2.  Dependency 2
 
 ## Additional Information
 

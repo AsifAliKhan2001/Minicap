@@ -1,6 +1,6 @@
 .DS_Store
 .env
-knowledge.md
+tmp.md
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
