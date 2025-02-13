@@ -1,5 +1,6 @@
 .DS_Store
 .env
+knowledge.md
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
@@ -107,6 +108,21 @@ node_modules
 /packages/react-native-codegen/**/*.xcodeproj
 /packages/rn-tester/**/*.xcodeproj
 
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+
 # Ruby Gems (Bundler)
 /packages/react-native/vendor
 /packages/helloworld/vendor
@@ -166,6 +182,8 @@ vendor/
 
 # dependencies
 node_modules/
+
+android/
 
 # Expo
 .expo/
